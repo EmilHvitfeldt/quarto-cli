@@ -37,7 +37,7 @@ fn main() {
     if &args[0] == "--version" || &args[0] == "-v" {
         let version_path = share_dir.join("version");
         let version = fs::read_to_string(version_path).expect("failed to read version");
-        print!("{}", version);
+        println!("{}", version);
         std::process::exit(0);
     }
 
@@ -59,8 +59,8 @@ fn main() {
 
     // set environment variables requried by quarto.js
     std::env::set_var("QUARTO_BIN_PATH", bin_dir);
-    std::env::set_var("QUARTO_SHARE_PATH", share_dir.as_path());
-    std::env::set_var("DENO_DOM_PLUGIN", deno_dom_file.as_os_str());
+    std::env::set_var("QUARTO_SHARE_PATH", share_dir);
+    std::env::set_var("DENO_DOM_PLUGIN", deno_dom_file);
 
     // windows-specific env vars
     #[cfg(target_os = "windows")]
@@ -99,7 +99,7 @@ fn path_from_env(key: &str) -> PathBuf {
 fn share_dir_from_bin_dir(bin_dir: &PathBuf) -> PathBuf {
     // if quarto is bundled into an `.app` file (e.g. RStudio) it will be
     // looking for the share directory over in the resources folder.
-    if bin_dir.ends_with("/Contents/MacOS/quarto/bin") {
+    if bin_dir.ends_with("Contents/MacOS/quarto/bin") {
         bin_dir
             .parent()
             .expect("failed to get bin_dir parent")
@@ -112,7 +112,7 @@ fn share_dir_from_bin_dir(bin_dir: &PathBuf) -> PathBuf {
             .join("share")
     // if using standard linux filesystem local bin folder then
     // look for 'share' in the right place
-    } else if bin_dir.ends_with("/usr/local/bin/quarto") {
+    } else if bin_dir.ends_with("usr/local/bin/quarto") {
         bin_dir
             .parent()
             .expect("failed to get bin_dir parent")
