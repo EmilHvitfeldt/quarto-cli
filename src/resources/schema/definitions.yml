@@ -400,19 +400,37 @@
     - arrayOf:
         ref: navigation-item
 
+- id: sidebar-item-object
+  object:
+    super:
+      resolveRef: navigation-item-object
+    properties:
+      section:
+        anyOf:
+          - string
+          - null
+      contents:
+        ref: sidebar-contents
+      sectionId: # used in TypeScript
+        string:
+          hidden: true
+      expanded: # used in TypeScript
+        boolean:
+          hidden: true
+      active: # used in TypeScript
+        boolean:
+          hidden: true
+
+- id: sidebar-item
+  anyOf:
+    - string
+    - ref: sidebar-item-object
+
 - id: sidebar-contents
   arrayOf:
     anyOf:
-      - ref: navigation-item
       - path
-      - object:
-          properties:
-            section:
-              anyOf:
-                - string
-                - null
-            contents:
-              ref: sidebar-contents
+      - ref: sidebar-item
 
 - id: project-preview
   object:
@@ -436,6 +454,19 @@
       timeout:
         number:
           description: Time (in seconds) after which to exit if there are no active clients
+
+- id: bootstrap-color
+  enum:
+    [
+      "primary",
+      "secondary",
+      "success",
+      "danger",
+      "warning",
+      "info",
+      "light",
+      "dark",
+    ]
 
 - id: publish
   description: Sites published from project
@@ -524,6 +555,83 @@
         schema: string
         description: "Footer foreground color"
     closed: true
+
+- id: sidebar-config
+  object:
+    required: [contents, tools]
+    # FIXME. TypeScript interface had these additionally as required:
+    # required: [tools, style]
+    # CHECK.
+    properties:
+      id:
+        string:
+          description: "The identifier for this sidebar."
+      title:
+        anyOf:
+          - string
+          - enum: [false]
+        description: "The sidebar title. Uses the project title if none is specified."
+      subtitle:
+        string:
+          description: "The subtitle for this sidebar."
+      logo:
+        path:
+          description: "Path to a logo image that will be displayed in the sidebar."
+      logo-alt:
+        string:
+          description: "Alternate text for the logo image." # @dragonstyle were we missing this before?
+      # FIXME navbar also has logo-href. Check
+      alignment:
+        enum: ["left", "right", "center"]
+        description: "Alignment of the items within the sidebar (`left`, `right`, or `center`)"
+      # FIXME typescript interface was missing `foreground`. Check
+      background:
+        anyOf:
+          - ref: bootstrap-color
+          - enum: ["none", "white"] # @dragonstyle, these were in the typescript interface. Is this correct?
+          - string
+        description: "The sidebar's background color (named or hex color)."
+      search:
+        anyOf:
+          - boolean
+          - enum:
+              # these are used in TypeScript
+              values: ["overlay", "textbox"]
+              hidden: true
+        description: "Include a search control in the sidebar."
+      collapse-level:
+        number:
+          description: "The depth at which the sidebar contents should be collapsed by default."
+          default: 2
+      contents:
+        ref: sidebar-contents
+        description: "List of items for the sidebar"
+      tools:
+        arrayOf:
+          ref: navigation-item-object
+        description: "List of sidebar tools"
+      style:
+        enum: ["docked", "floating"]
+        description: "The style of sidebar (`docked` or `floating`)."
+        default: "floating"
+      foreground:
+        anyOf:
+          - ref: bootstrap-color
+          - string
+        description: "The sidebar's foreground color (named or hex color)."
+      # FIXME `border` is missing in the typescript interface. check
+      border:
+        boolean:
+          description: "Whether to show a border on the sidebar (defaults to true for 'docked' sidebars)"
+      pinned:
+        boolean:
+          description: "When collapsed, pin the collapsed sidebar to the top of the page."
+      header:
+        maybeArrayOf: string
+        description: "Markdown to place above sidebar content (text or file path)"
+      footer:
+        maybeArrayOf: string
+        description: "Markdown to place below sidebar content (text or file path)"
 
 - id: base-website
   object:
@@ -731,32 +839,12 @@
                     description: "Target href from navbar logo / title. By default, the logo and title link to the root page of the site (/index.html)."
                 background:
                   anyOf:
-                    - enum:
-                        [
-                          "primary",
-                          "secondary",
-                          "success",
-                          "danger",
-                          "warning",
-                          "info",
-                          "light",
-                          "dark",
-                        ]
+                    - ref: bootstrap-color
                     - string
                   description: "The navbar's background color (named or hex color)."
                 foreground:
                   anyOf:
-                    - enum:
-                        [
-                          "primary",
-                          "secondary",
-                          "success",
-                          "danger",
-                          "warning",
-                          "info",
-                          "light",
-                          "dark",
-                        ]
+                    - ref: bootstrap-color
                     - string
                   description: "The navbar's foreground color (named or hex color)."
                 search:
@@ -788,85 +876,7 @@
         anyOf:
           - boolean
           - maybeArrayOf:
-              object:
-                properties:
-                  id:
-                    string:
-                      description: "The identifier for this sidebar."
-                  title:
-                    anyOf:
-                      - string
-                      - boolean
-                    description: "The sidebar title. Uses the project title if none is specified."
-                  subtitle:
-                    string:
-                      description: "The subtitle for this sidebar."
-                  logo:
-                    path:
-                      description: "Path to a logo image that will be displayed in the sidebar."
-                  search:
-                    boolean:
-                      description: "Include a search control in the sidebar."
-                  tools:
-                    arrayOf:
-                      ref: navigation-item-object
-                    description: "List of sidebar tools"
-                  contents:
-                    ref: sidebar-contents
-                    description: "List of items for the sidebar"
-                  style:
-                    enum: ["docked", "floating"]
-                    description: "The style of sidebar (`docked` or `floating`)."
-                    default: "floating"
-                  background:
-                    anyOf:
-                      - enum:
-                          [
-                            "primary",
-                            "secondary",
-                            "success",
-                            "danger",
-                            "warning",
-                            "info",
-                            "light",
-                            "dark",
-                          ]
-                      - string
-                    description: "The sidebar's background color (named or hex color)."
-                  foreground:
-                    anyOf:
-                      - enum:
-                          [
-                            "primary",
-                            "secondary",
-                            "success",
-                            "danger",
-                            "warning",
-                            "info",
-                            "light",
-                            "dark",
-                          ]
-                      - string
-                    description: "The sidebar's foreground color (named or hex color)."
-                  border:
-                    boolean:
-                      description: "Whether to show a border on the sidebar (defaults to true for 'docked' sidebars)"
-                  alignment:
-                    enum: ["left", "right", "center"]
-                    description: "Alignment of the items within the sidebar (`left`, `right`, or `center`)"
-                  collapse-level:
-                    number:
-                      description: "The depth at which the sidebar contents should be collapsed by default."
-                      default: 2
-                  pinned:
-                    boolean:
-                      description: "When collapsed, pin the collapsed sidebar to the top of the page."
-                  header:
-                    maybeArrayOf: string
-                    description: "Markdown to place above sidebar content (text or file path)"
-                  footer:
-                    maybeArrayOf: string
-                    description: "Markdown to place below sidebar content (text or file path)"
+              ref: sidebar-config
         description: "Side navigation options"
       body-header:
         string:

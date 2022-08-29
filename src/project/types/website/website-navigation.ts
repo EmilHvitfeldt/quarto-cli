@@ -54,6 +54,7 @@ import {
   NavigationItemObject,
   ProjectConfig,
   ProjectContext,
+  SidebarItemObject,
 } from "../../types.ts";
 import { projectOffset, projectOutputDir } from "../../project-shared.ts";
 import { resolveInputTarget } from "../../project-index.ts";
@@ -253,13 +254,19 @@ export async function websiteNavigationExtras(
 
     // Inject link tags with rel nest/prev for the page
     const metaLinks = [];
-    if (pageNavigation.nextPage?.href) {
+    if (
+      typeof pageNavigation.nextPage !== "string" &&
+      pageNavigation.nextPage?.href
+    ) {
       metaLinks.push(
         { rel: "next", href: pageNavigation.nextPage?.href },
       );
     }
 
-    if (pageNavigation.prevPage?.href) {
+    if (
+      typeof pageNavigation.prevPage !== "string" &&
+      pageNavigation.prevPage?.href
+    ) {
       metaLinks.push(
         { rel: "prev", href: pageNavigation.prevPage?.href },
       );
@@ -718,7 +725,7 @@ async function sidebarEjsData(project: ProjectContext, sidebar: Sidebar) {
 
   // ensure collapse & alignment are defaulted
   sidebar[kCollapseLevel] = sidebar[kCollapseLevel] || 2;
-  sidebar.aligment = sidebar.aligment || "center";
+  sidebar.alignment = sidebar.alignment || "center";
 
   sidebar.pinned = sidebar.pinned !== undefined ? !!sidebar.pinned : false;
 
@@ -740,7 +747,7 @@ async function resolveSidebarItems(
       const subItems = item.contents || [];
 
       // If this item has an href, resolve that
-      if (item.href) {
+      if (typeof item !== "string" && item.href) {
         item = await resolveItem(project, item.href, item, true);
       }
 
@@ -763,6 +770,9 @@ async function resolveSidebarItems(
 }
 
 async function resolveSidebarItem(project: ProjectContext, item: SidebarItem) {
+  if (typeof item === "string") {
+    return item;
+  }
   if (item.href) {
     item = await resolveItem(
       project,
@@ -846,17 +856,20 @@ function sidebarStyle() {
 }
 
 function containsHref(href: string, items: SidebarItem[]) {
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].href && items[i].href === href) {
+  for (const item of items) {
+    if (typeof item === "string") {
+      continue;
+    }
+    if (item.href && item.href === href) {
       return true;
-    } else if (Object.keys(items[i]).includes("contents")) {
-      const subItems = items[i].contents || [];
+    } else if (Object.keys(item).includes("contents")) {
+      const subItems = item.contents || [];
       const subItemsHasHref = containsHref(href, subItems);
       if (subItemsHasHref) {
         return true;
       }
     } else {
-      if (itemHasNavTarget(items[i], href)) {
+      if (itemHasNavTarget(item, href)) {
         return true;
       }
     }
@@ -869,8 +882,10 @@ function expandedSidebar(href: string, sidebar?: Sidebar): Sidebar | undefined {
     // Walk through menu and mark any items as 'expanded' if they
     // contain the item with this href
     const resolveExpandedItems = (href: string, items: SidebarItem[]) => {
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
+      for (const item of items) {
+        if (typeof item === "string") {
+          continue;
+        }
         item.active = itemHasNavTarget(item, href);
         if (Object.keys(item).includes("contents")) {
           if (
@@ -894,12 +909,12 @@ function expandedSidebar(href: string, sidebar?: Sidebar): Sidebar | undefined {
   }
 }
 
-function itemHasNavTarget(item: SidebarItem, href: string) {
+function itemHasNavTarget(item: SidebarItemObject, href: string) {
   return item.href === href ||
     item.href === href.replace(/\/index\.html/, "/");
 }
 
-function isSeparator(item?: SidebarItem) {
+function isSeparator(item?: SidebarItemObject) {
   return !!item && !!item.text?.match(/^\-\-\-[\-\s]*$/);
 }
 
@@ -912,8 +927,9 @@ function nextAndPrevious(
       sidebar?.contents,
       (item: SidebarItem) => {
         // Only include items that have a link that isn't external
-        return item.href !== undefined && !isExternalPath(item.href) ||
-          isSeparator(item);
+        return (typeof item !== "string") &&
+          ((item.href !== undefined && !isExternalPath(item.href)) ||
+            isSeparator(item));
       },
     );
 
@@ -921,7 +937,7 @@ function nextAndPrevious(
     const sidebarItemsUniq = ld.uniqBy(
       sidebarItems,
       (sidebarItem: SidebarItem) => {
-        return sidebarItem.href;
+        return typeof sidebarItem === "string" ? sidebarItem : sidebarItem.href;
       },
     );
 
@@ -1035,10 +1051,12 @@ function resolveSidebarRef(navItem: NavigationItemObject) {
         // wipe out the href and replace with a menu
         navItem.href = undefined;
         navItem.text = sidebar.title || id;
-        navItem.menu = new Array<NavItem>();
+        navItem.menu = new Array<NavigationItemObject>();
         for (const item of sidebar.contents) {
           // not fully recursive, we only take the first level of the sidebar
-          if (item.text && item.contents) {
+          if (typeof item === "string") {
+            continue; // FIXME Check.
+          } else if (item.text && item.contents) {
             if (navItem.menu.length > 0) {
               navItem.menu.push({
                 text: "---",
@@ -1048,12 +1066,16 @@ function resolveSidebarRef(navItem: NavigationItemObject) {
               text: item.text,
             });
             for (const subItem of item.contents) {
+              // FIXME check.
+              if (typeof subItem === "string") continue;
               // if this is turn has contents then target the first sub-item of those
               const targetItem = subItem.contents?.length
-                ? !subItem.contents[0].contents
+                ? (typeof subItem.contents[0] !== "string" &&
+                    !subItem.contents[0].contents
                   ? subItem.contents[0]
-                  : undefined
+                  : undefined)
                 : subItem;
+              if (typeof targetItem === "string") continue;
               if (targetItem?.href) {
                 navItem.menu.push({
                   text: subItem.text,
@@ -1327,8 +1349,11 @@ function sidebarHasId(id: string) {
   };
 }
 
-function findFirstItem(item: SidebarItem): SidebarItem | undefined {
-  if (item.contents?.length) {
+function findFirstItem(item: SidebarItem): SidebarItemObject | undefined {
+  if (typeof item === "string") {
+    // FIXME Check
+    return undefined;
+  } else if (item.contents?.length) {
     return findFirstItem(item.contents[0]);
   } else if (item.href) {
     return item;

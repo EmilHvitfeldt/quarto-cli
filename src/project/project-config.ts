@@ -13,7 +13,7 @@ import { safeExistsSync } from "../core/path.ts";
 
 import { readInputTargetIndex } from "./project-index.ts";
 import { fileExecutionEngine } from "../execute/engine.ts";
-import { SidebarItem } from "./types.ts";
+import { SidebarItem, SidebarItemObject } from "./types.ts";
 
 export const sidebarContext = () => {
   return { counter: 0 };
@@ -23,7 +23,7 @@ export function normalizeSidebarItem(
   projectDir: string,
   item: SidebarItem,
   context: { counter: number },
-): SidebarItem {
+): SidebarItemObject {
   // clone so we can mutate
   item = ld.cloneDeep(item);
 

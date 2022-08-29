@@ -223,7 +223,7 @@ export function flattenItems(
     if (includeItem(sidebarItem)) {
       items.push(sidebarItem);
     }
-    if (sidebarItem.contents) {
+    if (typeof sidebarItem !== "string" && sidebarItem.contents) {
       items.push(...flattenItems(sidebarItem.contents, includeItem));
     }
   };

@@ -148,9 +148,11 @@ const navbarTitleHandler = (context: NavigationPipelineContext) => {
 const nextPageTitleHandler = (context: NavigationPipelineContext) => {
   return {
     getUnrendered() {
-      if (context.pageNavigation.nextPage?.text) {
+      const np = context.pageNavigation.nextPage;
+      const value = typeof np === "string" ? np : np?.text;
+      if (value) {
         return {
-          inlines: { [kNavNextId]: context.pageNavigation.nextPage.text },
+          inlines: { [kNavNextId]: value },
         };
       }
     },
@@ -171,9 +173,11 @@ const nextPageTitleHandler = (context: NavigationPipelineContext) => {
 const prevPageTitleHandler = (context: NavigationPipelineContext) => {
   return {
     getUnrendered() {
-      if (context.pageNavigation.prevPage?.text) {
+      const pp = context.pageNavigation.prevPage;
+      const value = typeof pp === "string" ? pp : pp?.text;
+      if (value) {
         return {
-          inlines: { [kNavPrevId]: context.pageNavigation.prevPage.text },
+          inlines: { [kNavPrevId]: value },
         };
       }
     },
@@ -201,7 +205,9 @@ const sidebarContentsHandler = (context: NavigationPipelineContext) => {
 
         const markdown: Record<string, string> = {};
         sidebarItems.forEach((item) => {
-          if (item.text) {
+          if (typeof item === "string") {
+            markdown[`${kSidebarIdPrefix}${item}`] = item;
+          } else if (item.text) {
             // Place sections using ID, place items using href
             if (item.sectionId) {
               markdown[`${kSidebarIdPrefix}${item.sectionId}`] = item.text;

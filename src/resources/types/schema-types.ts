@@ -217,10 +217,17 @@ to override the title for this provider. */
 
 export type PageFooterRegion = (string | (NavigationItem)[]);
 
-export type SidebarContents = ((NavigationItem | string | {
+export type SidebarItemObject = ({
+  active?: boolean;
   contents?: SidebarContents;
+  expanded?: boolean;
   section?: (string | null);
-}))[];
+  sectionId?: string;
+} & NavigationItemObject);
+
+export type SidebarItem = (string | SidebarItemObject);
+
+export type SidebarContents = ((string | SidebarItem))[];
 
 export type ProjectPreview = {
   "watch-inputs"?:
@@ -235,6 +242,17 @@ export type ProjectPreview = {
   timeout?:
     number; /* Time (in seconds) after which to exit if there are no active clients */
 };
+
+export type BootstrapColor = (
+  | "primary"
+  | "secondary"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info"
+  | "light"
+  | "dark"
+);
 
 export type Publish = {
   netlify?: (PublishRecord)[];
@@ -275,6 +293,54 @@ export type PageFooter = {
   foreground?: string;
   left?: PageFooterRegion;
   right?: PageFooterRegion;
+};
+
+export type SidebarConfig = {
+  "logo-alt"?: string /* Alternate text for the logo image. */;
+  "collapse-level"?:
+    number /* The depth at which the sidebar contents should be collapsed by default. */;
+  alignment?: (
+    | "left"
+    | "right"
+    | "center"
+  ) /* Alignment of the items within the sidebar (`left`, `right`, or `center`) */;
+  background?: (
+    | BootstrapColor
+    | ("none" | "white")
+    | string
+  ) /* The sidebar's background color (named or hex color). */;
+  border?:
+    boolean /* Whether to show a border on the sidebar (defaults to true for 'docked' sidebars) */;
+  contents: SidebarContents;
+  foreground?: (
+    | BootstrapColor
+    | string
+  ) /* The sidebar's foreground color (named or hex color). */;
+  footer?: MaybeArrayOf<
+    string
+  > /* Markdown to place below sidebar content (text or file path) */;
+  header?: MaybeArrayOf<
+    string
+  > /* Markdown to place above sidebar content (text or file path) */;
+  id?: string /* The identifier for this sidebar. */;
+  logo?:
+    string /* Path to a logo image that will be displayed in the sidebar. */;
+  pinned?:
+    boolean /* When collapsed, pin the collapsed sidebar to the top of the page. */;
+  subtitle?: string /* The subtitle for this sidebar. */;
+  search?: (
+    | boolean
+    | ("overlay" | "textbox")
+  ) /* Include a search control in the sidebar. */;
+  style?: (
+    | "docked"
+    | "floating"
+  ) /* The style of sidebar (`docked` or `floating`). */;
+  title?: (
+    | string
+    | false
+  ) /* The sidebar title. Uses the project title if none is specified. */;
+  tools: (NavigationItemObject)[]; /* List of sidebar tools */
 };
 
 export type BaseWebsite = {
@@ -378,31 +444,13 @@ The user’s cookie preferences will automatically control Google Analytics (if 
       | "xxl"
     ) /* The responsive breakpoint below which the navbar will collapse into a menu (`sm`, `md`, `lg` (default), `xl`, `xxl`). */;
     background?: (
-      | (
-        | "primary"
-        | "secondary"
-        | "success"
-        | "danger"
-        | "warning"
-        | "info"
-        | "light"
-        | "dark"
-      )
+      | BootstrapColor
       | string
     ) /* The navbar's background color (named or hex color). */;
     collapse?:
       boolean /* Collapse the navbar into a menu when the display becomes narrow. */;
     foreground?: (
-      | (
-        | "primary"
-        | "secondary"
-        | "success"
-        | "danger"
-        | "warning"
-        | "info"
-        | "light"
-        | "dark"
-      )
+      | BootstrapColor
       | string
     ) /* The navbar's foreground color (named or hex color). */;
     logo?:
@@ -448,71 +496,8 @@ The user’s cookie preferences will automatically control Google Analytics (if 
       | "textbox"
     ); /* Type of search UI (`overlay` or `textbox`) */
   }) /* Provide full text search for website */;
-  sidebar?: (
-    | boolean
-    | MaybeArrayOf<
-      {
-        "collapse-level"?:
-          number /* The depth at which the sidebar contents should be collapsed by default. */;
-        alignment?: (
-          | "left"
-          | "right"
-          | "center"
-        ) /* Alignment of the items within the sidebar (`left`, `right`, or `center`) */;
-        background?: (
-          | (
-            | "primary"
-            | "secondary"
-            | "success"
-            | "danger"
-            | "warning"
-            | "info"
-            | "light"
-            | "dark"
-          )
-          | string
-        ) /* The sidebar's background color (named or hex color). */;
-        border?:
-          boolean /* Whether to show a border on the sidebar (defaults to true for 'docked' sidebars) */;
-        contents?: SidebarContents;
-        foreground?: (
-          | (
-            | "primary"
-            | "secondary"
-            | "success"
-            | "danger"
-            | "warning"
-            | "info"
-            | "light"
-            | "dark"
-          )
-          | string
-        ) /* The sidebar's foreground color (named or hex color). */;
-        footer?: MaybeArrayOf<
-          string
-        > /* Markdown to place below sidebar content (text or file path) */;
-        header?: MaybeArrayOf<
-          string
-        > /* Markdown to place above sidebar content (text or file path) */;
-        id?: string /* The identifier for this sidebar. */;
-        logo?:
-          string /* Path to a logo image that will be displayed in the sidebar. */;
-        pinned?:
-          boolean /* When collapsed, pin the collapsed sidebar to the top of the page. */;
-        subtitle?: string /* The subtitle for this sidebar. */;
-        search?: boolean /* Include a search control in the sidebar. */;
-        style?: (
-          | "docked"
-          | "floating"
-        ) /* The style of sidebar (`docked` or `floating`). */;
-        title?: (
-          | string
-          | boolean
-        ) /* The sidebar title. Uses the project title if none is specified. */;
-        tools?: (NavigationItemObject)[]; /* List of sidebar tools */
-      }
-    >
-  ) /* Side navigation options */;
+  sidebar?:
+    (boolean | MaybeArrayOf<SidebarConfig>) /* Side navigation options */;
   title?: string; /* Website title */
 };
 

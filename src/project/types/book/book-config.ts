@@ -19,7 +19,12 @@ import {
 } from "../../../execute/engine.ts";
 import { defaultWriterFormat } from "../../../format/formats.ts";
 
-import { Navbar, SidebarItem, SidebarTool } from "../../types.ts";
+import {
+  Navbar,
+  SidebarItem,
+  SidebarItemObject,
+  SidebarTool,
+} from "../../types.ts";
 
 import {
   normalizeSidebarItem,
@@ -294,6 +299,7 @@ export async function bookRenderItems(
       throw new Error(`Book ${type} '${input}' not found`);
     };
     for (const item of items) {
+      if (typeof item === "string") continue;
       if (item.contents) {
         inputs.push({
           type: kBookItemPart,
@@ -398,10 +404,10 @@ const kDownloadableItems: Record<string, { name: string; icon: string }> = {
   "docx": { name: "Docx", icon: "file-word" },
 };
 
-interface BookChapterItem extends SidebarItem {
+type BookChapterItem = SidebarItemObject & {
   part?: string;
   chapters?: BookChapterItem[];
-}
+};
 
 function bookChaptersToSidebarItems(chapters: BookChapterItem[]) {
   return chapters.map(chapterToSidebarItem);

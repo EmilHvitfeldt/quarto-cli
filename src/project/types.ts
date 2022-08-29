@@ -14,7 +14,6 @@ import { TempContext } from "../core/temp-types.ts";
 
 import {
   NavigationItem as NavItem,
-  NavigationItemObject,
   NavigationItemObject as SidebarTool,
   ProjectConfig as ProjectConfig_Project,
   ProjectPreview,
@@ -25,6 +24,9 @@ export {
   type NavigationItemObject as SidebarTool,
   type PageFooter as NavigationFooter,
   type ProjectPreview,
+  type SidebarConfig as Sidebar,
+  type SidebarItem,
+  type SidebarItemObject,
 } from "../resources/types/schema-types.ts";
 
 export const kProjectType = "type";
@@ -62,35 +64,6 @@ export interface ProjectFiles {
 export interface ProjectConfig {
   project: ProjectConfig_Project;
   [key: string]: unknown;
-}
-
-export async function resolvePreviewOptions(
-  options: ProjectPreview,
-  project?: ProjectContext,
-): Promise<ProjectPreview> {
-  // start with project options if we have them
-  if (project?.config?.project.preview) {
-    options = mergeConfigs(project.config.project.preview, options);
-  }
-  // provide defaults
-  const resolved = mergeConfigs({
-    host: kLocalhost,
-    browser: true,
-    [kProjectWatchInputs]: !isRStudio(),
-    timeout: 0,
-    navigate: true,
-  }, options) as ProjectPreview;
-
-  // if a specific port is requested then wait for it up to 5 seconds
-  if (resolved.port) {
-    if (!await waitForPort({ port: resolved.port, hostname: resolved.host })) {
-      throw new Error(`Requested port ${options.port} is already in use.`);
-    }
-  } else {
-    resolved.port = findOpenPort();
-  }
-
-  return resolved;
 }
 
 export const kProject404File = "404.html";
@@ -131,24 +104,7 @@ export interface Navbar {
   readerToggle?: boolean;
 }
 
-/* export interface NavItem {
-  // href + more readable/understndable aliases
-  icon?: string;
-  href?: string;
-  file?: string;
-  text?: string;
-  url?: string;
-  [kAriaLabel]?: string;
-
-  // core identification
-  id?: string;
-
-  // more
-  menu?: NavItem[];
-}
- */
-
-export interface Sidebar {
+/*export interface Sidebar {
   id?: string;
   title?: string;
   subtitle?: string;
@@ -173,9 +129,9 @@ export interface Sidebar {
   pinned?: boolean;
   header?: Array<string> | string;
   footer?: Array<string> | string;
-}
+}*/
 
-export type SidebarItem = NavigationItemObject & {
+/*export type SidebarItem = NavigationItemObject & {
   // core structure/contents
   section?: string;
   sectionId?: string;
@@ -184,16 +140,33 @@ export type SidebarItem = NavigationItemObject & {
   // more
   expanded?: boolean;
   active?: boolean;
-};
+};*/
 
-/*export interface SidebarTool {
-  // label/contents
-  icon?: string;
-  text?: string;
-  menu?: NavItem[];
+export async function resolvePreviewOptions(
+  options: ProjectPreview,
+  project?: ProjectContext,
+): Promise<ProjectPreview> {
+  // start with project options if we have them
+  if (project?.config?.project.preview) {
+    options = mergeConfigs(project.config.project.preview, options);
+  }
+  // provide defaults
+  const resolved = mergeConfigs({
+    host: kLocalhost,
+    browser: true,
+    [kProjectWatchInputs]: !isRStudio(),
+    timeout: 0,
+    navigate: true,
+  }, options) as ProjectPreview;
 
-  // href + more readable/understndable aliases
-  href?: string;
-  file?: string;
-  url?: string;
-}*/
+  // if a specific port is requested then wait for it up to 5 seconds
+  if (resolved.port) {
+    if (!await waitForPort({ port: resolved.port, hostname: resolved.host })) {
+      throw new Error(`Requested port ${options.port} is already in use.`);
+    }
+  } else {
+    resolved.port = findOpenPort();
+  }
+
+  return resolved;
+}
