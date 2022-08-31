@@ -1218,20 +1218,11 @@
     {
       "id": "navigation-item-object",
       "object": {
+        "closed": true,
         "properties": {
-          "id": {
-            "schema": "string",
-            "hidden": true
-          },
-          "href": {
+          "aria-label": {
             "string": {
-              "description": "Link to file contained with the project or external URL\n"
-            }
-          },
-          "url": {
-            "hidden": true,
-            "string": {
-              "description": "Alias for href\n"
+              "description": "Accessible label for the item."
             }
           },
           "file": {
@@ -1240,9 +1231,9 @@
               "description": "Alias for href\n"
             }
           },
-          "text": {
+          "href": {
             "string": {
-              "description": "Text to display for navigation item (defaults to the\ndocument title if not provided)\n"
+              "description": "Link to file contained with the project or external URL\n"
             }
           },
           "icon": {
@@ -1253,10 +1244,9 @@
               }
             }
           },
-          "aria-label": {
-            "string": {
-              "description": "Accessible label for the navigation item."
-            }
+          "id": {
+            "schema": "string",
+            "hidden": true
           },
           "menu": {
             "arrayOf": {
@@ -1264,9 +1254,19 @@
                 "ref": "navigation-item"
               }
             }
+          },
+          "text": {
+            "string": {
+              "description": "Text to display for item (defaults to the\ndocument title if not provided)\n"
+            }
+          },
+          "url": {
+            "hidden": true,
+            "string": {
+              "description": "Alias for href\n"
+            }
           }
-        },
-        "closed": true
+        }
       }
     },
     {
@@ -1277,51 +1277,6 @@
           "ref": "navigation-item-object"
         }
       ]
-    },
-    {
-      "id": "tool-item",
-      "object": {
-        "properties": {
-          "icon": {
-            "string": {
-              "description": {
-                "short": "Name of bootstrap icon (e.g. `github`, `twitter`, `share`)",
-                "long": "Name of bootstrap icon (e.g. `github`, `twitter`, `share`)\nSee <https://icons.getbootstrap.com/> for a list of available icons\n"
-              }
-            }
-          },
-          "href": {
-            "string": {
-              "description": "Link to file contained with the project or external URL\n"
-            }
-          },
-          "text": {
-            "string": {
-              "description": "Text to display for tool item\n"
-            }
-          },
-          "menu": {
-            "arrayOf": {
-              "schema": {
-                "ref": "navigation-item"
-              }
-            }
-          },
-          "url": {
-            "hidden": true,
-            "string": {
-              "description": "Alias for href\n"
-            }
-          },
-          "file": {
-            "hidden": true,
-            "string": {
-              "description": "Alias for href\n"
-            }
-          }
-        },
-        "closed": true
-      }
     },
     {
       "id": "comments",
@@ -1753,27 +1708,55 @@
       ]
     },
     {
+      "id": "sidebar-item-object",
+      "object": {
+        "super": {
+          "resolveRef": "navigation-item-object"
+        },
+        "properties": {
+          "section": {
+            "anyOf": [
+              "string",
+              null
+            ]
+          },
+          "contents": {
+            "ref": "sidebar-contents"
+          },
+          "sectionId": {
+            "string": {
+              "hidden": true
+            }
+          },
+          "expanded": {
+            "boolean": {
+              "hidden": true
+            }
+          },
+          "active": {
+            "boolean": {
+              "hidden": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "sidebar-item",
+      "anyOf": [
+        "string",
+        {
+          "ref": "sidebar-item-object"
+        }
+      ]
+    },
+    {
       "id": "sidebar-contents",
       "arrayOf": {
         "anyOf": [
-          {
-            "ref": "navigation-item"
-          },
           "path",
           {
-            "object": {
-              "properties": {
-                "section": {
-                  "anyOf": [
-                    "string",
-                    null
-                  ]
-                },
-                "contents": {
-                  "ref": "sidebar-contents"
-                }
-              }
-            }
+            "ref": "sidebar-item"
           }
         ]
       }
@@ -1817,6 +1800,19 @@
       }
     },
     {
+      "id": "bootstrap-color",
+      "enum": [
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "light",
+        "dark"
+      ]
+    },
+    {
       "id": "publish",
       "description": "Sites published from project",
       "schema": {
@@ -1847,6 +1843,227 @@
             "string": {
               "description": "Published URL for site"
             }
+          }
+        }
+      }
+    },
+    {
+      "id": "twitter-card-config",
+      "object": {
+        "super": {
+          "resolveRef": "social-metadata"
+        },
+        "closed": true,
+        "properties": {
+          "card-style": {
+            "enum": [
+              "summary",
+              "summary_large_image"
+            ],
+            "description": {
+              "short": "Card style",
+              "long": "Card style (`summary` or `summary_large_image`).\n\nIf this is not provided, the best style will automatically\nselected based upon other metadata. You can learn more about Twitter Card\nstyles [here](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards).\n"
+            }
+          },
+          "creator": {
+            "string": {
+              "description": "`@username` of the content creator (must be a quoted string)"
+            }
+          },
+          "site": {
+            "string": {
+              "description": "`@username` of the website (must be a quoted string)"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "open-graph-config",
+      "object": {
+        "super": {
+          "resolveRef": "social-metadata"
+        },
+        "closed": true,
+        "properties": {
+          "locale": {
+            "string": {
+              "description": "Locale of open graph metadata"
+            }
+          },
+          "site-name": {
+            "string": {
+              "description": {
+                "short": "Name that should be displayed for the overall site",
+                "long": "Name that should be displayed for the overall site. If not explicitly \nprovided in the `open-graph` metadata, Quarto will use the website or\nbook `title` by default.\n"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "page-footer",
+      "object": {
+        "properties": {
+          "left": {
+            "ref": "page-footer-region",
+            "description": "Footer left content"
+          },
+          "right": {
+            "ref": "page-footer-region",
+            "description": "Footer right content"
+          },
+          "center": {
+            "ref": "page-footer-region",
+            "description": "Footer center content"
+          },
+          "border": {
+            "anyOf": [
+              "boolean",
+              "string"
+            ],
+            "description": "Footer border (`true`, `false`, or a border color)"
+          },
+          "background": {
+            "schema": "string",
+            "description": "Footer background color"
+          },
+          "foreground": {
+            "schema": "string",
+            "description": "Footer foreground color"
+          }
+        },
+        "closed": true
+      }
+    },
+    {
+      "id": "sidebar-config",
+      "object": {
+        "required": [
+          "contents",
+          "tools"
+        ],
+        "properties": {
+          "id": {
+            "string": {
+              "description": "The identifier for this sidebar."
+            }
+          },
+          "title": {
+            "anyOf": [
+              "string",
+              {
+                "enum": [
+                  false
+                ]
+              }
+            ],
+            "description": "The sidebar title. Uses the project title if none is specified."
+          },
+          "subtitle": {
+            "string": {
+              "description": "The subtitle for this sidebar."
+            }
+          },
+          "logo": {
+            "path": {
+              "description": "Path to a logo image that will be displayed in the sidebar."
+            }
+          },
+          "logo-alt": {
+            "string": {
+              "description": "Alternate text for the logo image."
+            }
+          },
+          "alignment": {
+            "enum": [
+              "left",
+              "right",
+              "center"
+            ],
+            "description": "Alignment of the items within the sidebar (`left`, `right`, or `center`)"
+          },
+          "background": {
+            "anyOf": [
+              {
+                "ref": "bootstrap-color"
+              },
+              {
+                "enum": [
+                  "none",
+                  "white"
+                ]
+              },
+              "string"
+            ],
+            "description": "The sidebar's background color (named or hex color)."
+          },
+          "search": {
+            "anyOf": [
+              "boolean",
+              {
+                "enum": {
+                  "values": [
+                    "overlay",
+                    "textbox"
+                  ],
+                  "hidden": true
+                }
+              }
+            ],
+            "description": "Include a search control in the sidebar."
+          },
+          "collapse-level": {
+            "number": {
+              "description": "The depth at which the sidebar contents should be collapsed by default.",
+              "default": 2
+            }
+          },
+          "contents": {
+            "ref": "sidebar-contents",
+            "description": "List of items for the sidebar"
+          },
+          "tools": {
+            "arrayOf": {
+              "ref": "navigation-item-object"
+            },
+            "description": "List of sidebar tools"
+          },
+          "style": {
+            "enum": [
+              "docked",
+              "floating"
+            ],
+            "description": "The style of sidebar (`docked` or `floating`).",
+            "default": "floating"
+          },
+          "foreground": {
+            "anyOf": [
+              {
+                "ref": "bootstrap-color"
+              },
+              "string"
+            ],
+            "description": "The sidebar's foreground color (named or hex color)."
+          },
+          "border": {
+            "boolean": {
+              "description": "Whether to show a border on the sidebar (defaults to true for 'docked' sidebars)"
+            }
+          },
+          "pinned": {
+            "boolean": {
+              "description": "When collapsed, pin the collapsed sidebar to the top of the page."
+            }
+          },
+          "header": {
+            "maybeArrayOf": "string",
+            "description": "Markdown to place above sidebar content (text or file path)"
+          },
+          "footer": {
+            "maybeArrayOf": "string",
+            "description": "Markdown to place below sidebar content (text or file path)"
           }
         }
       }
@@ -2140,16 +2357,7 @@
                     "background": {
                       "anyOf": [
                         {
-                          "enum": [
-                            "primary",
-                            "secondary",
-                            "success",
-                            "danger",
-                            "warning",
-                            "info",
-                            "light",
-                            "dark"
-                          ]
+                          "ref": "bootstrap-color"
                         },
                         "string"
                       ],
@@ -2158,16 +2366,7 @@
                     "foreground": {
                       "anyOf": [
                         {
-                          "enum": [
-                            "primary",
-                            "secondary",
-                            "success",
-                            "danger",
-                            "warning",
-                            "info",
-                            "light",
-                            "dark"
-                          ]
+                          "ref": "bootstrap-color"
                         },
                         "string"
                       ],
@@ -2224,123 +2423,7 @@
               "boolean",
               {
                 "maybeArrayOf": {
-                  "object": {
-                    "properties": {
-                      "id": {
-                        "string": {
-                          "description": "The identifier for this sidebar."
-                        }
-                      },
-                      "title": {
-                        "anyOf": [
-                          "string",
-                          "boolean"
-                        ],
-                        "description": "The sidebar title. Uses the project title if none is specified."
-                      },
-                      "subtitle": {
-                        "string": {
-                          "description": "The subtitle for this sidebar."
-                        }
-                      },
-                      "logo": {
-                        "path": {
-                          "description": "Path to a logo image that will be displayed in the sidebar."
-                        }
-                      },
-                      "search": {
-                        "boolean": {
-                          "description": "Include a search control in the sidebar."
-                        }
-                      },
-                      "tools": {
-                        "arrayOf": {
-                          "ref": "tool-item"
-                        },
-                        "description": "List of sidebar tools"
-                      },
-                      "contents": {
-                        "ref": "sidebar-contents",
-                        "description": "List of items for the sidebar"
-                      },
-                      "style": {
-                        "enum": [
-                          "docked",
-                          "floating"
-                        ],
-                        "description": "The style of sidebar (`docked` or `floating`).",
-                        "default": "floating"
-                      },
-                      "background": {
-                        "anyOf": [
-                          {
-                            "enum": [
-                              "primary",
-                              "secondary",
-                              "success",
-                              "danger",
-                              "warning",
-                              "info",
-                              "light",
-                              "dark"
-                            ]
-                          },
-                          "string"
-                        ],
-                        "description": "The sidebar's background color (named or hex color)."
-                      },
-                      "foreground": {
-                        "anyOf": [
-                          {
-                            "enum": [
-                              "primary",
-                              "secondary",
-                              "success",
-                              "danger",
-                              "warning",
-                              "info",
-                              "light",
-                              "dark"
-                            ]
-                          },
-                          "string"
-                        ],
-                        "description": "The sidebar's foreground color (named or hex color)."
-                      },
-                      "border": {
-                        "boolean": {
-                          "description": "Whether to show a border on the sidebar (defaults to true for 'docked' sidebars)"
-                        }
-                      },
-                      "alignment": {
-                        "enum": [
-                          "left",
-                          "right",
-                          "center"
-                        ],
-                        "description": "Alignment of the items within the sidebar (`left`, `right`, or `center`)"
-                      },
-                      "collapse-level": {
-                        "number": {
-                          "description": "The depth at which the sidebar contents should be collapsed by default.",
-                          "default": 2
-                        }
-                      },
-                      "pinned": {
-                        "boolean": {
-                          "description": "When collapsed, pin the collapsed sidebar to the top of the page."
-                        }
-                      },
-                      "header": {
-                        "maybeArrayOf": "string",
-                        "description": "Markdown to place above sidebar content (text or file path)"
-                      },
-                      "footer": {
-                        "maybeArrayOf": "string",
-                        "description": "Markdown to place below sidebar content (text or file path)"
-                      }
-                    }
-                  }
+                  "ref": "sidebar-config"
                 }
               }
             ],
@@ -2373,38 +2456,7 @@
             "anyOf": [
               "string",
               {
-                "object": {
-                  "properties": {
-                    "left": {
-                      "ref": "page-footer-region",
-                      "description": "Footer left content"
-                    },
-                    "right": {
-                      "ref": "page-footer-region",
-                      "description": "Footer right content"
-                    },
-                    "center": {
-                      "ref": "page-footer-region",
-                      "description": "Footer center content"
-                    },
-                    "border": {
-                      "anyOf": [
-                        "boolean",
-                        "string"
-                      ],
-                      "description": "Footer border (`true`, `false`, or a border color)"
-                    },
-                    "background": {
-                      "schema": "string",
-                      "description": "Footer background color"
-                    },
-                    "foreground": {
-                      "schema": "string",
-                      "description": "Footer foreground color"
-                    }
-                  },
-                  "closed": true
-                }
+                "ref": "page-footer"
               }
             ],
             "description": "Shared page footer"
@@ -2423,27 +2475,7 @@
             "anyOf": [
               "boolean",
               {
-                "object": {
-                  "super": {
-                    "resolveRef": "social-metadata"
-                  },
-                  "properties": {
-                    "locale": {
-                      "string": {
-                        "description": "Locale of open graph metadata"
-                      }
-                    },
-                    "site-name": {
-                      "string": {
-                        "description": {
-                          "short": "Name that should be displayed for the overall site",
-                          "long": "Name that should be displayed for the overall site. If not explicitly \nprovided in the `open-graph` metadata, Quarto will use the website or\nbook `title` by default.\n"
-                        }
-                      }
-                    }
-                  },
-                  "closed": true
-                }
+                "ref": "open-graph-config"
               }
             ],
             "description": "Publish open graph metadata"
@@ -2452,34 +2484,7 @@
             "anyOf": [
               "boolean",
               {
-                "object": {
-                  "super": {
-                    "resolveRef": "social-metadata"
-                  },
-                  "properties": {
-                    "card-style": {
-                      "enum": [
-                        "summary",
-                        "summary_large_image"
-                      ],
-                      "description": {
-                        "short": "Card style",
-                        "long": "Card style (`summary` or `summary_large_image`).\n\nIf this is not provided, the best style will automatically\nselected based upon other metadata. You can learn more about Twitter Card\nstyles [here](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards).\n"
-                      }
-                    },
-                    "creator": {
-                      "string": {
-                        "description": "`@username` of the content creator (must be a quoted string)"
-                      }
-                    },
-                    "site": {
-                      "string": {
-                        "description": "`@username` of the website (must be a quoted string)"
-                      }
-                    }
-                  },
-                  "closed": true
-                }
+                "ref": "twitter-card-config"
               }
             ],
             "description": "Publish twitter card metadata"
@@ -2737,16 +2742,12 @@
           },
           "max-items": {
             "number": {
-              "description": {
-                "short": "The maximum number of items to include in this listing."
-              }
+              "description": "The maximum number of items to include in this listing."
             }
           },
           "page-size": {
             "number": {
-              "description": {
-                "short": "The number of items to display on a page."
-              }
+              "description": "The number of items to display on a page."
             }
           },
           "sort-ui": {
@@ -12211,7 +12212,86 @@
     "Download buttons for other formats to include on navbar or sidebar\n(one or more of <code>pdf</code>, <code>epub</code>, and\n<code>docx</code>)",
     "Custom tools for navbar or sidebar",
     "The Digital Object Identifier for this book.",
-    "internal-schema-hack"
+    "internal-schema-hack",
+    "Link to file contained with the project or external URL",
+    "Alias for href",
+    "Alias for href",
+    "Text to display for navigation item (defaults to the document title\nif not provided)",
+    {
+      "short": "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>)",
+      "long": "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>) See <a href=\"https://icons.getbootstrap.com/\" class=\"uri\">https://icons.getbootstrap.com/</a> for a list of available\nicons"
+    },
+    "Accessible label for the navigation item.",
+    {
+      "short": "The title of the page",
+      "long": "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you’d like\nto override the title for this provider."
+    },
+    {
+      "short": "A short description of the content.",
+      "long": "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you’d like to override the description for this provider."
+    },
+    {
+      "short": "The path to a preview image for the content.",
+      "long": "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
+    },
+    {
+      "short": "The alt text for the preview image.",
+      "long": "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
+    },
+    "Image width (pixels)",
+    "Image height (pixels)",
+    {
+      "short": "Card style",
+      "long": "Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href=\"https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards\">here</a>."
+    },
+    "<code>@username</code> of the content creator (must be a quoted\nstring)",
+    "<code>@username</code> of the website (must be a quoted string)",
+    {
+      "short": "The title of the page",
+      "long": "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you’d like\nto override the title for this provider."
+    },
+    {
+      "short": "A short description of the content.",
+      "long": "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you’d like to override the description for this provider."
+    },
+    {
+      "short": "The path to a preview image for the content.",
+      "long": "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
+    },
+    {
+      "short": "The alt text for the preview image.",
+      "long": "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
+    },
+    "Image width (pixels)",
+    "Image height (pixels)",
+    "Locale of open graph metadata",
+    {
+      "short": "Name that should be displayed for the overall site",
+      "long": "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
+    },
+    "Footer left content",
+    "Footer right content",
+    "Footer center content",
+    "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
+    "Footer background color",
+    "Footer foreground color",
+    "The identifier for this sidebar.",
+    "The sidebar title. Uses the project title if none is specified.",
+    "The subtitle for this sidebar.",
+    "Path to a logo image that will be displayed in the sidebar.",
+    "Alternate text for the logo image.",
+    "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
+    "The sidebar’s background color (named or hex color).",
+    "Include a search control in the sidebar.",
+    "The depth at which the sidebar contents should be collapsed by\ndefault.",
+    "List of items for the sidebar",
+    "List of sidebar tools",
+    "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
+    "The sidebar’s foreground color (named or hex color).",
+    "Whether to show a border on the sidebar (defaults to true for\n‘docked’ sidebars)",
+    "When collapsed, pin the collapsed sidebar to the top of the page.",
+    "Markdown to place above sidebar content (text or file path)",
+    "Markdown to place below sidebar content (text or file path)"
   ],
   "schema/external-schemas.yml": [
     {
