@@ -792,7 +792,7 @@ async function resolveSidebarItem(project: ProjectContext, item: SidebarItem) {
 
 async function resolveSidebarTools(
   project: ProjectContext,
-  tools: SidebarTool[],
+  tools: SidebarTool[] | undefined,
 ) {
   if (tools) {
     for (let i = 0; i < tools.length; i++) {
