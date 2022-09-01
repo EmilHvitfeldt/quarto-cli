@@ -8965,8 +8965,7 @@ var require_yaml_intelligence_resources = __commonJS({
           id: "sidebar-config",
           object: {
             required: [
-              "contents",
-              "tools"
+              "contents"
             ],
             properties: {
               id: {
@@ -17204,22 +17203,14 @@ var require_yaml_intelligence_resources = __commonJS({
         "zimwiki"
       ],
       "schema/html-descriptions.yml": [
+        "Accessible label for the item.",
+        "Alias for href",
         "Link to file contained with the project or external URL",
-        "Alias for href",
-        "Alias for href",
-        "Text to display for navigation item (defaults to the document title\nif not provided)",
         {
           short: "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>)",
           long: 'Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>) See <a href="https://icons.getbootstrap.com/" class="uri">https://icons.getbootstrap.com/</a> for a list of available\nicons'
         },
-        "Accessible label for the navigation item.",
-        {
-          short: "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>)",
-          long: 'Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>) See <a href="https://icons.getbootstrap.com/" class="uri">https://icons.getbootstrap.com/</a> for a list of available\nicons'
-        },
-        "Link to file contained with the project or external URL",
-        "Text to display for tool item",
-        "Alias for href",
+        "Text to display for item (defaults to the document title if not\nprovided)",
         "Alias for href",
         "The Github repo that will be used to store comments.",
         "The label that will be assigned to issues created by Utterances.",
@@ -17302,6 +17293,15 @@ var require_yaml_intelligence_resources = __commonJS({
         },
         "Image width (pixels)",
         "Image height (pixels)",
+        "Accessible label for the item.",
+        "Alias for href",
+        "Link to file contained with the project or external URL",
+        {
+          short: "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>)",
+          long: 'Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>) See <a href="https://icons.getbootstrap.com/" class="uri">https://icons.getbootstrap.com/</a> for a list of available\nicons'
+        },
+        "Text to display for item (defaults to the document title if not\nprovided)",
+        "Alias for href",
         "Port to listen on (defaults to random value between 3000 and\n8000)",
         "Hostname to bind to (defaults to 127.0.0.1)",
         "Open a web browser to view the preview (defaults to true)",
@@ -17311,6 +17311,76 @@ var require_yaml_intelligence_resources = __commonJS({
         "Sites published from project",
         "Unique identifier for site",
         "Published URL for site",
+        {
+          short: "The title of the page",
+          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
+        },
+        {
+          short: "A short description of the content.",
+          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
+        },
+        {
+          short: "The path to a preview image for the content.",
+          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
+        },
+        {
+          short: "The alt text for the preview image.",
+          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
+        },
+        "Image width (pixels)",
+        "Image height (pixels)",
+        {
+          short: "Card style",
+          long: 'Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href="https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards">here</a>.'
+        },
+        "<code>@username</code> of the content creator (must be a quoted\nstring)",
+        "<code>@username</code> of the website (must be a quoted string)",
+        {
+          short: "The title of the page",
+          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
+        },
+        {
+          short: "A short description of the content.",
+          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
+        },
+        {
+          short: "The path to a preview image for the content.",
+          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
+        },
+        {
+          short: "The alt text for the preview image.",
+          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
+        },
+        "Image width (pixels)",
+        "Image height (pixels)",
+        "Locale of open graph metadata",
+        {
+          short: "Name that should be displayed for the overall site",
+          long: "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
+        },
+        "Footer left content",
+        "Footer right content",
+        "Footer center content",
+        "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
+        "Footer background color",
+        "Footer foreground color",
+        "The identifier for this sidebar.",
+        "The sidebar title. Uses the project title if none is specified.",
+        "The subtitle for this sidebar.",
+        "Path to a logo image that will be displayed in the sidebar.",
+        "Alternate text for the logo image.",
+        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
+        "The sidebar\u2019s background color (named or hex color).",
+        "Include a search control in the sidebar.",
+        "The depth at which the sidebar contents should be collapsed by\ndefault.",
+        "List of items for the sidebar",
+        "List of sidebar tools",
+        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
+        "The sidebar\u2019s foreground color (named or hex color).",
+        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
+        "When collapsed, pin the collapsed sidebar to the top of the page.",
+        "Markdown to place above sidebar content (text or file path)",
+        "Markdown to place below sidebar content (text or file path)",
         "Website title",
         "Website description",
         "The path to the favicon for this website",
@@ -17391,100 +17461,15 @@ var require_yaml_intelligence_resources = __commonJS({
         "List of items for the left side of the navbar.",
         "List of items for the right side of the navbar.",
         "Side navigation options",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
         "Markdown to insert at the beginning of each page\u2019s body (below the\ntitle and author block).",
         "Markdown to insert below each page\u2019s body.",
         "Markdown to place above margin content (text or file path)",
         "Markdown to place below margin content (text or file path)",
         "Provide next and previous article links in footer",
         "Shared page footer",
-        "Footer left content",
-        "Footer right content",
-        "Footer center content",
-        "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
-        "Footer background color",
-        "Footer foreground color",
         "Default site thumbnail image for <code>twitter</code>\n/<code>open-graph</code>",
         "Publish open graph metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        "Locale of open graph metadata",
-        {
-          short: "Name that should be displayed for the overall site",
-          long: "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
-        },
         "Publish twitter card metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        {
-          short: "Card style",
-          long: 'Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href="https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards">here</a>.'
-        },
-        "<code>@username</code> of the content creator (must be a quoted\nstring)",
-        "<code>@username</code> of the website (must be a quoted string)",
         "Part title or path to input file",
         "Path to chapter input file",
         {
@@ -17532,14 +17517,8 @@ var require_yaml_intelligence_resources = __commonJS({
           short: "Sort items in the listing by these fields.",
           long: "Sort items in the listing by these fields. The sort key is made up of\na field name followed by a direction <code>asc</code> or\n<code>desc</code>.\nFor example: <code>date asc</code>"
         },
-        {
-          short: "The maximum number of items to include in this listing.",
-          long: ""
-        },
-        {
-          short: "The number of items to display on a page.",
-          long: ""
-        },
+        "The maximum number of items to include in this listing.",
+        "The number of items to display on a page.",
         {
           short: "Shows or hides the sorting control for the listing.",
           long: "Shows or hides the sorting control for the listing. To control the\nfields that will be displayed in the sorting control, provide a list of\nfield names."
@@ -18917,100 +18896,15 @@ var require_yaml_intelligence_resources = __commonJS({
         "List of items for the left side of the navbar.",
         "List of items for the right side of the navbar.",
         "Side navigation options",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
         "Markdown to insert at the beginning of each page\u2019s body (below the\ntitle and author block).",
         "Markdown to insert below each page\u2019s body.",
         "Markdown to place above margin content (text or file path)",
         "Markdown to place below margin content (text or file path)",
         "Provide next and previous article links in footer",
         "Shared page footer",
-        "Footer left content",
-        "Footer right content",
-        "Footer center content",
-        "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
-        "Footer background color",
-        "Footer foreground color",
         "Default site thumbnail image for <code>twitter</code>\n/<code>open-graph</code>",
         "Publish open graph metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        "Locale of open graph metadata",
-        {
-          short: "Name that should be displayed for the overall site",
-          long: "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
-        },
         "Publish twitter card metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        {
-          short: "Card style",
-          long: 'Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href="https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards">here</a>.'
-        },
-        "<code>@username</code> of the content creator (must be a quoted\nstring)",
-        "<code>@username</code> of the website (must be a quoted string)",
         "Book subtitle",
         "Author or authors of the book",
         "Author or authors of the book",
@@ -19125,100 +19019,15 @@ var require_yaml_intelligence_resources = __commonJS({
         "List of items for the left side of the navbar.",
         "List of items for the right side of the navbar.",
         "Side navigation options",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Include a search control in the sidebar.",
-        "List of sidebar tools",
-        "List of items for the sidebar",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s background color (named or hex color).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)",
         "Markdown to insert at the beginning of each page\u2019s body (below the\ntitle and author block).",
         "Markdown to insert below each page\u2019s body.",
         "Markdown to place above margin content (text or file path)",
         "Markdown to place below margin content (text or file path)",
         "Provide next and previous article links in footer",
         "Shared page footer",
-        "Footer left content",
-        "Footer right content",
-        "Footer center content",
-        "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
-        "Footer background color",
-        "Footer foreground color",
         "Default site thumbnail image for <code>twitter</code>\n/<code>open-graph</code>",
         "Publish open graph metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        "Locale of open graph metadata",
-        {
-          short: "Name that should be displayed for the overall site",
-          long: "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
-        },
         "Publish twitter card metadata",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        {
-          short: "Card style",
-          long: 'Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href="https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards">here</a>.'
-        },
-        "<code>@username</code> of the content creator (must be a quoted\nstring)",
-        "<code>@username</code> of the website (must be a quoted string)",
         "Book subtitle",
         "Author or authors of the book",
         "Author or authors of the book",
@@ -19236,86 +19045,7 @@ var require_yaml_intelligence_resources = __commonJS({
         "Download buttons for other formats to include on navbar or sidebar\n(one or more of <code>pdf</code>, <code>epub</code>, and\n<code>docx</code>)",
         "Custom tools for navbar or sidebar",
         "The Digital Object Identifier for this book.",
-        "internal-schema-hack",
-        "Link to file contained with the project or external URL",
-        "Alias for href",
-        "Alias for href",
-        "Text to display for navigation item (defaults to the document title\nif not provided)",
-        {
-          short: "Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>)",
-          long: 'Name of bootstrap icon (e.g.&nbsp;<code>github</code>,\n<code>twitter</code>, <code>share</code>) See <a href="https://icons.getbootstrap.com/" class="uri">https://icons.getbootstrap.com/</a> for a list of available\nicons'
-        },
-        "Accessible label for the navigation item.",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        {
-          short: "Card style",
-          long: 'Card style (<code>summary</code> or\n<code>summary_large_image</code>).\nIf this is not provided, the best style will automatically selected\nbased upon other metadata. You can learn more about Twitter Card styles\n<a href="https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards">here</a>.'
-        },
-        "<code>@username</code> of the content creator (must be a quoted\nstring)",
-        "<code>@username</code> of the website (must be a quoted string)",
-        {
-          short: "The title of the page",
-          long: "The title of the page. Note that by default Quarto will automatically\nuse the title metadata from the page. Specify this field if you\u2019d like\nto override the title for this provider."
-        },
-        {
-          short: "A short description of the content.",
-          long: "A short description of the content. Note that by default Quarto will\nautomatically use the description metadata from the page. Specify this\nfield if you\u2019d like to override the description for this provider."
-        },
-        {
-          short: "The path to a preview image for the content.",
-          long: "The path to a preview image for the content. By default, Quarto will\nuse the <code>image</code> value from the format metadata. If you\nprovide an image, you may also optionally provide an\n<code>image-width</code> and <code>image-height</code>."
-        },
-        {
-          short: "The alt text for the preview image.",
-          long: "The alt text for the preview image. By default, Quarto will use the\n<code>image-alt</code> value from the format metadata. If you provide an\nimage, you may also optionally provide an <code>image-width</code> and\n<code>image-height</code>."
-        },
-        "Image width (pixels)",
-        "Image height (pixels)",
-        "Locale of open graph metadata",
-        {
-          short: "Name that should be displayed for the overall site",
-          long: "Name that should be displayed for the overall site. If not explicitly\nprovided in the <code>open-graph</code> metadata, Quarto will use the\nwebsite or book <code>title</code> by default."
-        },
-        "Footer left content",
-        "Footer right content",
-        "Footer center content",
-        "Footer border (<code>true</code>, <code>false</code>, or a border\ncolor)",
-        "Footer background color",
-        "Footer foreground color",
-        "The identifier for this sidebar.",
-        "The sidebar title. Uses the project title if none is specified.",
-        "The subtitle for this sidebar.",
-        "Path to a logo image that will be displayed in the sidebar.",
-        "Alternate text for the logo image.",
-        "Alignment of the items within the sidebar (<code>left</code>,\n<code>right</code>, or <code>center</code>)",
-        "The sidebar\u2019s background color (named or hex color).",
-        "Include a search control in the sidebar.",
-        "The depth at which the sidebar contents should be collapsed by\ndefault.",
-        "List of items for the sidebar",
-        "List of sidebar tools",
-        "The style of sidebar (<code>docked</code> or\n<code>floating</code>).",
-        "The sidebar\u2019s foreground color (named or hex color).",
-        "Whether to show a border on the sidebar (defaults to true for\n\u2018docked\u2019 sidebars)",
-        "When collapsed, pin the collapsed sidebar to the top of the page.",
-        "Markdown to place above sidebar content (text or file path)",
-        "Markdown to place below sidebar content (text or file path)"
+        "internal-schema-hack"
       ],
       "schema/external-schemas.yml": [
         {

@@ -340,7 +340,7 @@ export type SidebarConfig = {
     | string
     | false
   ) /* The sidebar title. Uses the project title if none is specified. */;
-  tools: (NavigationItemObject)[]; /* List of sidebar tools */
+  tools?: (NavigationItemObject)[]; /* List of sidebar tools */
 };
 
 export type BaseWebsite = {

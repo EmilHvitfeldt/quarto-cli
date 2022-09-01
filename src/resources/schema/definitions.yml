@@ -558,7 +558,7 @@
 
 - id: sidebar-config
   object:
-    required: [contents, tools]
+    required: [contents]
     # FIXME. TypeScript interface had these additionally as required:
     # required: [tools, style]
     # CHECK.
