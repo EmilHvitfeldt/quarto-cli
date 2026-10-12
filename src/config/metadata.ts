@@ -26,6 +26,7 @@ import {
   kIncludeBefore,
   kIpynbFilter,
   kIpynbFilters,
+  kKeepEmiljs,
   kKeepMd,
   kKeepTex,
   kKeepTyp,
@@ -131,6 +132,7 @@ export function formatFromMetadata(
     mergedFormat.execute[kKeepMd] = true;
     mergedFormat.render[kKeepTex] = true;
     mergedFormat.render[kKeepTyp] = true;
+    mergedFormat.render[kKeepEmiljs] = true;
   }
 
   return mergedFormat;

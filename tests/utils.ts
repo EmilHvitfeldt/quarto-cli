@@ -194,6 +194,9 @@ export function outputForInput(
     if (baseFormat === "email") {
       outputExt = "html";
     }
+    if (baseFormat === "emiljs") {
+      outputExt = "html";
+    }
   }
 
   const outputPath: string = projectRoot && projectOutDir !== undefined

@@ -791,12 +791,14 @@ export const ensureLlmsTxtDoesNotExist = (htmlFile: string): Verify => {
 export const verifyKeepFileRegexMatches = (
   toExt: string,
   keepExt: string,
+  keepStemSuffix = "",
 ): (file: string, matchesUntyped: (string | RegExp)[], noMatchesUntyped?: (string | RegExp)[], inputFile?: string) => Verify => {
   return (file: string, matchesUntyped: (string | RegExp)[], noMatchesUntyped?: (string | RegExp)[], inputFile?: string) => {
     // Kept files are alongside source, so derive from inputFile if provided
+    const keepEnding = `${keepStemSuffix}.${keepExt}`;
     const keptFile = inputFile
-      ? join(dirname(inputFile), basename(file).replace(`.${toExt}`, `.${keepExt}`))
-      : file.replace(`.${toExt}`, `.${keepExt}`);
+      ? join(dirname(inputFile), basename(file).replace(`.${toExt}`, keepEnding))
+      : file.replace(`.${toExt}`, keepEnding);
     const keptFileChecker = async (file: string, matches: RegExp[], noMatches: RegExp[] | undefined) => {
       try {
         await regexChecker(file, matches, noMatches);
@@ -818,6 +820,16 @@ export const ensureTypstFileRegexMatches = (
   inputFile?: string,
 ): Verify => {
   return(verifyKeepFileRegexMatches("pdf", "typ")(file, matchesUntyped, noMatchesUntyped, inputFile));
+};
+
+// The emil.js intermediate Markdown is `<stem>-emiljs.md` (needs keep-emiljs)
+export const ensureEmiljsFileRegexMatches = (
+  file: string,
+  matchesUntyped: (string | RegExp)[],
+  noMatchesUntyped?: (string | RegExp)[],
+  inputFile?: string,
+): Verify => {
+  return(verifyKeepFileRegexMatches("html", "md", "-emiljs")(file, matchesUntyped, noMatchesUntyped, inputFile));
 };
 
 // FIXME: do this properly without resorting on file having keep-tex

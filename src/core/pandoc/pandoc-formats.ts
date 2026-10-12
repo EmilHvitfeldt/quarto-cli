@@ -184,7 +184,7 @@ function ensureFormats() {
 
   // Custom build in aliases
   if (!FormatAliases.custom) {
-    FormatAliases.custom = ["dashboard", "email"];
+    FormatAliases.custom = ["dashboard", "email", "emiljs"];
   }
 }
 

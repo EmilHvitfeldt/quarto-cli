@@ -113,6 +113,13 @@ function quarto.format.is_epub_output() end
 
 
 --[[
+Return `true` if format is `emiljs`.
+]]
+---@return boolean
+function quarto.format.is_emiljs_output() end
+
+
+--[[
 Return `true` if format is `gfm`.
 ]]
 ---@return string

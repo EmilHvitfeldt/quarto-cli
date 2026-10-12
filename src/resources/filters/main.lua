@@ -90,6 +90,7 @@ import("./quarto-post/code.lua")
 import("./quarto-post/html.lua")
 import("./quarto-post/dashboard.lua")
 import("./quarto-post/email.lua")
+import("./quarto-post/emiljs.lua")
 import("./quarto-post/pptx.lua")
 import("./quarto-post/landscape.lua")
 
@@ -564,6 +565,10 @@ local quarto_post_filters = {
   },
   { name = "post-render-hugo-fixups",
     filter = render_hugo_fixups(),
+    traverser = 'jog',
+  },
+  { name = "post-render-emiljs-fixups",
+    filter = render_emiljs_fixups(),
     traverser = 'jog',
   },
   { name = "post-render-email",

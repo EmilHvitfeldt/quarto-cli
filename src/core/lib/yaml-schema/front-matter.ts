@@ -49,6 +49,7 @@ export async function makeFrontMatterFormatSchema(nonStrict = false) {
     "hugo", // tolerage for compatibility: initially built-in, now referrred to as 'hugo-md'
     "dashboard", // our built in format for dashboards
     "email", // for the HTML email format (used with Posit Connect)
+    "emiljs", // our built in format for emil.js slide decks
   )
     .map(
       (format) => {

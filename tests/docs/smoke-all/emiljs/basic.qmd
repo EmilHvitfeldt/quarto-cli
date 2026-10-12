@@ -1,0 +1,32 @@
+---
+title: "Basic emil.js deck"
+author: "Not emitted"
+format:
+  emiljs:
+    theme: dark
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      ensureHtmlElements:
+        - ['section.slide#s1', 'section.slide#s2', 'section.slide#s3']
+        - ['section.slide#s4']
+      ensureEmiljsFileRegexMatches:
+        - ['^---\ntitle: Basic emil.js deck\ntheme: dark\n---\n\n# First', '\n\*\*\*\n']
+        - ['author', 'Not emitted']
+---
+
+# First
+
+Text on the first slide.
+
+***
+
+## Second
+
+- a
+- b
+
+***
+
+## Third

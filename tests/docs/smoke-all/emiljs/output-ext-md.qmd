@@ -1,0 +1,18 @@
+---
+title: "Stop after Pandoc"
+format:
+  emiljs:
+    output-ext: md
+_quarto:
+  tests:
+    emiljs:
+      ensureFileRegexMatches:
+        - ['^---\ntitle: Stop after Pandoc\n---\n\nOne\n\n\*\*\*\n\nTwo\n']
+        - ['<section', '<html']
+---
+
+One
+
+***
+
+Two

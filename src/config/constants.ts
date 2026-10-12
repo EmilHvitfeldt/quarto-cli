@@ -86,6 +86,7 @@ export const kShortcodes = "shortcodes";
 export const kKeepMd = "keep-md";
 export const kKeepTex = "keep-tex";
 export const kKeepTyp = "keep-typ";
+export const kKeepEmiljs = "keep-emiljs";
 export const kPdfStandard = "pdf-standard";
 export const kPdfStandardApplied = "pdf-standard-applied";
 
@@ -196,6 +197,7 @@ export const kExecuteDefaultsKeys = [
 export const kRenderDefaultsKeys = [
   kKeepTex,
   kKeepTyp,
+  kKeepEmiljs,
   kKeepSource,
   kKeepHidden,
   kRemoveHidden,

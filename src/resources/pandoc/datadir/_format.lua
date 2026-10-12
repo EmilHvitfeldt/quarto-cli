@@ -227,6 +227,10 @@ local function _main()
     return param("format-identifier", {})["base-format"] == "dashboard"
   end
 
+  local function isEmiljsOutput()
+    return param("format-identifier", {})["base-format"] == "emiljs"
+  end
+
   local function isGithubMarkdownOutput()
     return param("format-identifier", {})["base-format"] == "gfm"
   end
@@ -273,6 +277,8 @@ local function _main()
         return isEmailOutput()
       elseif to == "dashboard" then
         return isDashboardOutput()
+      elseif to == "emiljs" then
+        return isEmiljsOutput()
       elseif to == "gfm" then
         return isGithubMarkdownOutput()
       elseif to == "hugo-md" or to == 'hugo' then
@@ -353,6 +359,8 @@ local function _main()
     is_dashboard_output = isDashboardOutput,
     isEmailOutput = isEmailOutput,
     is_email_output = isEmailOutput,
+    isEmiljsOutput = isEmiljsOutput,
+    is_emiljs_output = isEmiljsOutput,
     parse_format = parse_format
   }
 end

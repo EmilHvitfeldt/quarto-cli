@@ -178,10 +178,16 @@ export function isMarkdownOutput(
     "commonmark",
     "commonmark_x",
     "markua",
+    // emil.js: Pandoc writes Markdown (commonmark_x), which emil.js then builds
+    "emiljs",
   ],
 ) {
   const to = format.identifier[kBaseFormat] || "html";
   return flavors.includes(to) || isIpynbOutput(format.pandoc);
+}
+
+export function isEmiljsOutput(format: Format) {
+  return format.identifier[kBaseFormat] === "emiljs";
 }
 
 export function isHtmlCompatible(format: Format) {

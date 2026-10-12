@@ -54,6 +54,7 @@ async function formats() {
     "epub",
     "dashboard",
     "email",
+    "emiljs",
   ];
 
   const excludedFormats = [

@@ -1,0 +1,105 @@
+- name: keep-emiljs
+  tags:
+    formats: [emiljs]
+  schema: boolean
+  default: false
+  description:
+    short: "Keep the intermediate emil.js Markdown file."
+    long: |
+      Keep the intermediate Markdown file (`<stem>-emiljs.md`) that Pandoc
+      writes and emil.js then builds into the final HTML.
+      Use `output-ext: md` to stop after Pandoc and deliver only that file.
+
+- name: theme
+  tags:
+    formats: [emiljs]
+  schema:
+    anyOf:
+      - string
+      - arrayOf: string
+  description:
+    short: "The emil.js theme: a bundled name or a local `.css` file, or a list of them (last wins)."
+
+- name: aspect
+  tags:
+    formats: [emiljs]
+  schema: number
+  description:
+    short: "Canvas aspect ratio of the slides (width / height)."
+
+- name: dir
+  tags:
+    formats: [emiljs]
+  schema:
+    enum: [ltr, rtl]
+  description:
+    short: "Base text direction of the deck."
+
+- name: writing-mode
+  tags:
+    formats: [emiljs]
+  schema:
+    enum: [horizontal-tb, vertical-rl, vertical-lr]
+  description:
+    short: "Base CSS writing mode of the deck."
+
+- name: autoplay
+  tags:
+    formats: [emiljs]
+  schema:
+    anyOf:
+      - boolean
+      - number
+  description:
+    short: "Auto-advance the slides: `true`, or a number of seconds per slide."
+
+- name: style
+  tags:
+    formats: [emiljs]
+  schema: object
+  description:
+    short: "Document-wide emil.js style tokens."
+
+- name: fonts
+  tags:
+    formats: [emiljs]
+  schema:
+    arrayOf: object
+  description:
+    short: "Self-hosted `.woff2` font families for the deck."
+
+- name: defaults
+  tags:
+    formats: [emiljs]
+  schema: object
+  description:
+    short: "Per-slide options applied to every slide unless a slide overrides them."
+
+- name: vocabulary
+  tags:
+    formats: [emiljs]
+  schema: boolean
+  default: true
+  description:
+    short: "Include emil.js's bundled class vocabulary (location grid, image-fit helpers)."
+
+- name: footer
+  tags:
+    formats: [emiljs]
+  schema: string
+  description:
+    short: "Footer text on every slide (shorthand for `defaults: footer:`)."
+
+- name: logo
+  tags:
+    formats: [emiljs]
+  schema: string
+  description:
+    short: "Logo image on every slide (shorthand for `defaults: logo:`)."
+
+- name: slide-number
+  tags:
+    formats: [emiljs]
+  schema: boolean
+  description:
+    short: "Show slide numbers (shorthand for `defaults: slide-number:`)."

@@ -11,3 +11,4 @@ import "./reveal/format-reveal.ts";
 import "./asciidoc/format-asciidoc.ts";
 import "./dashboard/format-dashboard.ts";
 import "./email/format-email.ts";
+import "./emiljs/format-emiljs.ts";

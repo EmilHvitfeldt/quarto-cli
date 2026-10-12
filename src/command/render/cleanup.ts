@@ -19,7 +19,12 @@ import { figuresDir, inputFilesDir } from "../../core/render.ts";
 
 import { Format } from "../../config/types.ts";
 import { isHtmlFileOutput, isLatexOutput } from "../../config/format.ts";
-import { kKeepMd, kKeepTex, kKeepTyp } from "../../config/constants.ts";
+import {
+  kKeepEmiljs,
+  kKeepMd,
+  kKeepTex,
+  kKeepTyp,
+} from "../../config/constants.ts";
 
 import { filesDirLibDir, filesDirMediabagDir } from "./render-paths.ts";
 import { ProjectContext } from "../../project/types.ts";
@@ -53,6 +58,7 @@ export function renderCleanup(
     !format.execute[kKeepMd] &&
     !format.render[kKeepTex] &&
     !format.render[kKeepTyp] &&
+    !format.render[kKeepEmiljs] &&
     supporting
   ) {
     // ammend supporting with lib dir (if it exists) for html formats

@@ -47,6 +47,10 @@ import {
   typstPdfOutputRecipe,
   useTypstPdfOutputRecipe,
 } from "./output-typst.ts";
+import {
+  emiljsOutputRecipe,
+  useEmiljsOutputRecipe,
+} from "./output-emiljs.ts";
 
 // render commands imply the --output argument for pandoc and the final
 // output file to create for the user, but we need a 'recipe' to go from
@@ -85,6 +89,8 @@ export function outputRecipe(
     return quartoLatexmkOutputRecipe(input, output, options, format);
   } else if (useContextPdfOutputRecipe(format, options.flags)) {
     return contextPdfOutputRecipe(input, output, options, format);
+  } else if (useEmiljsOutputRecipe(format)) {
+    return emiljsOutputRecipe(input, output, options, format);
   } else if (useTypstPdfOutputRecipe(format)) {
     return typstPdfOutputRecipe(
       input,

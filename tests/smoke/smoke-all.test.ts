@@ -32,6 +32,7 @@ import {
   ensureOdtXpath,
   ensurePptxRegexMatches,
   ensureTypstFileRegexMatches,
+  ensureEmiljsFileRegexMatches,
   ensureSnapshotMatches,
   fileExists,
   fileNotExists,
@@ -210,6 +211,7 @@ function resolveTestSpecs(
     ensureIpynbCellMatches,
     ensureLatexFileRegexMatches,
     ensureTypstFileRegexMatches,
+    ensureEmiljsFileRegexMatches,
     ensureDocxRegexMatches,
     ensureDocxXpath,
     ensureOdtXpath,
@@ -331,6 +333,10 @@ function resolveTestSpecs(
               if (!metadata.format?.pdf?.['keep-tex'] && !metadata['keep-tex']) {
                 throw new Error(`Using ensureLatexFileRegexMatches requires setting 'keep-tex: true' in file ${input}`);
               }
+            } else if (key === "ensureEmiljsFileRegexMatches") {
+              if (!metadata.format?.emiljs?.['keep-emiljs'] && !metadata['keep-emiljs']) {
+                throw new Error(`Using ensureEmiljsFileRegexMatches requires setting 'keep-emiljs: true' in file ${input}`);
+              }
             }
 
             // keep-typ/keep-tex files are alongside source, so pass input path
@@ -340,7 +346,9 @@ function resolveTestSpecs(
               !(metadata.format?.typst?.['output-ext'] === 'typ' || metadata['output-ext'] === 'typ');
             const usesKeepTex = key === "ensureLatexFileRegexMatches" &&
               (metadata.format?.pdf?.['keep-tex'] || metadata['keep-tex']);
-            const needsInputPath = usesKeepTyp || usesKeepTex;
+            // keep-emiljs files are alongside source too
+            const usesKeepEmiljs = key === "ensureEmiljsFileRegexMatches";
+            const needsInputPath = usesKeepTyp || usesKeepTex || usesKeepEmiljs;
 
             // For book projects, use intermediateTypstPath (index.typ at project root)
             // instead of the output path (which would be _book/BookTitle.typ)

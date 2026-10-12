@@ -41,6 +41,7 @@ import {
   kIpynbFilters,
   kIpynbShellInteractivity,
   kKeepHidden,
+  kKeepEmiljs,
   kKeepIpynb,
   kKeepMd,
   kKeepSource,
@@ -229,6 +230,7 @@ function defaultFormat(displayName: string): Format {
     render: {
       [kKeepTex]: false,
       [kKeepTyp]: false,
+      [kKeepEmiljs]: false,
       [kKeepSource]: false,
       [kKeepHidden]: false,
       [kPreferHtml]: false,

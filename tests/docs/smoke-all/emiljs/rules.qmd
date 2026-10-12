@@ -1,0 +1,37 @@
+---
+title: "Slide breaks"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      ensureHtmlElements:
+        - ['section.slide#s4']
+        - ['section.slide#s5']
+      ensureEmiljsFileRegexMatches:
+        # every spelling of a rule becomes `***`; leading, trailing and doubled
+        # rules do not make empty slides, and no long dashed line is left
+        - ['^---\ntitle: Slide breaks\n---\n\nOne\n\n\*\*\*\n\nTwo\n\n\*\*\*\n\nThree\n\n\*\*\*\n\nFour\n']
+        - ['-{10,}']
+---
+
+***
+
+One
+
+* * *
+
+Two
+
+___
+
+***
+
+Three
+
+---
+
+Four
+
+***

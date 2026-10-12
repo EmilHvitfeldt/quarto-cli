@@ -106,6 +106,7 @@ import {
   kIpynbProduceSourceNotebook,
   kIpynbShellInteractivity,
   kKatex,
+  kKeepEmiljs,
   kKeepHidden,
   kKeepIpynb,
   kKeepMd,
@@ -473,6 +474,7 @@ export interface LightDarkBrand {
 export interface FormatRender {
   [kKeepTex]?: boolean;
   [kKeepTyp]?: boolean;
+  [kKeepEmiljs]?: boolean;
   [kKeepSource]?: boolean;
   [kKeepHidden]?: boolean;
   [kPreferHtml]?: boolean;
