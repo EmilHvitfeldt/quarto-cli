@@ -263,11 +263,39 @@ local function fix_figure(fig)
   return out
 end
 
+-- Raw HTML (an htmlwidget, highlighted code, MathML): written as a `{=html}`
+-- fence, which emil.js passes through verbatim. commonmark_x would print the
+-- block as is, and a blank line inside it ends it as an HTML block, or turns
+-- into `&#10;`. The fence is longer than any run of backticks in the content.
+local function fix_raw_block(block)
+  if block.format ~= "html" then
+    return nil
+  end
+  local longest = 2
+  for run in block.text:gmatch("`+") do
+    longest = math.max(longest, #run)
+  end
+  local fence = string.rep("`", longest + 1)
+  local text = block.text:gsub("\n+$", "")
+  return pandoc.RawBlock("markdown", fence .. "{=html}\n" .. text .. "\n" .. fence)
+end
+
+-- Inline raw HTML needs no fence: commonmark_x would wrap it as
+-- `` `<b>`{=html} ``, which emil.js does not read, so write it verbatim.
+local function fix_raw_inline(inline)
+  if inline.format ~= "html" then
+    return nil
+  end
+  return pandoc.RawInline("markdown", inline.text)
+end
+
 function render_emiljs_fixups()
   if not _quarto.format.isEmiljsOutput() then
     return {}
   end
   return {
+    RawBlock = fix_raw_block,
+    RawInline = fix_raw_inline,
     Image = fix_image,
     Div = fix_div,
     CodeBlock = fix_code_block,

@@ -1,0 +1,34 @@
+---
+title: "Raw HTML"
+format:
+  emiljs:
+    keep-emiljs: true
+jupyter: python3
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        # the blank lines inside the block did not end it or turn into &#10;
+        - ['div.w b', 'span.inline', 'div.ticks code']
+      ensureEmiljsFileRegexMatches:
+        # a block becomes a `{=html}` fence; one holding backticks gets a longer fence
+        - ['\n```\{=html\}\n<div class="w">\n\n<b>blank lines</b>\n\n</div>\n```\n', '\n````\{=html\}\n<div class="ticks"><code>```</code></div>\n````\n', 'with <span class="inline">inline html</span>']
+        # no entity-encoded newlines, and no inline `<tag>`{=html} wrapper
+        - ['&#10;', '>`\{=html\}']
+---
+
+Before.
+
+```{python}
+#| echo: false
+from IPython.display import HTML
+HTML('<div class="w">\n\n<b>blank lines</b>\n\n</div>')
+```
+
+```{python}
+#| echo: false
+HTML('<div class="ticks"><code>```</code></div>')
+```
+
+After, with <span class="inline">inline html</span>.

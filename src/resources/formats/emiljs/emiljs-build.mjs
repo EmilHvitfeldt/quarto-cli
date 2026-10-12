@@ -26638,6 +26638,16 @@ md.use(container_plugin, "div", {
   validate: () => true,
   render: renderContainerDiv
 });
+md.core.ruler.after("block", "emiljs_raw_html_fence", (state) => {
+  for (const token of state.tokens) {
+    if (token.type === "fence" && token.info.trim() === "{=html}") {
+      token.type = "html_block";
+      token.tag = "";
+      token.info = "";
+      token.markup = "";
+    }
+  }
+});
 md.renderer.renderInlineAsText = function(tokens, options, env) {
   let result = "";
   for (const token of tokens) {
