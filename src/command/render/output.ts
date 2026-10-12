@@ -47,10 +47,7 @@ import {
   typstPdfOutputRecipe,
   useTypstPdfOutputRecipe,
 } from "./output-typst.ts";
-import {
-  emiljsOutputRecipe,
-  useEmiljsOutputRecipe,
-} from "./output-emiljs.ts";
+import { emiljsOutputRecipe, useEmiljsOutputRecipe } from "./output-emiljs.ts";
 
 // render commands imply the --output argument for pandoc and the final
 // output file to create for the user, but we need a 'recipe' to go from

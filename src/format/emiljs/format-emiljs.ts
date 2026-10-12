@@ -120,7 +120,9 @@ export function emiljsFrontMatter(format: Format): string | undefined {
   if (Object.keys(out).length === 0) {
     return undefined;
   }
-  return `---\n${stringifyYaml(out, { indent: 2, lineWidth: -1 }).trimEnd()}\n---\n\n`;
+  return `---\n${
+    stringifyYaml(out, { indent: 2, lineWidth: -1 }).trimEnd()
+  }\n---\n\n`;
 }
 
 function prependFrontMatter(frontMatter: string) {
