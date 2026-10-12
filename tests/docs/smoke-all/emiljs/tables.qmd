@@ -1,0 +1,31 @@
+---
+title: "Tables"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        - ['table th', 'p.caption']
+      ensureEmiljsFileRegexMatches:
+        # a labeled table's caption leads the table, with the number as text;
+        # an unlabeled one is not numbered
+        - ['Table.1: A labeled table\. \{\.caption\}\n\n\| a ', 'See Table.1', '\nAnother\. \{\.caption\}\n']
+        - ['quarto-xref', '\]\(#tbl-x\)']
+---
+
+| a | b |
+|:--|--:|
+| 1 | 2 |
+
+: A labeled table. {#tbl-x}
+
+See @tbl-x.
+
+| c |
+|---|
+| 3 |
+
+: Another.

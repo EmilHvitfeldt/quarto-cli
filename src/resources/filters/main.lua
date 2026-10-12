@@ -200,6 +200,7 @@ import("./layout/confluence.lua")
 import("./layout/ipynb.lua")
 import("./layout/typst.lua")
 import("./layout/hugo.lua")
+import("./customnodes/emiljs.lua")
 
 import("./quarto-init/metainit.lua")
 

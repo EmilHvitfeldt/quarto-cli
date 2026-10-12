@@ -1,0 +1,23 @@
+---
+title: "Embedded resources"
+format:
+  emiljs:
+    embed-resources: true
+jupyter: python3
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        # the figure is inlined as a data URI instead of staying a file
+        - ['figure img[src^="data:image/png;base64,"]']
+        - ['img[src*="embed-resources_files"]']
+---
+
+```{python}
+#| label: fig-inline
+#| fig-cap: "Inlined."
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3])
+plt.show()
+```

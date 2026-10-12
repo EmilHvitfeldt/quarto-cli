@@ -1,0 +1,35 @@
+---
+title: "Per-slide options"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      ensureHtmlElements:
+        - ['section.slide#s1[data-variant="title"]', 'section.slide#s2']
+        - ['section.slide#s2[data-variant]']
+      ensureEmiljsFileRegexMatches:
+        # the options block becomes the slide's own frontmatter, ahead of its content
+        - ['\n---\nvariant: title\n---\n\n# First', '\n\*\*\*\n\nSecond']
+        # one that is not the first block of its slide is dropped, not emitted
+        - ['not-a-key']
+      printsMessage:
+        level: INFO
+        regex: 'must be the first block of its slide'
+---
+
+```{.yaml .slide}
+variant: title
+```
+
+# First
+
+***
+
+Second
+
+```{.yaml .slide}
+not-a-key: 1
+```

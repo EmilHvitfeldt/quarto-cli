@@ -1,0 +1,32 @@
+---
+title: "Figures"
+format:
+  emiljs:
+    keep-emiljs: true
+jupyter: python3
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        - ['figure img[alt="Box plots of bill length."]', 'figure figcaption']
+      ensureHtmlElementContents:
+        - selectors: ['figure figcaption']
+          # Quarto puts a non-breaking space between "Figure" and the number
+          matches: ['Figure.1: Bill length by species\.']
+      ensureEmiljsFileRegexMatches:
+        - ['!\[Box plots of bill length\.\]\(.*fig-bills-output-1\.png\)\n\nFigure.1: Bill length by species\. \{\.caption\}', 'As Figure.1 shows']
+        # no Quarto internals leak: no link anchors, fig-alt attribute or cell classes
+        - ['fig-alt', 'quarto-xref', 'cell-code', '\]\(#fig-bills\)']
+---
+
+```{python}
+#| label: fig-bills
+#| fig-cap: "Bill length by species."
+#| fig-alt: "Box plots of bill length."
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3])
+plt.show()
+```
+
+As @fig-bills shows, Gentoo bills are shorter.

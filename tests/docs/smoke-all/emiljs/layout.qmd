@@ -1,0 +1,36 @@
+---
+title: "Layout panels"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      printsMessage:
+        # only the subfigure panel is unsupported; the plain one becomes columns
+        level: INFO
+        regex: 'subfigures .* are not supported yet; the subfigures are stacked'
+      ensureHtmlElements:
+        - ['div.columns > div.column', 'figure']
+      ensureEmiljsFileRegexMatches:
+        # a plain panel maps onto emil.js columns, widths as bare numbers (A13)
+        - ['::: \{\.column width="50(\.0)?"\}', '\nLeft \{\.caption\}\n', '\n\(a\).First \{\.caption\}\n', 'Figure.1: Panel caption\. \{\.caption\}']
+        - ['width="50(\.0)?%"', 'ref-parent', 'layout']
+---
+
+::: {layout-ncol=2}
+![Left](pic.svg)
+
+![Right](pic.svg)
+:::
+
+***
+
+::: {#fig-panel layout-ncol=2}
+![First](pic.svg){#fig-a}
+
+![Second](pic.svg){#fig-b}
+
+Panel caption.
+:::

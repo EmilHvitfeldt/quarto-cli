@@ -1,0 +1,24 @@
+---
+title: "Invalid per-slide options"
+format: emiljs
+_quarto:
+  tests:
+    emiljs:
+      # emil.js validates the block; the failure names this file and the slide
+      # a failed build keeps the intermediate Markdown to debug with
+      postRenderCleanup: ['${input_stem}-emiljs.md']
+      shouldError: default
+      printsMessage:
+        level: ERROR
+        regex: 'emil\.js could not build slide-config-invalid\.qmd: Invalid frontmatter on slide 2'
+---
+
+One
+
+***
+
+```{.yaml .slide}
+not-a-key: 1
+```
+
+Two

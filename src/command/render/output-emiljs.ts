@@ -60,6 +60,7 @@ export function emiljsOutputRecipe(
   finalOutput: string,
   options: RenderOptions,
   format: Format,
+  source: string,
 ): OutputRecipe {
   // Pandoc writes an intermediate Markdown file (emil.js's dialect), which we
   // then build into the final .html. `-emiljs.md` follows Quarto's `-<format>.md`
@@ -95,7 +96,7 @@ export function emiljsOutputRecipe(
       const detail = e instanceof Error ? e.message : String(e);
       throw new ErrorEx(
         "Error",
-        `emil.js could not build ${basename(input)}: ${detail}`,
+        `emil.js could not build ${basename(source)}: ${detail}`,
         false,
         false,
       );

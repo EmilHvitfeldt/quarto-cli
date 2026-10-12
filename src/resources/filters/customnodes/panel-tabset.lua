@@ -263,6 +263,9 @@ _quarto.ast.add_handler({
       return render_tabset(node.attr, tabs, tabbyTabs())
     elseif _quarto.format.isLatexOutput() or _quarto.format.isDocxOutput() or _quarto.format.isEpubOutput() or _quarto.format.isJatsOutput() then
       return pandoc.Div(render_tabset_with_l4_headings(tabs), node.attr)
+    elseif _quarto.format.isEmiljsOutput() then
+      emiljs_warn_once("tabset", "tabsets are not supported yet; each tab is shown as a stacked section.")
+      return pandoc.Div(render_tabset_with_l4_headings(tabs), node.attr)
     else
       print("Warning: couldn't recognize format, using default tabset rendering")
       return pandoc.Div(render_tabset_with_l4_headings(tabs), node.attr)

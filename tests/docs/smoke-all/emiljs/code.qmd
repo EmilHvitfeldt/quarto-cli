@@ -1,0 +1,24 @@
+---
+title: "Code"
+format:
+  emiljs:
+    keep-emiljs: true
+jupyter: python3
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureEmiljsFileRegexMatches:
+        # only the language is kept: no `{.python .cell-code}`, `sourceCode` or filename
+        - ['\n``` python\nprint\("hello"\)\n```\n', '\n``` python\n1 \+ 1\n```\n\n    2\n']
+        - ['cell-code', 'sourceCode', '```\s*\{']
+---
+
+```python
+print("hello")
+```
+
+```{python}
+#| echo: true
+1 + 1
+```

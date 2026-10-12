@@ -1,0 +1,40 @@
+---
+title: "Columns and callouts"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        - ['div.columns > div.column', 'div.callout-note', 'div.callout-tip']
+        - ['div.callout > div.callout-body', 'div.callout-note.callout-style-default']
+      ensureHtmlElementContents:
+        - selectors: ['div.callout-note p.callout-title']
+          matches: ['Sample size']
+        # an untitled callout is titled with its type, as in other formats
+        - selectors: ['div.callout-tip p.callout-title']
+          matches: ['Tip']
+      ensureEmiljsFileRegexMatches:
+        # a percentage width becomes the bare number emil.js expects (A13)
+        - ['::: \{\.column width="60"\}', '::: \{\.column width="40"\}', 'Sample size \{\.callout-title\}', '::: \{\.callout-tip\}']
+        - ['width="60%"', '::: \{\}', '\{\.callout-note\}\n>']
+---
+
+:::: {.columns}
+::: {.column width="60%"}
+- Chinstrap
+- Gentoo
+:::
+::: {.column width="40%"}
+::: {.callout-note}
+## Sample size
+n = 344
+:::
+
+::: {.callout-tip}
+Be brief.
+:::
+:::
+::::

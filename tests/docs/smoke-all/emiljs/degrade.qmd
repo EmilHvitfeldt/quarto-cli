@@ -1,0 +1,63 @@
+---
+title: "Unsupported constructs"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      # each unsupported construct degrades with a single warning and never leaks
+      noErrors: []
+      printsMessage:
+        - level: INFO
+          regex: 'speaker notes are not supported'
+        - level: INFO
+          regex: 'footnotes are not supported'
+        - level: INFO
+          regex: 'math is not supported'
+        - level: INFO
+          regex: 'tabsets are not supported'
+        - level: INFO
+          regex: 'callout options `appearance`, `icon` and `collapse` are ignored'
+        - level: INFO
+          regex: 'code line numbers are not supported'
+      ensureHtmlElements:
+        - ['h2']
+        - ['div.panel-tabset', 'aside']
+      ensureHtmlElementContents:
+        - selectors: ['section.slide']
+          matches: ['Tab A', 'Tab B']
+          noMatches: ['Secret', 'Footnote text']
+      ensureEmiljsFileRegexMatches:
+        - ['A footnote\.\n', 'Inline math \$x\^2\$']
+        - ['Secret', '\[\^1\]', 'Footnote text', 'panel-tabset', '\.notes']
+---
+
+Text.
+
+::: {.notes}
+Secret speaker notes.
+:::
+
+A footnote.[^1]
+
+[^1]: Footnote text.
+
+Inline math $x^2$.
+
+::: {.panel-tabset}
+## Tab A
+a
+
+## Tab B
+b
+:::
+
+::: {.callout-warning appearance="simple" collapse="true"}
+## Careful
+Mind the gap.
+:::
+
+```{.python code-line-numbers="true"}
+print(1)
+```
