@@ -14789,6 +14789,192 @@ try {
             }
           }
         ],
+        "schema/document-emiljs.yml": [
+          {
+            name: "keep-emiljs",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "boolean",
+            default: false,
+            description: {
+              short: "Keep the intermediate emil.js Markdown file.",
+              long: "Keep the intermediate Markdown file (`<stem>-emiljs.md`) that Pandoc\nwrites and emil.js then builds into the final HTML.\nUse `output-ext: md` to stop after Pandoc and deliver only that file.\n"
+            }
+          },
+          {
+            name: "theme",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              anyOf: [
+                "string",
+                {
+                  arrayOf: "string"
+                }
+              ]
+            },
+            description: {
+              short: "The emil.js theme: a bundled name or a local `.css` file, or a list of them (last wins)."
+            }
+          },
+          {
+            name: "aspect",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "number",
+            description: {
+              short: "Canvas aspect ratio of the slides (width / height)."
+            }
+          },
+          {
+            name: "dir",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              enum: [
+                "ltr",
+                "rtl"
+              ]
+            },
+            description: {
+              short: "Base text direction of the deck."
+            }
+          },
+          {
+            name: "writing-mode",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              enum: [
+                "horizontal-tb",
+                "vertical-rl",
+                "vertical-lr"
+              ]
+            },
+            description: {
+              short: "Base CSS writing mode of the deck."
+            }
+          },
+          {
+            name: "autoplay",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              anyOf: [
+                "boolean",
+                "number"
+              ]
+            },
+            description: {
+              short: "Auto-advance the slides: `true`, or a number of seconds per slide."
+            }
+          },
+          {
+            name: "style",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "object",
+            description: {
+              short: "Document-wide emil.js style tokens."
+            }
+          },
+          {
+            name: "fonts",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              arrayOf: "object"
+            },
+            description: {
+              short: "Self-hosted `.woff2` font families for the deck."
+            }
+          },
+          {
+            name: "defaults",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "object",
+            description: {
+              short: "Per-slide options applied to every slide unless a slide overrides them."
+            }
+          },
+          {
+            name: "vocabulary",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "boolean",
+            default: true,
+            description: {
+              short: "Include emil.js's bundled class vocabulary (location grid, image-fit helpers)."
+            }
+          },
+          {
+            name: "footer",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "string",
+            description: {
+              short: "Footer text on every slide (shorthand for `defaults: footer:`)."
+            }
+          },
+          {
+            name: "logo",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "string",
+            description: {
+              short: "Logo image on every slide (shorthand for `defaults: logo:`)."
+            }
+          },
+          {
+            name: "slide-number",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "boolean",
+            description: {
+              short: "Show slide numbers (shorthand for `defaults: slide-number:`)."
+            }
+          }
+        ],
         "schema/document-epub.yml": [
           {
             name: "identifier",
@@ -23767,6 +23953,58 @@ try {
             short: "Email format version",
             long: "Specifies which email format version to use."
           },
+          {
+            short: "Keep the intermediate emil.js Markdown file.",
+            long: "Keep the intermediate Markdown file\n(<code>&lt;stem&gt;-emiljs.md</code>) that Pandoc writes and emil.js\nthen builds into the final HTML. Use <code>output-ext: md</code> to stop\nafter Pandoc and deliver only that file."
+          },
+          {
+            short: "The emil.js theme: a bundled name or a local <code>.css</code> file,\nor a list of them (last wins).",
+            long: ""
+          },
+          {
+            short: "Canvas aspect ratio of the slides (width / height).",
+            long: ""
+          },
+          {
+            short: "Base text direction of the deck.",
+            long: ""
+          },
+          {
+            short: "Base CSS writing mode of the deck.",
+            long: ""
+          },
+          {
+            short: "Auto-advance the slides: <code>true</code>, or a number of seconds\nper slide.",
+            long: ""
+          },
+          {
+            short: "Document-wide emil.js style tokens.",
+            long: ""
+          },
+          {
+            short: "Self-hosted <code>.woff2</code> font families for the deck.",
+            long: ""
+          },
+          {
+            short: "Per-slide options applied to every slide unless a slide overrides\nthem.",
+            long: ""
+          },
+          {
+            short: "Include emil.js\u2019s bundled class vocabulary (location grid, image-fit\nhelpers).",
+            long: ""
+          },
+          {
+            short: "Footer text on every slide (shorthand for\n<code>defaults: footer:</code>).",
+            long: ""
+          },
+          {
+            short: "Logo image on every slide (shorthand for\n<code>defaults: logo:</code>).",
+            long: ""
+          },
+          {
+            short: "Show slide numbers (shorthand for\n<code>defaults: slide-number:</code>).",
+            long: ""
+          },
           "The identifier for this publication.",
           "The identifier value.",
           "The identifier schema (e.g.&nbsp;<code>DOI</code>, <code>ISBN-A</code>,\netc.)",
@@ -25728,12 +25966,12 @@ try {
           mermaid: "%%"
         },
         "handlers/mermaid/schema.yml": {
-          _internalId: 218381,
+          _internalId: 224635,
           type: "object",
           description: "be an object",
           properties: {
             "mermaid-format": {
-              _internalId: 218373,
+              _internalId: 224627,
               type: "enum",
               enum: [
                 "png",
@@ -25749,7 +25987,7 @@ try {
               exhaustiveCompletions: true
             },
             theme: {
-              _internalId: 218380,
+              _internalId: 224634,
               type: "anyOf",
               anyOf: [
                 {
@@ -35247,8 +35485,10 @@ ${tidyverseInfo(
       // tolerage for compatibility: initially built-in, now referrred to as 'hugo-md'
       "dashboard",
       // our built in format for dashboards
-      "email"
+      "email",
       // for the HTML email format (used with Posit Connect)
+      "emiljs"
+      // our built in format for emil.js slide decks
     ).map(
       (format) => {
         const {
