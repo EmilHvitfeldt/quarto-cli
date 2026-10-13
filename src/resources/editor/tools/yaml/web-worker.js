@@ -14973,6 +14973,38 @@ try {
             description: {
               short: "Show slide numbers (shorthand for `defaults: slide-number:`)."
             }
+          },
+          {
+            name: "shiki",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: "boolean",
+            default: false,
+            description: {
+              short: "Highlight code blocks with Shiki.",
+              long: "Highlight fenced code blocks with Shiki, the same highlighter\n`emiljs build` uses, so code looks the same in both. The build carries\na fixed set of languages (bash, css, diff, html, javascript, json,\nmarkdown, python, r, sql, toml, typescript, xml, yaml); another\nlanguage renders as a plain block, with a warning.\n"
+            }
+          },
+          {
+            name: "shiki-style",
+            tags: {
+              formats: [
+                "emiljs"
+              ]
+            },
+            schema: {
+              enum: [
+                "github-light",
+                "github-dark"
+              ]
+            },
+            default: "github-light",
+            description: {
+              short: "The Shiki color theme for code blocks."
+            }
           }
         ],
         "schema/document-epub.yml": [
@@ -24005,6 +24037,14 @@ try {
             short: "Show slide numbers (shorthand for\n<code>defaults: slide-number:</code>).",
             long: ""
           },
+          {
+            short: "Highlight code blocks with Shiki.",
+            long: "Highlight fenced code blocks with Shiki, the same highlighter\n<code>emiljs build</code> uses, so code looks the same in both. The\nbuild carries a fixed set of languages (bash, css, diff, html,\njavascript, json, markdown, python, r, sql, toml, typescript, xml,\nyaml); another language renders as a plain block, with a warning."
+          },
+          {
+            short: "The Shiki color theme for code blocks.",
+            long: ""
+          },
           "The identifier for this publication.",
           "The identifier value.",
           "The identifier schema (e.g.&nbsp;<code>DOI</code>, <code>ISBN-A</code>,\netc.)",
@@ -25966,12 +26006,12 @@ try {
           mermaid: "%%"
         },
         "handlers/mermaid/schema.yml": {
-          _internalId: 224635,
+          _internalId: 225044,
           type: "object",
           description: "be an object",
           properties: {
             "mermaid-format": {
-              _internalId: 224627,
+              _internalId: 225036,
               type: "enum",
               enum: [
                 "png",
@@ -25987,7 +26027,7 @@ try {
               exhaustiveCompletions: true
             },
             theme: {
-              _internalId: 224634,
+              _internalId: 225043,
               type: "anyOf",
               anyOf: [
                 {

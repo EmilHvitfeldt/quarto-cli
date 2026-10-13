@@ -77,6 +77,25 @@ unitTest(
 );
 
 unitTest(
+  "emiljs front matter - the shiki highlighting keys are emitted",
+  // deno-lint-ignore require-await
+  async () => {
+    const format = createMockFormat();
+    format.metadata = {
+      shiki: true,
+      "shiki-style": "github-dark",
+      // Quarto's own highlighting keys are not forwarded (Pandoc's styles)
+      "syntax-highlighting": "a11y",
+      "highlight-style": "arrow",
+    };
+    assertEquals(
+      emiljsFrontMatter(format),
+      "---\nshiki: true\nshiki-style: github-dark\n---\n\n",
+    );
+  },
+);
+
+unitTest(
   "emiljs front matter - none is written when no supported key is set",
   // deno-lint-ignore require-await
   async () => {

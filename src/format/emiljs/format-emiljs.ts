@@ -44,6 +44,8 @@ const kEmiljsDocumentKeys = [
   "fonts",
   "defaults",
   "vocabulary",
+  "shiki",
+  "shiki-style",
 ];
 
 // Reveal-style convenience keys, mapped into emil.js `defaults:` unless the
