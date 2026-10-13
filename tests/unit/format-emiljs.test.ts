@@ -84,13 +84,15 @@ unitTest(
     format.metadata = {
       shiki: true,
       "shiki-style": "github-dark",
+      "shiki-langs": ["grammars/zig.json", { path: "g.json", name: "g" }],
+      "shiki-aliases": { rscript: "r" },
       // Quarto's own highlighting keys are not forwarded (Pandoc's styles)
       "syntax-highlighting": "a11y",
       "highlight-style": "arrow",
     };
     assertEquals(
       emiljsFrontMatter(format),
-      "---\nshiki: true\nshiki-style: github-dark\n---\n\n",
+      "---\nshiki: true\nshiki-style: github-dark\nshiki-langs:\n  - grammars/zig.json\n  - path: g.json\n    name: g\nshiki-aliases:\n  rscript: r\n---\n\n",
     );
   },
 );

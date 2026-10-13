@@ -1,0 +1,37 @@
+---
+title: "Shiki languages"
+format:
+  emiljs:
+    shiki: true
+    shiki-langs:
+      - grammars/frob.json
+      - grammars/missing.json
+    shiki-aliases:
+      rscript: r
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      # a grammar that does not exist warns, and its language stays a plain block
+      noErrors: []
+      printsMessage:
+        level: WARN
+        regex: 'shiki-langs: could not load "grammars/missing.json" \(no such file\)'
+      ensureEmiljsFileRegexMatches:
+        # the keys reach emil.js, and the code stays a plain fence
+        - ['shiki-langs:', 'grammars/frob.json', 'shiki-aliases:', 'rscript: r']
+      ensureFileRegexMatches:
+        # the deck's own grammar and the alias are highlighted (the `frobnicate`
+        # keyword gets its own colored span), like `emiljs build` does
+        - ['<span style="color:#[0-9A-Fa-f]{6}">frobnicate</span>', '<span style="color:#[0-9A-Fa-f]{6}">mtcars</span>']
+---
+
+## Your own languages
+
+```frob
+frobnicate the widget
+```
+
+```rscript
+mtcars |> subset(cyl == 4)
+```

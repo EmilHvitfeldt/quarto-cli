@@ -46,6 +46,8 @@ const kEmiljsDocumentKeys = [
   "vocabulary",
   "shiki",
   "shiki-style",
+  "shiki-langs",
+  "shiki-aliases",
 ];
 
 // Reveal-style convenience keys, mapped into emil.js `defaults:` unless the

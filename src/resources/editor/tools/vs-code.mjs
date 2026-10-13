@@ -15004,6 +15004,57 @@ var require_yaml_intelligence_resources = __commonJS({
           description: {
             short: "The Shiki color theme for code blocks."
           }
+        },
+        {
+          name: "shiki-langs",
+          tags: {
+            formats: [
+              "emiljs"
+            ]
+          },
+          schema: {
+            arrayOf: {
+              anyOf: [
+                "string",
+                {
+                  object: {
+                    closed: true,
+                    required: [
+                      "path"
+                    ],
+                    properties: {
+                      path: "string",
+                      name: "string",
+                      aliases: {
+                        arrayOf: "string"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          description: {
+            short: "Extra Shiki languages, as TextMate grammar JSON files.",
+            long: "Extra languages for Shiki code highlighting, as TextMate grammar JSON\nfiles (the shape VS Code extensions and the `tm-grammars` package ship),\nby path relative to the document. A string is the path; an object adds\nthe language `name` and `aliases` the code blocks use. Needs\n`shiki: true`.\n"
+          }
+        },
+        {
+          name: "shiki-aliases",
+          tags: {
+            formats: [
+              "emiljs"
+            ]
+          },
+          schema: {
+            object: {
+              additionalProperties: "string"
+            }
+          },
+          description: {
+            short: "Code block languages that highlight as another language.",
+            long: "Code block language names that highlight as another language, for\nexample `rscript: r`. The target must be a language the build carries or\none from `shiki-langs`. Needs `shiki: true`.\n"
+          }
         }
       ],
       "schema/document-epub.yml": [
@@ -24044,6 +24095,14 @@ var require_yaml_intelligence_resources = __commonJS({
           short: "The Shiki color theme for code blocks.",
           long: ""
         },
+        {
+          short: "Extra Shiki languages, as TextMate grammar JSON files.",
+          long: "Extra languages for Shiki code highlighting, as TextMate grammar JSON\nfiles (the shape VS Code extensions and the <code>tm-grammars</code>\npackage ship), by path relative to the document. A string is the path;\nan object adds the language <code>name</code> and <code>aliases</code>\nthe code blocks use. Needs <code>shiki: true</code>."
+        },
+        {
+          short: "Code block languages that highlight as another language.",
+          long: "Code block language names that highlight as another language, for\nexample <code>rscript: r</code>. The target must be a language the build\ncarries or one from <code>shiki-langs</code>. Needs\n<code>shiki: true</code>."
+        },
         "The identifier for this publication.",
         "The identifier value.",
         "The identifier schema (e.g.&nbsp;<code>DOI</code>, <code>ISBN-A</code>,\netc.)",
@@ -26005,12 +26064,12 @@ var require_yaml_intelligence_resources = __commonJS({
         mermaid: "%%"
       },
       "handlers/mermaid/schema.yml": {
-        _internalId: 225044,
+        _internalId: 227073,
         type: "object",
         description: "be an object",
         properties: {
           "mermaid-format": {
-            _internalId: 225036,
+            _internalId: 227065,
             type: "enum",
             enum: [
               "png",
@@ -26026,7 +26085,7 @@ var require_yaml_intelligence_resources = __commonJS({
             exhaustiveCompletions: true
           },
           theme: {
-            _internalId: 225043,
+            _internalId: 227072,
             type: "anyOf",
             anyOf: [
               {

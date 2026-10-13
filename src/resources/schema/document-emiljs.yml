@@ -126,3 +126,40 @@
   default: github-light
   description:
     short: "The Shiki color theme for code blocks."
+
+- name: shiki-langs
+  tags:
+    formats: [emiljs]
+  schema:
+    arrayOf:
+      anyOf:
+        - string
+        - object:
+            closed: true
+            required: [path]
+            properties:
+              path: string
+              name: string
+              aliases:
+                arrayOf: string
+  description:
+    short: "Extra Shiki languages, as TextMate grammar JSON files."
+    long: |
+      Extra languages for Shiki code highlighting, as TextMate grammar JSON
+      files (the shape VS Code extensions and the `tm-grammars` package ship),
+      by path relative to the document. A string is the path; an object adds
+      the language `name` and `aliases` the code blocks use. Needs
+      `shiki: true`.
+
+- name: shiki-aliases
+  tags:
+    formats: [emiljs]
+  schema:
+    object:
+      additionalProperties: string
+  description:
+    short: "Code block languages that highlight as another language."
+    long: |
+      Code block language names that highlight as another language, for
+      example `rscript: r`. The target must be a language the build carries or
+      one from `shiki-langs`. Needs `shiki: true`.

@@ -1,0 +1,22 @@
+{
+  "name": "frob",
+  "scopeName": "source.frob",
+  "fileTypes": ["frob"],
+  "patterns": [
+    { "name": "comment.line.number-sign.frob", "match": "#.*$" },
+    {
+      "name": "string.quoted.double.frob",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        { "name": "constant.character.escape.frob", "match": "\\\\." }
+      ]
+    },
+    {
+      "name": "keyword.control.frob",
+      "match": "\\b(frobnicate|the|and|then|repeat|until)\\b"
+    },
+    { "name": "constant.numeric.frob", "match": "\\b[0-9]+(\\.[0-9]+)?\\b" },
+    { "name": "entity.name.function.frob", "match": "\\b[a-z]+(?=:)" }
+  ]
+}
