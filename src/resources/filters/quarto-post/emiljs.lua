@@ -284,29 +284,6 @@ local function fix_raw_block(block)
   return html_fence(block.text)
 end
 
--- Math is written as MathML by Pandoc, so emil.js needs no math library.
-local function mathml(math_el)
-  local opts = pandoc.WriterOptions({ html_math_method = "mathml" })
-  local html = pandoc.write(pandoc.Pandoc({ pandoc.Plain({ math_el }) }), "html5", opts)
-  return (html:gsub("^%s+", ""):gsub("%s+$", ""))
-end
-
-local function fix_math(math_el)
-  return pandoc.RawInline("markdown", mathml(math_el))
-end
-
--- Display math alone in its paragraph is a block, so it gets a `{=html}`
--- fence (SPEC A34) rather than sitting inside a <p>. Inlines are walked before
--- their paragraph, so by now the math is the MathML raw inline from `fix_math`.
-local function fix_para(para)
-  local only = para.content[1]
-  if #para.content == 1 and only.t == "RawInline" and only.format == "markdown"
-      and only.text:match('^<math[^>]*display="block"') then
-    return html_fence(only.text)
-  end
-  return nil
-end
-
 -- Inline raw HTML needs no fence: commonmark_x would wrap it as
 -- `` `<b>`{=html} ``, which emil.js does not read, so write it verbatim.
 local function fix_raw_inline(inline)
@@ -354,8 +331,6 @@ function render_emiljs_fixups()
       return pandoc.Inlines({})
     end,
 
-    Math = fix_math,
-    Para = fix_para,
 
     Pandoc = function(doc)
       doc.blocks = slide_breaks(doc.blocks)

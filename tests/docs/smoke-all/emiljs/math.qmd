@@ -8,17 +8,17 @@ _quarto:
     emiljs:
       noErrorsOrWarnings: []
       ensureHtmlElements:
-        # inline math and display math both reach the deck as MathML
-        - ['p math[display="inline"]', 'math[display="block"]', 'span#eq-energy math']
+        # emil.js renders the TeX to MathML: inline, as a block, and a labelled equation
+        - ['p span.katex math', 'div math[display="block"]', 'span#eq-energy math']
       ensureHtmlElementContents:
         # nothing is left as literal dollar math, and a plain price survives
         - selectors: ['section.slide']
           matches: ['price of \$5']
           noMatches: ['\$x\^2\$', '\$\$']
       ensureEmiljsFileRegexMatches:
-        # display math alone in a paragraph is a `{=html}` fence
-        - ['\n```\{=html\}\n<math[^>]*display="block"', 'Inline math <math', 'See Equation.1\.']
-        - ['\$x\^2\$']
+        # the TeX reaches emil.js untouched (no Pandoc MathML), so both tools render it with one engine
+        - ['Inline math \$x\^2\$', '\n\$\$\n\\int_0\^1 x\\,dx', 'See Equation.1\.']
+        - ['<math']
 ---
 
 Inline math $x^2$ in a sentence, and a price of \$5.
