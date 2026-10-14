@@ -14,8 +14,6 @@ _quarto:
         - level: INFO
           regex: 'footnotes are not supported'
         - level: INFO
-          regex: 'math is not supported'
-        - level: INFO
           regex: 'tabsets are not supported'
         - level: INFO
           regex: 'callout options `appearance`, `icon` and `collapse` are ignored'
@@ -29,7 +27,7 @@ _quarto:
           matches: ['Tab A', 'Tab B']
           noMatches: ['Secret', 'Footnote text']
       ensureEmiljsFileRegexMatches:
-        - ['A footnote\.\n', 'Inline math \$x\^2\$']
+        - ['A footnote\.\n']
         - ['Secret', '\[\^1\]', 'Footnote text', 'panel-tabset', '\.notes']
 ---
 
@@ -42,8 +40,6 @@ Secret speaker notes.
 A footnote.[^1]
 
 [^1]: Footnote text.
-
-Inline math $x^2$.
 
 ::: {.panel-tabset}
 ## Tab A

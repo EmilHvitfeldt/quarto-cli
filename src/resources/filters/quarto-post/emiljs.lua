@@ -267,17 +267,44 @@ end
 -- fence, which emil.js passes through verbatim. commonmark_x would print the
 -- block as is, and a blank line inside it ends it as an HTML block, or turns
 -- into `&#10;`. The fence is longer than any run of backticks in the content.
+local function html_fence(html)
+  local longest = 2
+  for run in html:gmatch("`+") do
+    longest = math.max(longest, #run)
+  end
+  local fence = string.rep("`", longest + 1)
+  local text = html:gsub("\n+$", "")
+  return pandoc.RawBlock("markdown", fence .. "{=html}\n" .. text .. "\n" .. fence)
+end
+
 local function fix_raw_block(block)
   if block.format ~= "html" then
     return nil
   end
-  local longest = 2
-  for run in block.text:gmatch("`+") do
-    longest = math.max(longest, #run)
+  return html_fence(block.text)
+end
+
+-- Math is written as MathML by Pandoc, so emil.js needs no math library.
+local function mathml(math_el)
+  local opts = pandoc.WriterOptions({ html_math_method = "mathml" })
+  local html = pandoc.write(pandoc.Pandoc({ pandoc.Plain({ math_el }) }), "html5", opts)
+  return (html:gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
+local function fix_math(math_el)
+  return pandoc.RawInline("markdown", mathml(math_el))
+end
+
+-- Display math alone in its paragraph is a block, so it gets a `{=html}`
+-- fence (SPEC A34) rather than sitting inside a <p>. Inlines are walked before
+-- their paragraph, so by now the math is the MathML raw inline from `fix_math`.
+local function fix_para(para)
+  local only = para.content[1]
+  if #para.content == 1 and only.t == "RawInline" and only.format == "markdown"
+      and only.text:match('^<math[^>]*display="block"') then
+    return html_fence(only.text)
   end
-  local fence = string.rep("`", longest + 1)
-  local text = block.text:gsub("\n+$", "")
-  return pandoc.RawBlock("markdown", fence .. "{=html}\n" .. text .. "\n" .. fence)
+  return nil
 end
 
 -- Inline raw HTML needs no fence: commonmark_x would wrap it as
@@ -327,10 +354,8 @@ function render_emiljs_fixups()
       return pandoc.Inlines({})
     end,
 
-    Math = function(_)
-      emiljs_warn_once("math", "math is not supported yet; formulas are left as literal `$...$` text.")
-      return nil
-    end,
+    Math = fix_math,
+    Para = fix_para,
 
     Pandoc = function(doc)
       doc.blocks = slide_breaks(doc.blocks)
