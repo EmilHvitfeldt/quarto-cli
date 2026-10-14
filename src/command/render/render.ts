@@ -44,8 +44,7 @@ import { projectOffset } from "../../project/project-shared.ts";
 import { ExecutedFile, RenderedFile, RenderResult } from "./types.ts";
 import { PandocIncludes } from "../../execute/types.ts";
 import { Metadata } from "../../config/types.ts";
-import { isEmiljsOutput, isHtmlFileOutput } from "../../config/format.ts";
-import { protectSlideOptions } from "../../format/emiljs/slide-options.ts";
+import { isHtmlFileOutput } from "../../config/format.ts";
 
 import { isSelfContainedOutput } from "./render-info.ts";
 import {
@@ -179,11 +178,6 @@ export async function renderPandoc(
     collectIncludes(kIncludeInHeader);
     collectIncludes(kIncludeBeforeBody);
     collectIncludes(kIncludeAfterBody);
-  }
-
-  // Pandoc would swallow a slide's `---` options block as metadata
-  if (isEmiljsOutput(format)) {
-    markdownInput = protectSlideOptions(markdownInput);
   }
 
   // pandoc options

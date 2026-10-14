@@ -1,0 +1,31 @@
+---
+title: "Per-slide options, --- block, jupyter"
+format:
+  emiljs:
+    keep-emiljs: true
+jupyter: python3
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      ensureHtmlElements:
+        - ['section.slide#s1[data-variant="title"]', 'section.slide#s2[class~="wide"]']
+      ensureEmiljsFileRegexMatches:
+        - ['\n---\nvariant: title\n---\n\n# First', '\n---\nclass: \[wide\]\n---\n\nSecond']
+        # not read as the document's own metadata
+        - ['variant: title\n---\n\n---']
+---
+
+---
+variant: title
+---
+
+# First
+
+***
+
+---
+class: [wide]
+---
+
+Second

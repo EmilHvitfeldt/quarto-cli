@@ -5,6 +5,11 @@
  */
 
 import { extname, join, toFileUrl } from "../deno_ral/path.ts";
+import { asMappedString } from "../core/mapped-text.ts";
+import {
+  protectSlideOptions,
+  targetsEmiljs,
+} from "../format/emiljs/slide-options.ts";
 
 import * as ld from "../core/lodash.ts";
 
@@ -381,7 +386,12 @@ export async function fileExecutionEngineAndTarget(
     throw new Error("Can't determine execution engine for " + file);
   }
 
-  const markdown = await project.resolveFullMarkdownForFile(engine, file);
+  let markdown = await project.resolveFullMarkdownForFile(engine, file);
+  // Pandoc, and the engines' own parsing, take a slide's `---` options block
+  // for document metadata; the rewrite keeps line numbers.
+  if (targetsEmiljs(markdown.value, flags?.to)) {
+    markdown = asMappedString(protectSlideOptions(markdown.value), file);
+  }
   const target = await engine.target(file, flags?.quiet, markdown);
   if (!target) {
     throw new Error("Can't determine execution target for " + file);

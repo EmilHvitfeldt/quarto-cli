@@ -4,7 +4,7 @@
  * Copyright (C) 2026 Posit Software, PBC
  */
 
-import { readYamlFromString } from "../../core/yaml.ts";
+import { readYamlFromMarkdown, readYamlFromString } from "../../core/yaml.ts";
 
 const kFence = /^-{3,}\s*$/;
 const kFenceEnd = /^(-{3,}|\.{3})\s*$/;
@@ -86,4 +86,29 @@ function isMapping(yaml: string): boolean {
   } catch {
     return false;
   }
+}
+
+// Whether a document is being rendered to emil.js alone: `--to emiljs`, or a
+// front matter `format` that is just `emiljs`. A document that also renders to
+// other formats is left alone, as an `emiljs` fence would show in them.
+export function targetsEmiljs(
+  markdown: string,
+  to: string | undefined,
+): boolean {
+  if (to !== undefined) {
+    return to.split("+")[0] === "emiljs";
+  }
+  try {
+    const format = readYamlFromMarkdown(markdown).format;
+    if (typeof format === "string") {
+      return format.split("+")[0] === "emiljs";
+    }
+    if (typeof format === "object" && format !== null) {
+      const keys = Object.keys(format);
+      return keys.length === 1 && keys[0].split("+")[0] === "emiljs";
+    }
+  } catch {
+    // invalid YAML is reported later
+  }
+  return false;
 }
