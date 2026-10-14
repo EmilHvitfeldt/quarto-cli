@@ -1,0 +1,24 @@
+---
+title: "Per-slide options, emiljs fence"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      ensureHtmlElements:
+        - ['section.slide#s1[data-variant="title"]', 'section.slide#s2']
+      ensureEmiljsFileRegexMatches:
+        - ['\n---\nvariant: title\n---\n\n# First', '\n\*\*\*\n\nSecond']
+---
+
+```emiljs
+variant: title
+```
+
+# First
+
+***
+
+Second

@@ -55,12 +55,15 @@ local function is_empty_div(block)
 end
 
 local function is_slide_options(block)
-  return block.t == "CodeBlock" and block.classes:includes("yaml") and
-    block.classes:includes("slide")
+  if block.t ~= "CodeBlock" then
+    return false
+  end
+  return block.classes:includes("emiljs") or
+    (block.classes:includes("yaml") and block.classes:includes("slide"))
 end
 
--- Per-slide options: the first block of a slide, a code block with classes
--- `yaml` and `slide`, becomes that slide's own frontmatter (a `---` fenced YAML
+-- Per-slide options: the first block of a slide, a code block with the class
+-- `emiljs` (or the longer `yaml` and `slide`), becomes that slide's own frontmatter (a `---` fenced YAML
 -- block at the start of the slide). emil.js validates it. A `---` block cannot
 -- be written directly in a .qmd, because Pandoc would read it as metadata.
 local function slide_blocks(slide)
@@ -71,7 +74,7 @@ local function slide_blocks(slide)
         out:insert(pandoc.RawBlock("markdown", "---\n" .. block.text:gsub("%s+$", "") .. "\n---"))
       else
         emiljs_warn_once("slide-options-position",
-          "a `{.yaml .slide}` options block must be the first block of its slide; it was ignored.")
+          "an `emiljs` options block must be the first block of its slide; it was ignored.")
       end
     else
       out:insert(block)
