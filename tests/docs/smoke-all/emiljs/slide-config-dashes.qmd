@@ -1,0 +1,38 @@
+---
+title: "Per-slide options, --- block"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      ensureHtmlElements:
+        - ['section.slide#s1[data-variant="title"]', 'section.slide#s2', 'section.slide#s3']
+      ensureEmiljsFileRegexMatches:
+        - ['\n---\nvariant: title\n---\n\n# First', '\n\*\*\*\n\nSecond', 'Third', 'just words', '``` markdown\n---\nnot: options\n---\n```']
+---
+
+---
+variant: title
+---
+
+# First
+
+***
+
+Second
+
+---
+
+just words
+
+---
+
+Third
+
+```markdown
+---
+not: options
+---
+```
