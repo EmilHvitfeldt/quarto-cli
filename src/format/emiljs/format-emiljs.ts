@@ -14,6 +14,7 @@ import {
   kLang,
   kOutputDivs,
   kOutputExt,
+  kPreferHtml,
   kWarning,
   kWrap,
 } from "../../config/constants.ts";
@@ -67,6 +68,8 @@ export function emiljsFormat(): Format {
       [kOutputExt]: "html",
       [kOutputDivs]: false,
       [kKeepEmiljs]: false,
+      // widgets are raw HTML in the deck, not a screenshot (a deck is HTML)
+      [kPreferHtml]: true,
     },
     pandoc: {
       standalone: true,

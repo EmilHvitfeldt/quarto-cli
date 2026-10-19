@@ -39,6 +39,7 @@ interface EmiljsBuild {
     input: string;
     outFile: string;
     assets?: "inline" | "external";
+    assetInlineLimit?: number;
     onWarning?: (warning: { code: string; message: string }) => void;
   }): { outFile: string };
 }
@@ -81,15 +82,17 @@ export function emiljsOutputRecipe(
     const htmlOutput = join(inputDir, inputStem + ".html");
 
     const emiljs = await loadEmiljsBuild();
+    const selfContained = isSelfContained(options.flags || {}, liveFormat);
     try {
       emiljs.buildDeck({
         input: mdInput,
         outFile: htmlOutput,
         // embed-resources inlines the figures too; otherwise they stay files
         // under <stem>_files/ and resolve relative to the .html
-        assets: isSelfContained(options.flags || {}, liveFormat)
-          ? "inline"
-          : "external",
+        assets: selfContained ? "inline" : "external",
+        // Quarto removes <stem>_files for self-contained output, so nothing may
+        // stay external: a widget's script (Plotly is several MB) is inlined too
+        assetInlineLimit: selfContained ? Number.MAX_SAFE_INTEGER : undefined,
         onWarning: (w) => warning(w.message),
       });
     } catch (e) {

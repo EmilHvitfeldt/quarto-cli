@@ -19,7 +19,7 @@ _quarto:
       ensureFileRegexMatches:
         # highlighted with the embedded Shiki build (the same markup as
         # `emiljs build`), and a language outside the bundled set stays plain
-        - ['<pre class="shiki github-dark"', 'style="color:#', 'class="language-nosuchlang"']
+        - ['<pre[^>]* class="shiki github-dark"', 'style="color:#', 'class="language-nosuchlang"']
 ---
 
 ## Highlighted code

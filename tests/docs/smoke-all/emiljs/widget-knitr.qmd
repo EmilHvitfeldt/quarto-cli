@@ -1,0 +1,29 @@
+---
+title: "A widget from knitr"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      # prefer-html is on by default, so widgets are not an error; the
+      # dependency's script is written into the deck and resolves from <stem>_files
+      postRenderCleanup: ['${input_stem}.commonmark_x_files']
+      noErrorsOrWarnings: []
+      ensureHtmlElements:
+        - ['#widget-target', 'script[src*="libs/widgetdep-1.0/dep.js"]']
+      ensureEmiljsFileRegexMatches:
+        - ['```\{=html\}\n.*<script src="[^"]*libs/widgetdep-1.0/dep.js">']
+---
+
+```{r}
+#| echo: false
+htmltools::tagList(
+  htmltools::tags$div(id = "widget-target", "before"),
+  htmltools::htmlDependency(
+    "widgetdep", "1.0",
+    src = c(file = normalizePath("widget-dep")),
+    script = "dep.js"
+  )
+)
+```
