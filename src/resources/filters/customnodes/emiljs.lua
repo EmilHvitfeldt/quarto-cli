@@ -22,11 +22,6 @@ local function is_emiljs()
   return _quarto.format.isEmiljsOutput()
 end
 
-function emiljs_warn_layout()
-  emiljs_warn_once("layout",
-    "figures and tables with subfigures (`layout-ncol`, `layout-nrow`, `layout`) are not supported yet; the subfigures are stacked.")
-end
-
 -- A paragraph carrying the `.caption` class: emil.js merges an image-only
 -- paragraph and the paragraph after it into <figure> and <figcaption> (A29),
 -- and a theme can style the same class on a table caption.
@@ -85,10 +80,6 @@ end, function(float)
     fill_first_alt(content, raw_caption)
   end
 
-  if float.has_subfloats then
-    emiljs_warn_layout()
-  end
-
   decorate_caption_with_crossref(float)
   local caption = quarto.utils.as_inlines(float.caption_long or pandoc.Inlines({}))
   if #caption == 0 then
@@ -108,16 +99,14 @@ end, function(float)
   return result
 end)
 
--- A plain layout panel (`layout-ncol` on a div, no figure label) maps onto
--- emil.js's own `.columns` and `.column`; the cell widths Quarto computes are
--- turned into column widths in quarto-post/emiljs.lua. A panel that is also a
--- figure or table with subfigures is handled by the float renderer above.
+-- A layout panel (`layout-ncol`, `layout-nrow` or `layout` on a div or a
+-- float) maps onto emil.js's own `.columns` and `.column`, one `.columns` per
+-- row; the cell widths Quarto computes are turned into column widths in
+-- quarto-post/emiljs.lua. A float with subfigures keeps each subfigure's image
+-- and `(a) First` caption in its column, and its own caption follows the rows.
 _quarto.ast.add_renderer("PanelLayout", function(_)
   return is_emiljs()
 end, function(panel)
-  if panel.float then
-    return panel.float
-  end
   local out = pandoc.Blocks({})
   if panel.rows == nil then
     return out
@@ -127,13 +116,30 @@ end, function(panel)
       local columns = pandoc.Div({}, pandoc.Attr("", { "columns" }))
       for _, cell in ipairs(row.content) do
         if cell.t == "Div" then
+          cell.attr.classes = cell.attr.classes:filter(function(class)
+            return class ~= "quarto-layout-cell-subref"
+          end)
           cell.attr.classes:insert("column")
+          cell.attr.attributes["ref-parent"] = nil
         end
         columns.content:insert(cell)
       end
       out:insert(columns)
     else
       out:insert(row)
+    end
+  end
+
+  if panel.float then
+    decorate_caption_with_crossref(panel.float)
+    local caption = quarto.utils.as_inlines(panel.float.caption_long or pandoc.Inlines({}))
+    if #caption > 0 then
+      local is_table = ref_type_from_float(panel.float) == "tbl"
+      if is_table and cap_location(panel.float) == "top" then
+        out:insert(1, caption_para(caption))
+      else
+        out:insert(caption_para(caption))
+      end
     end
   end
   return out

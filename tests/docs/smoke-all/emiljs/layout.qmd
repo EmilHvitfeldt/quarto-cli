@@ -6,17 +6,17 @@ format:
 _quarto:
   tests:
     emiljs:
-      noErrors: []
-      printsMessage:
-        # only the subfigure panel is unsupported; the plain one becomes columns
-        level: INFO
-        regex: 'subfigures .* are not supported yet; the subfigures are stacked'
+      noErrorsOrWarnings: []
       ensureHtmlElements:
         - ['div.columns > div.column', 'figure']
       ensureEmiljsFileRegexMatches:
         # a plain panel maps onto emil.js columns, widths as bare numbers (A13)
-        - ['::: \{\.column width="50(\.0)?"\}', '\nLeft \{\.caption\}\n', '\n\(a\).First \{\.caption\}\n', 'Figure.1: Panel caption\. \{\.caption\}']
-        - ['width="50(\.0)?%"', 'ref-parent', 'layout']
+        - ['::: \{\.column width="50(\.0)?"\}', '\nLeft \{\.caption\}\n', '\n\(a\).First \{\.caption\}\n', 'Figure.1: Panel caption\. \{\.caption\}',
+            # layout-nrow: one columns row per row, the parent caption after the last
+            '\n\(a\).One \{\.caption\}\n(.|\n)*\n\(b\).Two \{\.caption\}\n(.|\n)*Figure.2: Nrow caption\. \{\.caption\}',
+            # layout matrix: rows of columns with relative widths
+            '::: \{\.column width="70(\.0)?"\}', '::: \{\.column width="30(\.0)?"\}', '\n\(c\).Full \{\.caption\}\n(.|\n)*Figure.3: Matrix caption\. \{\.caption\}']
+        - ['width="50(\.0)?%"', 'ref-parent', 'quarto-layout', 'layout']
 ---
 
 ::: {layout-ncol=2}
@@ -33,4 +33,26 @@ _quarto:
 ![Second](pic.svg){#fig-b}
 
 Panel caption.
+:::
+
+***
+
+::: {#fig-nrow layout-nrow=2}
+![One](pic.svg){#fig-n1}
+
+![Two](pic.svg){#fig-n2}
+
+Nrow caption.
+:::
+
+***
+
+::: {#fig-matrix layout="[[70,30],[100]]"}
+![Wide](pic.svg){#fig-m1}
+
+![Narrow](pic.svg){#fig-m2}
+
+![Full](pic.svg){#fig-m3}
+
+Matrix caption.
 :::
