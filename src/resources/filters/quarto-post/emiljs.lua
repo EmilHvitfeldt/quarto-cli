@@ -167,11 +167,6 @@ local function fix_column(div)
 end
 
 local function fix_div(div)
-  if div.classes:includes("notes") then
-    emiljs_warn_once("notes", "speaker notes are not supported yet; `.notes` content was removed.")
-    return pandoc.Blocks({})
-  end
-
   div.attr = clean_attr(div.attr, true)
   if div.classes:includes("column") then
     fix_column(div)

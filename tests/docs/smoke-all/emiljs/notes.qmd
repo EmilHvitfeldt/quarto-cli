@@ -1,0 +1,40 @@
+---
+title: "Speaker notes"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      # speaker notes ride through as emil.js's hidden aside (SPEC A42)
+      ensureHtmlElements:
+        - ['aside.emiljs-notes[hidden]', '#s2 aside.emiljs-notes']
+      ensureHtmlElementContents:
+        - selectors: ['aside.emiljs-notes']
+          matches: ['Say this first']
+        - selectors: ['#s2 aside.emiljs-notes']
+          matches: ['Braces form']
+      ensureEmiljsFileRegexMatches:
+        - ['::: \{\.notes\}', 'Say this \*\*first\*\*']
+---
+
+## First
+
+Visible body.
+
+::: notes
+Say this **first**.
+
+- Mention the benchmark
+:::
+
+---
+
+## Second
+
+More.
+
+::: {.notes}
+Braces form.
+:::

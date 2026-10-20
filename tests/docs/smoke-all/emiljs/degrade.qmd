@@ -10,8 +10,6 @@ _quarto:
       noErrors: []
       printsMessage:
         - level: INFO
-          regex: 'speaker notes are not supported'
-        - level: INFO
           regex: 'footnotes are not supported'
         - level: INFO
           regex: 'tabsets are not supported'
@@ -25,17 +23,13 @@ _quarto:
       ensureHtmlElementContents:
         - selectors: ['section.slide']
           matches: ['Tab A', 'Tab B']
-          noMatches: ['Secret', 'Footnote text']
+          noMatches: ['Footnote text']
       ensureEmiljsFileRegexMatches:
         - ['A footnote\.\n']
-        - ['Secret', '\[\^1\]', 'Footnote text', 'panel-tabset', '\.notes']
+        - ['\[\^1\]', 'Footnote text', 'panel-tabset']
 ---
 
 Text.
-
-::: {.notes}
-Secret speaker notes.
-:::
 
 A footnote.[^1]
 

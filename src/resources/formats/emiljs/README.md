@@ -5,8 +5,8 @@
 | | |
 |---|---|
 | Version | 0.1.0 (`EMILJS` in `configuration`) |
-| Source | `@emiljs/cli` at emil.js commit `0c9d90c451bf6ee3fcfec0df7ca9fdb229bfe81e` (`pnpm --filter @emiljs/cli embed:release`) |
-| SHA-256 | `0a810f8c8b4b0e7d9d0dda6a0daa3657c79115aecd74c984b536cab9919944e8` |
+| Source | `@emiljs/cli` at emil.js commit `042e86781ead0a868336f545887ebdc1d7466c98` (`pnpm --filter @emiljs/cli embed:release`) |
+| SHA-256 | `a50220f92b081bb5020259a734efdcdf5f2584cf70cd99ed2b6a5b6f7cf80fad` |
 | License | MIT, see `LICENSE`; bundled dependencies in `LICENSE-3RD-PARTY.txt` |
 
 ## Updating
