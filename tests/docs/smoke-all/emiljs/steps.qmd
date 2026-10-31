@@ -1,0 +1,43 @@
+---
+title: "Steps"
+format:
+  emiljs:
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrorsOrWarnings: []
+      # steps ride through as emil.js's own markers (SPEC A8, A45), including an
+      # empty gate, which carries no content and must not be dropped
+      ensureHtmlElements:
+        - ['div[data-step]', 'div[data-step-at="2"][data-step-reveal="none"]', 'div[data-step-count="3"].fade', 'div[data-step-for="#chart"]', 'li[data-step]']
+      ensureHtmlElementContents:
+        - selectors: ['div[data-step-at="2"]']
+          matches: ['Kept visible']
+      ensureEmiljsFileRegexMatches:
+        - ['::: \{\.step at="2" reveal="none"\}', '::: \{\.step for="#chart"\}\n:::', '- A list item \{\.step\}']
+---
+
+## Constructs
+
+::: {.step}
+Plain step
+:::
+
+::: {.step at=2 reveal=none}
+Kept visible at step 2
+:::
+
+::: {.step count=3 .fade}
+Three steps, fading
+:::
+
+::: {#chart}
+The chart
+:::
+
+::: {.step for="#chart"}
+:::
+
+- A list item {.step}
+- A second item

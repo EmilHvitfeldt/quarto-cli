@@ -172,8 +172,10 @@ local function fix_div(div)
     fix_column(div)
   end
 
-  -- an empty or attribute-free wrapper (Quarto leaves some) only prints as `::: {}`
-  if #div.content == 0 then
+  -- an empty or attribute-free wrapper (Quarto leaves some) only prints as `::: {}`.
+  -- An empty step is the exception: a gate (`::: {.step for="#chart"}` and `:::`)
+  -- has no content of its own and is the trigger emil.js reads (SPEC A45).
+  if #div.content == 0 and not div.classes:includes("step") then
     return pandoc.Blocks({})
   end
   if is_empty_attr(div.attr) then
