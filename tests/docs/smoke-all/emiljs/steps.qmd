@@ -10,12 +10,12 @@ _quarto:
       # steps ride through as emil.js's own markers (SPEC A8, A45), including an
       # empty gate, which carries no content and must not be dropped
       ensureHtmlElements:
-        - ['div[data-step]', 'div[data-step-at="2"][data-step-reveal="none"]', 'div[data-step-count="3"].fade', 'div[data-step-for="#chart"]', 'li[data-step]']
+        - ['div[data-step]', 'div[data-step-at="2"][data-step-reveal="none"]', 'div[data-step-count="3"].fade', 'div[data-step-for="#chart"]', 'li[data-step]', 'video#clip', 'div[data-step-for="#clip"][data-step-start="0.5"][data-step-end="1.2"]']
       ensureHtmlElementContents:
         - selectors: ['div[data-step-at="2"]']
           matches: ['Kept visible']
       ensureEmiljsFileRegexMatches:
-        - ['::: \{\.step at="2" reveal="none"\}', '::: \{\.step for="#chart"\}\n:::', '- A list item \{\.step\}']
+        - ['::: \{\.step at="2" reveal="none"\}', '::: \{\.step for="#chart"\}\n:::', '- A list item \{\.step\}', '::: \{\.step for="#clip" data-step-start="0.5" data-step-end="1.2"\}\n:::']
 ---
 
 ## Constructs
@@ -41,3 +41,10 @@ The chart
 
 - A list item {.step}
 - A second item
+
+```{=html}
+<video id="clip" src="clip.webm" muted playsinline></video>
+```
+
+::: {.step for="#clip" data-step-start=0.5 data-step-end=1.2}
+:::
