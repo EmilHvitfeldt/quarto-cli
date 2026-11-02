@@ -2,12 +2,15 @@
 title: "Shiki languages"
 format:
   emiljs:
-    shiki: true
-    shiki-langs:
-      - grammars/frob.json
-      - grammars/missing.json
-    shiki-aliases:
-      rscript: r
+    extensions:
+      - name: shiki
+        enabled: true
+        options:
+          langs:
+            - grammars/frob.json
+            - grammars/missing.json
+          aliases:
+            rscript: r
     keep-emiljs: true
 _quarto:
   tests:
@@ -16,10 +19,10 @@ _quarto:
       noErrors: []
       printsMessage:
         level: WARN
-        regex: 'shiki-langs: could not load "grammars/missing.json" \(no such file\)'
+        regex: 'shiki option `langs`: could not load "grammars/missing.json" \(no such file\)'
       ensureEmiljsFileRegexMatches:
         # the keys reach emil.js, and the code stays a plain fence
-        - ['shiki-langs:', 'grammars/frob.json', 'shiki-aliases:', 'rscript: r']
+        - ['langs:', 'grammars/frob.json', 'aliases:', 'rscript: r']
       ensureFileRegexMatches:
         # the deck's own grammar and the alias are highlighted (the `frobnicate`
         # keyword gets its own colored span), like `emiljs build` does

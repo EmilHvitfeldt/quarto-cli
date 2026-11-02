@@ -2,8 +2,11 @@
 title: "Shiki"
 format:
   emiljs:
-    shiki: true
-    shiki-style: github-dark
+    extensions:
+      - name: shiki
+        enabled: true
+        options:
+          style: github-dark
     keep-emiljs: true
 _quarto:
   tests:
@@ -15,7 +18,7 @@ _quarto:
         regex: 'not available for highlighting.*nosuchlang'
       ensureEmiljsFileRegexMatches:
         # the keys reach emil.js, and the code stays a plain fence
-        - ['shiki: true', 'shiki-style: github-dark', '\n``` r\n']
+        - ['extensions:', 'name: shiki', 'enabled: true', 'style: github-dark', '\n``` r\n']
       ensureFileRegexMatches:
         # highlighted with the embedded Shiki build (the same markup as
         # `emiljs build`), and a language outside the bundled set stays plain

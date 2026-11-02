@@ -77,22 +77,33 @@ unitTest(
 );
 
 unitTest(
-  "emiljs front matter - the shiki highlighting keys are emitted",
+  "emiljs front matter - the extensions list is emitted unchanged",
   // deno-lint-ignore require-await
   async () => {
     const format = createMockFormat();
     format.metadata = {
+      extensions: [
+        "graphviz",
+        "./tools/shout.js",
+        {
+          name: "shiki",
+          enabled: true,
+          options: {
+            style: "github-dark",
+            langs: ["grammars/zig.json"],
+            aliases: { rscript: "r" },
+          },
+        },
+      ],
+      // The old highlighting keys no longer exist, and are not forwarded
       shiki: true,
-      "shiki-style": "github-dark",
-      "shiki-langs": ["grammars/zig.json", { path: "g.json", name: "g" }],
-      "shiki-aliases": { rscript: "r" },
       // Quarto's own highlighting keys are not forwarded (Pandoc's styles)
       "syntax-highlighting": "a11y",
       "highlight-style": "arrow",
     };
     assertEquals(
       emiljsFrontMatter(format),
-      "---\nshiki: true\nshiki-style: github-dark\nshiki-langs:\n  - grammars/zig.json\n  - path: g.json\n    name: g\nshiki-aliases:\n  rscript: r\n---\n\n",
+      "---\nextensions:\n  - graphviz\n  - ./tools/shout.js\n  - name: shiki\n    enabled: true\n    options:\n      style: github-dark\n      langs:\n        - grammars/zig.json\n      aliases:\n        rscript: r\n---\n\n",
     );
   },
 );

@@ -14974,39 +14974,7 @@ var require_yaml_intelligence_resources = __commonJS({
           }
         },
         {
-          name: "shiki",
-          tags: {
-            formats: [
-              "emiljs"
-            ]
-          },
-          schema: "boolean",
-          default: false,
-          description: {
-            short: "Highlight code blocks with Shiki.",
-            long: "Highlight fenced code blocks with Shiki, the same highlighter\n`emiljs build` uses, so code looks the same in both. The build carries\na fixed set of languages (bash, css, diff, html, javascript, json,\nmarkdown, python, r, sql, toml, typescript, xml, yaml); another\nlanguage renders as a plain block, with a warning.\n"
-          }
-        },
-        {
-          name: "shiki-style",
-          tags: {
-            formats: [
-              "emiljs"
-            ]
-          },
-          schema: {
-            enum: [
-              "github-light",
-              "github-dark"
-            ]
-          },
-          default: "github-light",
-          description: {
-            short: "The Shiki color theme for code blocks."
-          }
-        },
-        {
-          name: "shiki-langs",
+          name: "extensions",
           tags: {
             formats: [
               "emiljs"
@@ -15019,15 +14987,11 @@ var require_yaml_intelligence_resources = __commonJS({
                 {
                   object: {
                     closed: true,
-                    required: [
-                      "path"
-                    ],
                     properties: {
-                      path: "string",
                       name: "string",
-                      aliases: {
-                        arrayOf: "string"
-                      }
+                      src: "string",
+                      options: "object",
+                      enabled: "boolean"
                     }
                   }
                 }
@@ -15035,25 +14999,8 @@ var require_yaml_intelligence_resources = __commonJS({
             }
           },
           description: {
-            short: "Extra Shiki languages, as TextMate grammar JSON files.",
-            long: "Extra languages for Shiki code highlighting, as TextMate grammar JSON\nfiles (the shape VS Code extensions and the `tm-grammars` package ship),\nby path relative to the document. A string is the path; an object adds\nthe language `name` and `aliases` the code blocks use. Needs\n`shiki: true`.\n"
-          }
-        },
-        {
-          name: "shiki-aliases",
-          tags: {
-            formats: [
-              "emiljs"
-            ]
-          },
-          schema: {
-            object: {
-              additionalProperties: "string"
-            }
-          },
-          description: {
-            short: "Code block languages that highlight as another language.",
-            long: "Code block language names that highlight as another language, for\nexample `rscript: r`. The target must be a language the build carries or\none from `shiki-langs`. Needs `shiki: true`.\n"
+            short: "emil.js extensions this document turns on, in resolution order.",
+            long: "Extensions this document turns on, the same list `emiljs build` reads,\nso a deck builds the same through both tools. An entry is a bare name\n(a built-in, or a folder in `emiljs-extensions/` next to the document),\na `./` or `/` path relative to the document, or an object with `name`\nor `src` plus `options`. Later entries win a conflict.\n\nCode highlighting is the built-in `shiki` extension, on by default for\nfenced code that names a language. Configure it with an entry named\n`shiki`: `enabled: false` turns it off, `options` takes `style`\n(`github-light` or `github-dark`), `langs` (extra TextMate grammar JSON\nfiles, by path relative to the document) and `aliases` (code block\nlanguages that highlight as another, for example `rscript: r`). The\nbuild carries a fixed set of languages (bash, css, diff, html,\njavascript, json, markdown, python, r, sql, toml, typescript, xml,\nyaml); another renders as a plain block, with a warning. Math is the\nbuilt-in `katex` extension, always on. `graphviz` is not available in\nthis format yet.\n"
           }
         }
       ],
@@ -24088,20 +24035,8 @@ var require_yaml_intelligence_resources = __commonJS({
           long: ""
         },
         {
-          short: "Highlight code blocks with Shiki.",
-          long: "Highlight fenced code blocks with Shiki, the same highlighter\n<code>emiljs build</code> uses, so code looks the same in both. The\nbuild carries a fixed set of languages (bash, css, diff, html,\njavascript, json, markdown, python, r, sql, toml, typescript, xml,\nyaml); another language renders as a plain block, with a warning."
-        },
-        {
-          short: "The Shiki color theme for code blocks.",
-          long: ""
-        },
-        {
-          short: "Extra Shiki languages, as TextMate grammar JSON files.",
-          long: "Extra languages for Shiki code highlighting, as TextMate grammar JSON\nfiles (the shape VS Code extensions and the <code>tm-grammars</code>\npackage ship), by path relative to the document. A string is the path;\nan object adds the language <code>name</code> and <code>aliases</code>\nthe code blocks use. Needs <code>shiki: true</code>."
-        },
-        {
-          short: "Code block languages that highlight as another language.",
-          long: "Code block language names that highlight as another language, for\nexample <code>rscript: r</code>. The target must be a language the build\ncarries or one from <code>shiki-langs</code>. Needs\n<code>shiki: true</code>."
+          short: "emil.js extensions this document turns on, in resolution order.",
+          long: "Extensions this document turns on, the same list\n<code>emiljs build</code> reads, so a deck builds the same through both\ntools. An entry is a bare name (a built-in, or a folder in\n<code>emiljs-extensions/</code> next to the document), a <code>./</code>\nor <code>/</code> path relative to the document, or an object with\n<code>name</code> or <code>src</code> plus <code>options</code>. Later\nentries win a conflict.\nCode highlighting is the built-in <code>shiki</code> extension, on by\ndefault for fenced code that names a language. Configure it with an\nentry named <code>shiki</code>: <code>enabled: false</code> turns it\noff, <code>options</code> takes <code>style</code>\n(<code>github-light</code> or <code>github-dark</code>),\n<code>langs</code> (extra TextMate grammar JSON files, by path relative\nto the document) and <code>aliases</code> (code block languages that\nhighlight as another, for example <code>rscript: r</code>). The build\ncarries a fixed set of languages (bash, css, diff, html, javascript,\njson, markdown, python, r, sql, toml, typescript, xml, yaml); another\nrenders as a plain block, with a warning. Math is the built-in\n<code>katex</code> extension, always on. <code>graphviz</code> is not\navailable in this format yet."
         },
         "The identifier for this publication.",
         "The identifier value.",
@@ -26064,12 +25999,12 @@ var require_yaml_intelligence_resources = __commonJS({
         mermaid: "%%"
       },
       "handlers/mermaid/schema.yml": {
-        _internalId: 227073,
+        _internalId: 226176,
         type: "object",
         description: "be an object",
         properties: {
           "mermaid-format": {
-            _internalId: 227065,
+            _internalId: 226168,
             type: "enum",
             enum: [
               "png",
@@ -26085,7 +26020,7 @@ var require_yaml_intelligence_resources = __commonJS({
             exhaustiveCompletions: true
           },
           theme: {
-            _internalId: 227072,
+            _internalId: 226175,
             type: "anyOf",
             anyOf: [
               {
