@@ -1,0 +1,25 @@
+---
+title: "Extensions"
+format:
+  emiljs:
+    extensions:
+      - shout
+    keep-emiljs: true
+_quarto:
+  tests:
+    emiljs:
+      noErrors: []
+      ensureEmiljsFileRegexMatches:
+        # the list reaches emil.js unchanged, and the fence stays a fence
+        - ['extensions:', '- shout', '\n``` shout\n']
+      ensureFileRegexMatches:
+        # the folder extension, loaded by Quarto on Deno: its fence is rendered,
+        # its stylesheet is in its own layer, and its runtime half is on the page
+        - ['<p class="ext-shout-line" data-ext-shout="loud">HELLO</p>', '@layer emiljs-ext.shout', '__EMILJS_EXTENSIONS__']
+---
+
+## A custom fence
+
+```shout
+hello
+```
