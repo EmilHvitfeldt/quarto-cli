@@ -13000,7 +13000,7 @@ var require_patterns = __commonJS({
 var require_markdown_it_attrs = __commonJS({
   "../../node_modules/.pnpm/markdown-it-attrs@5.0.1_markdown-it@14.3.0/node_modules/markdown-it-attrs/index.js"(exports, module) {
     "use strict";
-    var createMarkdownIt = require_index_cjs4();
+    var createMarkdownIt2 = require_index_cjs4();
     var patternsConfig = require_patterns();
     var defaultOptions2 = {
       leftDelimiter: "{",
@@ -13045,9 +13045,9 @@ var require_markdown_it_attrs = __commonJS({
         }
       }
       md2.core.ruler.before("linkify", "curly_attributes", curlyAttrs);
-      const defaultFence2 = createMarkdownIt().renderer.rules.fence;
+      const defaultFence = createMarkdownIt2().renderer.rules.fence;
       const currentFence = md2.renderer.rules.fence;
-      const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence2;
+      const hasCustomFence = typeof currentFence === "function" && currentFence !== defaultFence;
       if (options.fenceAttrsOnPre && !hasCustomFence && typeof currentFence === "function") {
         md2.renderer.rules.fence = function(tokens, idx, mdOptions, env, slf) {
           const token2 = tokens[idx];
@@ -20305,7 +20305,7 @@ var require__ = __commonJS({
     var discriminator_1 = require_discriminator();
     var json_schema_2020_12_1 = require_json_schema_2020_12();
     var META_SCHEMA_ID = "https://json-schema.org/draft/2020-12/schema";
-    var Ajv20202 = class extends core_1.default {
+    var Ajv20203 = class extends core_1.default {
       constructor(opts = {}) {
         super({
           ...opts,
@@ -20332,11 +20332,11 @@ var require__ = __commonJS({
         return this.opts.defaultMeta = super.defaultMeta() || (this.getSchema(META_SCHEMA_ID) ? META_SCHEMA_ID : void 0);
       }
     };
-    exports.Ajv2020 = Ajv20202;
-    module.exports = exports = Ajv20202;
-    module.exports.Ajv2020 = Ajv20202;
+    exports.Ajv2020 = Ajv20203;
+    module.exports = exports = Ajv20203;
+    module.exports.Ajv2020 = Ajv20203;
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Ajv20202;
+    exports.default = Ajv20203;
     var validate_1 = require_validate();
     Object.defineProperty(exports, "KeywordCxt", { enumerable: true, get: function() {
       return validate_1.KeywordCxt;
@@ -20380,7 +20380,7 @@ import { dirname, join } from "node:path";
 var base_default = "/*\n * @emiljs/core baseline CSS \u2014 the static-first substrate (DESIGN 5.2).\n * Pure CSS, no JavaScript dependency. Implements the fixed-aspect canvas, the\n * hard bounding box, the three render modes off one DOM, and the accessibility\n * wedge defaults. Themes (Stage 2) supply values for the custom properties\n * declared here; the core owns only the property *names*.\n */\n\n.emiljs {\n  /* Token vocabulary (names only; themes fill the values). */\n  --emiljs-aspect: 1.7778; /* 16 / 9 */\n  --emiljs-bg: #ffffff;\n  /* A CSS <image> list, first layer on top (SPEC A38). */\n  --emiljs-bg-image: none;\n  --emiljs-fg: #111111;\n  --emiljs-margin-bg: #000000;\n\n  /*\n   * The canvas is laid out at a FIXED pixel size and scaled to fit; it never\n   * relayouts (DESIGN 5.2, \"Stable Canvas\"). --emiljs-basis is the slide's\n   * authoring width; height follows the aspect ratio. Everything sized in the\n   * slide is proportional to this basis, so the layout is identical at every\n   * viewport size (see --emiljs-scale below). Print overrides --emiljs-basis\n   * with a physical width.\n   */\n  --emiljs-basis: 1280px;\n\n  margin: 0;\n  background: var(--emiljs-margin-bg);\n  color: var(--emiljs-fg);\n  font-family: system-ui, sans-serif;\n}\n\n/*\n * The slide is the outer canvas box: the hard bounding box for all content and\n * backgrounds, sized to its SCALED footprint so it occupies exactly that much\n * space in normal flow (what makes scroll-mode stacking and centering work).\n * Overflow clips; it never reflows.\n *\n * Scale-not-reflow (DESIGN 5.2, non-negotiable): --emiljs-scale is the\n * fit-to-viewport factor (set per screen mode below via CSS typed arithmetic,\n * length / length -> number, no runtime JS math). `.emiljs-surface` (below) is\n * the inner box that actually carries the slide's authored content, laid out\n * ONCE at the fixed --emiljs-basis and geometrically magnified with\n * `transform: scale` -- a true post-layout magnification of already-rasterized\n * layout, so it never re-hints glyphs at a different effective size the way\n * `zoom` (the original mechanism here) did. Scaling `font-size` directly with\n * the viewport is NOT equivalent either: glyph hinting rounds advance widths\n * per size, so line breaks shift (text reflows) as the box scales. Because\n * `transform` does not contribute its scaled size to normal flow the way\n * `zoom` did, `.slide` itself is sized directly to the scaled footprint\n * (`--emiljs-basis * --emiljs-scale`) and `.emiljs-surface` is the one\n * generated (non-authored) element inside it that is actually transformed --\n * the minimal-DOM cost of eliminating the rare zoom-hinting wrap-flip\n * (issue #231; SPEC A9 permits this one generated surface, parallel to the A7\n * live region).\n */\n.emiljs .slide {\n  box-sizing: border-box;\n  /* Positioning context for `.emiljs-surface` itself; no longer the\n   * positioning context for pinned author content -- that's the surface\n   * (see its own comment below). */\n  position: relative;\n  width: calc(var(--emiljs-basis) * var(--emiljs-scale, 1));\n  height: calc(\n    var(--emiljs-basis) / var(--emiljs-aspect) * var(--emiljs-scale, 1)\n  );\n  overflow: clip;\n  background: var(--emiljs-bg) center / cover no-repeat;\n  /* Theme layers over the flat color (SPEC A38). Set after the shorthand so it\n   * is not reset; the per-slide `--slide-bg` rule below replaces this list. */\n  background-image: var(--emiljs-bg-image);\n  color: var(--emiljs-fg);\n}\n\n/*\n * The fit-to-viewport scale factor: the largest scale keeping the whole canvas\n * visible. Applied only on screen; print sizes the slide in physical units\n * instead (no --emiljs-scale is defined there, so every `var(--emiljs-scale, 1)`\n * above and below falls back to 1, an unscaled physical-unit box).\n */\n@media screen {\n  .emiljs .slide {\n    --emiljs-scale: min(\n      100vw / var(--emiljs-basis),\n      100dvh / (var(--emiljs-basis) / var(--emiljs-aspect))\n    );\n  }\n}\n\n/*\n * The content surface: laid out at the FIXED pixel basis and geometrically\n * magnified as a unit via `transform: scale`, so `1cqw` resolves to 1% of this\n * box (a stable 1% of --emiljs-basis at every viewport size, because this\n * layout box never changes size) -- author units stable (DESIGN 5.2). Also the\n * positioning context for pinned/absolutely-positioned author content (the\n * location helpers in @emiljs/themes, and editor-authored `--emiljs-pos-*`\n * positions): both basis-absolute-px and percentage offsets need to resolve\n * against this fixed-basis box and then get scaled along with everything else\n * in it, not against `.slide`'s own already-scaled box.\n */\n.emiljs-surface {\n  box-sizing: border-box;\n  container-type: size;\n  container-name: slide;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: var(--emiljs-basis);\n  height: calc(var(--emiljs-basis) / var(--emiljs-aspect));\n  transform: scale(var(--emiljs-scale, 1));\n  transform-origin: top left;\n  font-size: calc(var(--emiljs-basis) * 0.032);\n  padding: calc(var(--emiljs-basis) * 0.04) calc(var(--emiljs-basis) * 0.05);\n}\n\n.emiljs-surface > :first-child {\n  margin-block-start: 0;\n}\n\n/* Per-slide background paints on the slide itself (SPEC A3), clipped to the\n * box. `background-image` only (issue #76), not the `background` shorthand:\n * the shorthand resets every other background longhand to its initial value\n * (notably `background-color` -> `transparent`, and `background-position`/\n * `-size`/`-repeat` back to their defaults), silently discarding whatever a\n * theme painted underneath (a solid `--emiljs-bg` fallback, or a theme's own\n * position/size/repeat/additional layers) even though this rule only ever\n * meant to swap the image. Deliberately sets no other longhand itself, so\n * whatever the cascade already established for those (the base rule below,\n * or a theme rule more specific than it) keeps applying undisturbed. A flat\n * per-slide color goes through `style: { bg }` instead (SPEC A11), which\n * only ever touches `--emiljs-bg` and so never has this problem. */\n.emiljs .slide[style*='--slide-bg'] {\n  background-image: var(--slide-bg);\n}\n\n/* Optional framing of the per-slide background image (SPEC A3). Size is plain\n * CSS; position is the image's top-left as a unitless percent of the slide box\n * (free placement), converted to lengths via the scaled basis since CSS\n * percentage positions are relative to (box - image). Either one forces\n * `no-repeat`, so a smaller-than-slide image leaves the theme color showing. */\n.emiljs .slide[style*='--slide-bg-size'] {\n  background-size: var(--slide-bg-size);\n  background-repeat: no-repeat;\n}\n\n.emiljs .slide[style*='--slide-bg-x'] {\n  background-position: calc(\n      var(--emiljs-basis) * var(--emiljs-scale, 1) * var(--slide-bg-x) / 100\n    )\n    calc(\n      var(--emiljs-basis) / var(--emiljs-aspect) * var(--emiljs-scale, 1) *\n        var(--slide-bg-y) / 100\n    );\n  background-repeat: no-repeat;\n}\n\n/* Background video/iframe layer (SPEC A37): the generated first child of the\n * slide, filling the slide box beneath the surface (it precedes the surface in\n * the DOM, so the absolutely positioned surface paints over it). Decorative and\n * non-interactive: it must never swallow clicks meant for slide content or deck\n * navigation. The slide's own `overflow: clip` bounds it. */\n.emiljs-bg {\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n}\n\n.emiljs-bg > video,\n.emiljs-bg > iframe {\n  display: block;\n  width: 100%;\n  height: 100%;\n  border: 0;\n}\n\n.emiljs-bg > video {\n  object-fit: cover;\n}\n\n/* Playing media has no meaning on paper (an iframe prints blank, a video as an\n * arbitrary frame): print falls back to the slide's own background. */\n@media print {\n  .emiljs-bg {\n    display: none;\n  }\n}\n\n/* Backgrounds must not bleed past the box when printing. */\n.emiljs .slide {\n  -webkit-print-color-adjust: exact;\n  print-color-adjust: exact;\n}\n\n/* Footer/date/slide-number chrome (SPEC A24): mechanism only (taken out of\n * normal flow so it doesn't stack beneath the surface; sized/scaled off the\n * same fixed basis as the surface, issue #78). Placement (which edge, gap,\n * color, typography) is the theme's, through --emiljs-footer-* tokens. */\n.emiljs-footer {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: var(--emiljs-basis);\n  transform: scale(var(--emiljs-scale, 1));\n  transform-origin: bottom left;\n  font-size: calc(var(--emiljs-basis) * 0.032);\n}\n\n/* Logo chrome (SPEC A30): mechanism only, same fixed-basis/scale treatment as\n * `.emiljs-footer` above (issue #189). Anchored to the bottom-right corner by\n * default; size and opacity are the theme's, through --emiljs-logo-* tokens. */\n.emiljs-logo {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  transform: scale(var(--emiljs-scale, 1));\n  transform-origin: bottom right;\n}\n\n/* The nav announcement live region is present but visually hidden (SPEC A7). */\n.emiljs-live {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  padding: 0;\n  border: 0;\n  overflow: hidden;\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n\n/* Intrinsic image sizing by default; fit behavior is opt-in via theme classes. */\n.emiljs .slide img {\n  max-width: 100%;\n  height: auto;\n}\n\n/* `<figure>` (image captions, SPEC A29, issue #85): a browser's UA stylesheet\n * indents it by default (`margin: 1em 40px`); reset to the same flush box\n * every other block starts from, consistent with the block-to-block rhythm\n * living entirely in the `--emiljs-gap` rule above, not a per-element margin. */\n.emiljs .slide figure {\n  margin: 0;\n}\n\n/* ---- scroll mode: the static baseline (CSS scroll-snap) ---- */\n.emiljs[data-mode='scroll'] {\n  display: block;\n  block-size: 100dvh;\n  overflow-y: auto;\n  scroll-snap-type: y mandatory;\n  scroll-behavior: smooth;\n}\n\n.emiljs[data-mode='scroll'] .slide {\n  /* The slide occupies its scaled footprint (base rule's width/height); center\n   * it horizontally. */\n  margin-inline: auto;\n  scroll-snap-align: center;\n  scroll-snap-stop: always;\n}\n\n/* ---- deck mode: one slide at a time (CSS half; stepping is @emiljs/runtime) ---- */\n.emiljs[data-mode='deck'] {\n  display: grid;\n  place-items: center;\n  block-size: 100dvh;\n  overflow: hidden;\n}\n\n/* Hide every slide except the current one (SPEC A22): the emitter always\n * marks the first slide `data-emiljs-current`, and @emiljs/runtime moves the\n * marker as the user navigates, so this one negative selector is the whole\n * mechanism whether or not a runtime ever loads (issue #75). Deliberately\n * `!important` and asserted only on the *hidden* side: a shown slide gets no\n * display value from here at all, so a theme's own `display` (e.g. a\n * `statement`-variant `display: grid`, Grammar of Slides phase 2) is never\n * competing with core over what shows. Letterboxed automatically: the shown\n * slide's scaled footprint is centered by the grid above and the surrounding\n * space is inert margin (DESIGN 5.2). */\n.emiljs[data-mode='deck'] .slide:not([data-emiljs-current]) {\n  display: none !important;\n}\n\n/* Hidden content (SPEC A13/A33, issue #173). A hidden slide is removed from\n * every mode (it stays in the source); `!important` so a theme's own\n * `display` can't bring it back. A hidden block instead keeps its box\n * (`visibility`, not `display`) so nothing around it shifts, and being\n * `visibility: hidden` it is also skipped by assistive tech. */\n.emiljs .slide[data-emiljs-hidden='true'] {\n  display: none !important;\n}\n\n.emiljs .slide [data-emiljs-hidden='true'] {\n  visibility: hidden;\n}\n\n/* Speaker notes (SPEC A42). `::: notes` is an `aside.emiljs-notes`, hidden with\n * the `hidden` attribute unless the deck sets `show-notes`; `!important` so a\n * theme's own `display` can't bring it back. Hidden in every mode, print\n * included, and out of the accessibility tree (`display: none`). When shown it\n * is set apart below the slide content, smaller and lighter. */\n.emiljs .slide .emiljs-notes[hidden] {\n  display: none !important;\n}\n\n.emiljs .slide .emiljs-notes:not([hidden]) {\n  margin-block-start: 1.5em;\n  padding-block-start: 0.5em;\n  border-block-start: 1px solid\n    color-mix(in srgb, currentColor 30%, transparent);\n  font-size: 0.6em;\n  opacity: 0.8;\n}\n\n/* Tabsets (SPEC A40). Static, a `.panel-tabset` is stacked headed panels. Once\n * the runtime has built the tablist (`data-emiljs-tabs`) the headings are\n * redundant with the tabs, so they are hidden; on paper every panel and its\n * heading is shown again and the tablist is dropped. */\n.emiljs .panel-tabset[data-emiljs-tabs] > .emiljs-tabpanel > :first-child {\n  display: none;\n}\n\n/* ---- print mode: one slide per page ---- */\n@media print {\n  .emiljs .panel-tabset[data-emiljs-tabs] > .emiljs-tablist {\n    display: none;\n  }\n\n  .emiljs .panel-tabset[data-emiljs-tabs] > .emiljs-tabpanel {\n    display: block !important;\n  }\n\n  .emiljs .panel-tabset[data-emiljs-tabs] > .emiljs-tabpanel > :first-child {\n    display: revert;\n  }\n\n  .emiljs,\n  .emiljs[data-mode='deck'],\n  .emiljs[data-mode='scroll'] {\n    display: block;\n    block-size: auto;\n    overflow: visible;\n    background: none;\n  }\n\n  .emiljs .slide {\n    display: block;\n    /* Size the slide to the page box in physical units instead of scaling: the\n     * paper never resizes, so there is no reflow to prevent, and physical units\n     * are exact. Overriding --emiljs-basis carries the proportional font/padding\n     * across (via .emiljs-surface); the explicit height matches the @page box\n     * precisely (avoiding a hairline calc() rounding difference from\n     * 13.333in / 1.7778). --emiljs-scale is undefined in print (screen-only,\n     * above), so the surface's `scale(var(--emiljs-scale, 1))` is a no-op\n     * here -- the surface is the page box itself, 1:1, no magnification. */\n    --emiljs-basis: 13.333in;\n    height: 7.5in;\n    break-inside: avoid;\n    break-after: page;\n  }\n\n  .emiljs .slide .emiljs-surface {\n    height: 7.5in;\n  }\n\n  .emiljs .slide:last-of-type {\n    break-after: auto;\n  }\n\n  @page {\n    /* Size the printed page to the deck aspect ratio (16:9 widescreen =\n     * 13.333in x 7.5in) instead of the browser default (Letter), so print/PDF\n     * matches the on-screen slide (DESIGN 5.2). When the aspect ratio becomes\n     * configurable (Stage 2) this size is overridden to track --emiljs-aspect. */\n    size: 13.333in 7.5in;\n    margin: 0;\n  }\n}\n\n/* ---- accessibility wedge defaults (DESIGN 1) ---- */\n@media (prefers-reduced-motion: reduce) {\n  .emiljs,\n  .emiljs * {\n    animation-duration: 0.001ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.001ms !important;\n    scroll-behavior: auto !important;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  .emiljs {\n    --emiljs-bg: #14161a;\n    --emiljs-fg: #f2f2f2;\n    --emiljs-margin-bg: #000000;\n  }\n}\n\n@media (prefers-contrast: more) {\n  .emiljs {\n    --emiljs-bg: #ffffff;\n    --emiljs-fg: #000000;\n  }\n}\n";
 
 // emiljs-embed:emiljs-text:@emiljs/runtime/auto.global.js#text
-var auto_global_default = '"use strict";(()=>{var A="data-emiljs-current",oe="data-emiljs-transition",je="emiljs-autoplay-toggle";var De=n=>n?.tagName==="VIDEO";function Pe(n){if(n==null||n.trim()==="")return;let e=Number(n);return Number.isFinite(e)&&e>=0?e:void 0}function Oe(n){let e=Pe(n.payload.start)??0,t=Pe(n.payload.end);return{start:e,end:t!=null&&t>e?t:void 0}}function ae(n,e){try{n.currentTime=e}catch{}}var Ie={match:"[data-step-for]",prepare(n){let e=n.target;return()=>{De(e)&&e.pause()}},apply(){},settle(n,e,t){let r=new Set([...n.shown.map(o=>o.el),...n.hidden.map(o=>o.el)]),i=new Map;for(let o of e){if(!De(o.target))continue;let p=i.get(o.target)??[];p.push(o),i.set(o.target,p)}for(let[o,p]of i){let v=p.filter(l=>l.state!=="before").reduce((l,h)=>!l||h.start>=l.start?h:l,void 0);if(!(n.cause!=="step"||p.some(l=>r.has(l.el)))){let l=v?Oe(v):void 0;if(l?.end!=null&&!o.paused){let h=Math.max(0,l.end-o.currentTime);t.after(h*1e3,()=>o.pause())}continue}if(o.pause(),!v){ae(o,0);continue}let{start:a,end:u}=Oe(v);if(v.state==="after"){ae(o,u??o.duration??a);continue}ae(o,a),n.cause==="step"&&n.direction==="forward"&&!t.instant&&n.shown.some(l=>l.el===v.el)&&(o.play()?.catch(()=>{}),u!=null&&t.after((u-a)*1e3,()=>o.pause()))}}};function B(n){return Array.from(n.querySelectorAll(":scope > section.slide"))}function _e(n){return n.querySelector(":scope > .emiljs-live")}function $(){return typeof matchMedia=="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches}var C={ArrowRight:"nextStep",ArrowLeft:"prevStep",ArrowDown:"next",ArrowUp:"prev",PageDown:"next",PageUp:"prev"," ":"nextStep",Spacebar:"nextStep",Home:"first",End:"last",s:"presenter",S:"presenter"};function ct(n){return n instanceof HTMLElement?n.isContentEditable?!0:n.tagName==="INPUT"||n.tagName==="TEXTAREA"||n.tagName==="SELECT":!1}function K(n,e=C){return n.ctrlKey||n.metaKey||n.altKey||ct(n.target)?null:e[n.key]??null}function Be(n){let e=n.querySelectorAll("[data-src], [data-srcset]");for(let t of e){let r=t.getAttribute("data-src"),i=t.getAttribute("data-srcset");r!==null&&(t.setAttribute("src",r),t.removeAttribute("data-src")),i!==null&&(t.setAttribute("srcset",i),t.removeAttribute("data-srcset"))}}function $e(n,e,t){let r=[];for(let i=n-t;i<=n+t;i++)i>=0&&i<e&&r.push(i);return r}function F(n,e,t){return e===0?0:t?(n%e+e)%e:Math.max(0,Math.min(e-1,n))}var le={index:0,step:0};function q(n,e,t){let r=F(t,e.total,e.loop);return r===n.index?n:{index:r,step:0}}function de(n,e,t,r){let i=F(t,e.total,e.loop),o=Math.max(0,Math.min(r,e.stepsAt(i)));return i===n.index&&o===n.step?n:{index:i,step:o}}function Ke(n,e,t){let r=n.index;for(let i=0;i<e.total;i++){let o=F(r+t,e.total,e.loop);if(o===r||o===n.index)return n.index;if(r=o,!e.skip?.(r))return r}return n.index}function V(n,e){return q(n,e,Ke(n,e,1))}function ce(n,e){return q(n,e,Ke(n,e,-1))}function z(n,e){return n.step<e.stepsAt(n.index)?{index:n.index,step:n.step+1}:V(n,e)}function Fe(n,e){if(n.step>0)return{index:n.index,step:n.step-1};let t=ce(n,e);return t===n?n:{index:t.index,step:e.stepsAt(t.index)}}var pe="data-emiljs-step-state",k="data-emiljs-step-target-state",ue="data-emiljs-step";function qe(n,e,t){let r=n.getAttribute(e);if(r==null||!/^\\d+$/.test(r))return;let i=Number(r);return i>=t?i:void 0}var Ve=new WeakSet;function pt(n,e,t){let r=e.getAttribute("data-step-for");if(!r)return null;let i=null;try{i=n.querySelector(r)}catch{}return!i&&t&&!Ve.has(e)&&(Ve.add(e),console.warn(`[emiljs] data-step-for="${r}" matches nothing on its slide.`)),i}function U(n,e=!1,t){let r=Array.from(n.querySelectorAll("[data-step]")),i=1,o=r.map((d,a)=>{let u=t?.get(d)??qe(d,"data-step-count",1)??1,s=qe(d,"data-step-at",0)??i;return i=s+u,{el:d,start:s,width:u,doc:a}}),p=new Set;for(let{start:d,width:a}of o)for(let u=0;u<a;u++)p.add(d+u);let m=new Map;return[...p].sort((d,a)=>d-a).forEach((d,a)=>m.set(d,a+1)),{members:o.map(d=>({el:d.el,start:m.get(d.start),width:d.width,doc:d.doc})).sort((d,a)=>d.start-a.start||d.doc-a.doc).map(({el:d,start:a,width:u})=>({el:d,start:a,width:u,target:pt(n,d,e)})),steps:p.size}}function me(n,e){return e<n.start?"before":e<n.start+n.width?"current":"after"}function he(n,e){return Math.max(0,Math.min(e-n.start+1,n.width))}var N=new WeakMap;function ze(n,e){N.has(n)||N.set(n,{original:n.getAttribute("style"),stamped:null});for(let[t,r]of Object.entries(e))n.style.setProperty(t,r);N.get(n).stamped=n.getAttribute("style")}function Ue(n,e){let t=N.get(n);if(N.delete(n),t&&n.getAttribute("style")===t.stamped){t.original===null?n.removeAttribute("style"):n.setAttribute("style",t.original);return}for(let r of e)n.style.removeProperty(r);n.getAttribute("style")===""&&n.removeAttribute("style")}function ut(n,e,t=!1){fe(n,U(n,t),e)}function fe(n,{members:e,steps:t},r){for(let i of n.querySelectorAll(`[${k}]`))i.removeAttribute(k);n.setAttribute(ue,String(r)),ze(n,{"--emiljs-step":String(r),"--emiljs-steps":String(t)});for(let i of e){let o=me(i,r);i.el.setAttribute(pe,o),ze(i.el,{"--emiljs-step-local":String(he(i,r))}),i.target?.setAttribute(k,o)}}function ve(n){n.hasAttribute(ue)&&(n.removeAttribute(ue),Ue(n,["--emiljs-step","--emiljs-steps"]));for(let e of n.querySelectorAll(`[${pe}]`))e.removeAttribute(pe),Ue(e,["--emiljs-step-local"]);for(let e of n.querySelectorAll(`[${k}]`))e.removeAttribute(k)}function We(n,e){let t=n.cloneNode(!0);return ve(t),ut(t,e),t}function Je(n){n.querySelector("[data-fragment]")&&console.warn("[emiljs] data-fragment was renamed to data-step (and data-fragment-index to data-step-at); these elements will not step.")}var mt={title:"Presenter view",current:"Current slide",next:"Next",notes:"Notes",noNotes:"No notes for this slide.",endOfDeck:"End of deck",slideOf:"Slide {n} of {total}",elapsed:"Elapsed time",resetTimer:"Reset timer",previous:"Previous",nextButton:"Next",overview:"Overview",closeOverview:"Back to presenter view"},ht="emiljs-presenter",ft="popup,width=1180,height=760",be=220,vt=`\nhtml, body { margin: 0; height: 100%; }\n.pv { display: grid; grid-template-rows: auto 1fr auto; gap: 0.75rem; box-sizing: border-box; height: 100%; padding: 0.75rem; background: #17181c; color: #ececf0; font: 16px/1.4 system-ui, sans-serif; }\n.pv * { box-sizing: border-box; }\n.pv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }\n.pv-bar > .pv-spacer { flex: 1; }\n.pv-timer { font-variant-numeric: tabular-nums; font-size: 1.5rem; }\n.pv-main { display: grid; grid-template-columns: 3fr 2fr; grid-template-rows: auto 1fr; gap: 0.75rem; min-height: 0; }\n.pv-current { grid-row: 1 / span 2; min-width: 0; }\n.pv-next { min-width: 0; }\n.pv-notes { min-height: 0; overflow: auto; padding: 0.75rem 1rem; border: 1px solid #3a3c46; border-radius: 6px; font-size: 1.25rem; }\n.pv-notes > :first-child { margin-top: 0; }\n.pv-notes > hr { border: 0; border-top: 1px solid #3a3c46; }\n.pv-empty { color: #a4a7b3; font-style: italic; }\n.pv h2 { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #a4a7b3; }\n.pv-frame { position: relative; overflow: hidden; width: 100%; border: 1px solid #3a3c46; background: #000; }\n.pv-frame > .emiljs { display: block; block-size: auto; overflow: hidden; }\n.pv-frame > .emiljs > .slide { margin: 0; }\n.pv-end { display: grid; place-items: center; aspect-ratio: 16 / 9; border: 1px dashed #3a3c46; color: #a4a7b3; }\n.pv button { padding: 0.45rem 0.9rem; border: 1px solid #5a5d6b; border-radius: 6px; background: #262830; color: inherit; font: inherit; cursor: pointer; }\n.pv button:hover { background: #30323c; }\n.pv :focus-visible { outline: 2px solid #8ab4ff; outline-offset: 2px; }\n.pv-actions { display: flex; gap: 0.5rem; }\n.pv-overview { position: fixed; inset: 0; overflow: auto; padding: 1rem; background: #17181c; }\n.pv-overview[hidden] { display: none; }\n.pv-grid { display: grid; grid-template-columns: repeat(auto-fill, ${be}px); gap: 0.75rem; margin-top: 1rem; padding: 0; list-style: none; }\n.pv-thumb { display: block; width: ${be}px; padding: 0 !important; overflow: hidden; text-align: start; }\n.pv-thumb[aria-current=\'true\'] { border-color: #8ab4ff; box-shadow: 0 0 0 2px #8ab4ff; }\n.pv-thumb > span { display: block; padding: 0.2rem 0.4rem; font-size: 0.8rem; }\n@media (max-width: 760px) { .pv-main { grid-template-columns: 1fr; grid-template-rows: none; } .pv-current { grid-row: auto; } }\n`;function Ge(n,e,t){return n.replace("{n}",String(e)).replace("{total}",String(t))}function H(n){return String(n).padStart(2,"0")}function bt(n){let e=Math.max(0,Math.floor(n/1e3)),t=Math.floor(e/3600),r=Math.floor(e%3600/60),i=e%60;return t?`${t}:${H(r)}:${H(i)}`:`${H(r)}:${H(i)}`}function Qe(n,e,t){let i=n.ownerDocument.defaultView?.getComputedStyle(n).getPropertyValue(e)??"",o=Number.parseFloat(i);return Number.isFinite(o)&&o>0?o:t}function Xe(n,e={}){let t=n.root.ownerDocument.defaultView,r=e.open?e.open():t?.open("",ht,e.features??ft)??null;if(!r)return null;let i={...mt,...e.labels},o=r.document,p=n.root,m=Qe(p,"--emiljs-basis",1280),v=Qe(p,"--emiljs-aspect",16/9),d=()=>B(p);o.documentElement.lang=p.getAttribute("lang")??"en",o.documentElement.dir=p.getAttribute("dir")??"ltr",o.title=i.title,o.head.replaceChildren();let a=p.ownerDocument.querySelectorAll(\'style, link[rel~="stylesheet"]\');for(let c of a)o.head.appendChild(o.importNode(c,!0));let u=o.createElement("style");u.textContent=vt,o.head.appendChild(u);let s=(c,b,f)=>{let g=o.createElement(c);return b&&(g.className=b),f!==void 0&&(g.textContent=f),g},l=(c,b)=>{let f=s("button",void 0,c);return f.type="button",f.addEventListener("click",b),f},h=s("span","pv-count");h.setAttribute("aria-live","polite");let y=s("span","pv-timer","00:00");y.setAttribute("role","timer"),y.setAttribute("aria-label",i.elapsed);let E=s("span","pv-clock"),T=Date.now(),nt=l(i.resetTimer,()=>{T=Date.now(),re()}),Ee=s("div","pv-bar");Ee.append(h,y,nt,s("span","pv-spacer"),E);let G=s("div","pv-frame");G.setAttribute("aria-hidden","true");let rt=s("h2",void 0,i.current),Q=s("section","pv-current");Q.setAttribute("aria-label",i.current),Q.append(rt,G);let j=s("div"),it=s("h2",void 0,i.next),X=s("section","pv-next");X.setAttribute("aria-label",i.next),X.append(it,j);let x=s("section","pv-notes");x.setAttribute("aria-label",i.notes),x.tabIndex=0;let Y=s("div","pv-main");Y.append(Q,X,x);let we=s("div","pv-actions"),xe=l(i.overview,()=>O(!0));we.append(l(i.previous,()=>n.actions.prevStep()),l(i.nextButton,()=>n.actions.nextStep()),xe);let M=s("div","pv-overview");M.hidden=!0,M.setAttribute("role","dialog"),M.setAttribute("aria-label",i.overview);let st=l(i.closeOverview,()=>O(!1)),D=s("ul","pv-grid");M.append(st,D);let Te=s("div","pv");Te.append(Ee,Y,we,M);let Z=o.createElement("body");Z.append(Te),o.documentElement.replaceChild(Z,o.body);let Me=(c,b,f)=>{let g=p.cloneNode(!1);g.removeAttribute("id"),g.removeAttribute("tabindex"),g.setAttribute("data-mode","scroll");let S=We(d()[c],b);S.removeAttribute(A);for(let w of S.querySelectorAll(".emiljs-bg, iframe, video"))w.remove();return S.style.setProperty("--emiljs-scale",String(f)),g.append(S),g},ot=c=>{let b=c.clientWidth;return b>0?b/m:.3},Ae=(c,b,f)=>{c.style.aspectRatio=String(v),c.replaceChildren(Me(b,f,ot(c))),c.dataset.preview=`${b}:${f}`},at=c=>{x.replaceChildren();let b=d()[c]?.querySelectorAll(".emiljs-notes")??[];b.forEach((f,g)=>{g>0&&x.append(s("hr"));for(let S of f.childNodes)x.append(o.importNode(S,!0))}),b.length||x.append(s("p","pv-empty",i.noNotes))},ee="",te="",Le=-1,P=()=>{if(I)return;let c=n.state(),b=n.config();h.textContent=Ge(i.slideOf,c.index+1,b.total);let f=`${c.index}:${c.step}`;f!==ee&&(ee=f,Ae(G,c.index,c.step)),c.index!==Le&&(Le=c.index,at(c.index),x.scrollTop=0);let g=z(c,b),S=g===c?"end":`${g.index}:${g.step}`;if(S!==te)if(te=S,j.replaceChildren(),g===c)j.append(s("div","pv-end",i.endOfDeck));else{let w=s("div","pv-frame");w.setAttribute("aria-hidden","true"),j.append(w),Ae(w,g.index,g.step)}for(let w of D.children){let L=w.firstElementChild;Number(L.dataset.index)===c.index?L.setAttribute("aria-current","true"):L.removeAttribute("aria-current")}},ne=()=>{ee="",te="",P()},He=!1,lt=()=>{He=!0;let c=be/m;d().forEach((b,f)=>{if(b.hasAttribute("data-emiljs-hidden"))return;let g=s("li"),S=s("button","pv-thumb");S.type="button",S.dataset.index=String(f);let w=b.querySelector("h1, h2, h3")?.textContent?.trim(),L=Ge(i.slideOf,f+1,d().length);S.setAttribute("aria-label",w?`${L}: ${w}`:L);let _=s("div","pv-frame");_.style.aspectRatio=String(v),_.setAttribute("aria-hidden","true"),_.append(Me(f,0,c)),S.append(_,s("span",void 0,String(f+1))),S.addEventListener("click",()=>{n.actions.go(f),O(!1)}),g.append(S),D.append(g)})},O=c=>{c&&!He&&lt(),M.hidden=!c,c?(P(),D.querySelector(\'[aria-current="true"]\')?.focus()):xe.focus()},dt=c=>{if(c.key==="Escape"&&!M.hidden){c.preventDefault(),O(!1);return}if(c.target?.tagName==="BUTTON"&&(c.key===" "||c.key==="Enter"))return;let f=K(c,C);!f||f==="presenter"||(c.preventDefault(),f==="first"?n.actions.go(0):f==="last"?n.actions.go(n.config().total-1):n.actions[f]())};Z.addEventListener("keydown",dt);let re=()=>{y.textContent=bt(Date.now()-T);let c=new Date;E.textContent=`${H(c.getHours())}:${H(c.getMinutes())}`};re();let Ce=t?.setInterval(re,1e3),ke=r,ie;typeof ke.ResizeObserver=="function"?(ie=new ke.ResizeObserver(ne),ie.observe(Y)):r.addEventListener("resize",ne);let I=!1,se=c=>{I||(I=!0,Ce!==void 0&&t?.clearInterval(Ce),ie?.disconnect(),r.removeEventListener("resize",ne),r.removeEventListener("pagehide",Ne),t?.removeEventListener("pagehide",Re),c&&!r.closed&&r.close(),e.onClose?.())},Ne=()=>se(!1),Re=()=>se(!0);return r.addEventListener("pagehide",Ne),t?.addEventListener("pagehide",Re),P(),r.focus(),{get isOpen(){return!I&&!r.closed},window:r,update:P,focus:()=>r.focus(),close:()=>se(!0)}}var ge="data-emiljs-steps-busy",gt=new Set(["at","count","for","reveal"]);function yt(n){let e={};for(let{name:t,value:r}of Array.from(n.attributes)){if(!t.startsWith("data-step-"))continue;let i=t.slice(10);!i||gt.has(i)||(e[i.replace(/-([a-z0-9])/g,(o,p)=>p.toUpperCase())]=r)}return e}function St(n,e){try{return n.matches(e)}catch{return!1}}var W=class{constructor(e){this.opts=e;this.behaviors.push(...e.behaviors??[]),this.api={define:t=>{this.behaviors.push(t),this.requestRefresh()},rescan:t=>this.requestRefresh(t),claim:(t,r)=>{if(!t.hasAttribute("data-step")){console.warn("[emiljs] steps.claim needs a [data-step] element.");return}if(r==null)this.claims.delete(t);else if(Number.isInteger(r)&&r>=1)this.claims.set(t,r);else{console.warn("[emiljs] steps.claim needs a positive integer count.");return}this.requestRefresh()},idle:()=>this.pending.size===0?Promise.resolve():new Promise(t=>this.waiters.push(t))}}opts;api;behaviors=[];claims=new WeakMap;runtimes=new WeakMap;bySlide=new WeakMap;lastSteps=new WeakMap;live=new Set;pending=new Set;waiters=[];destroyed=!1;committing=!1;refreshQueued=!1;count(e){return U(e,!1,this.claims).steps}reduced(){return(this.opts.reducedMotion??$)()}requestRefresh(e){if(!this.destroyed){if(!this.committing){this.opts.refresh(e);return}this.refreshQueued||(this.refreshQueued=!0,queueMicrotask(()=>{this.refreshQueued=!1,this.destroyed||this.opts.refresh(e)}))}}track(){let e={};return this.pending.size===0&&this.opts.root.setAttribute(ge,""),this.pending.add(e),()=>{if(!this.pending.delete(e)||this.pending.size>0)return;this.opts.root.removeAttribute(ge);let t=this.waiters;this.waiters=[];for(let r of t)r()}}runtimeFor(e,t,r){let i=this.runtimes.get(e);i||this.runtimes.set(e,i=new WeakMap);let o=i.get(t);if(o)return{rt:o,fresh:!1};o={behavior:e,el:t,anims:new Map},i.set(t,o);let p=this.bySlide.get(r);return p||this.bySlide.set(r,p=new Set),p.add(o),{rt:o,fresh:!0}}drop(e){e.abort?.abort();for(let t of e.anims.values())for(let r of t.values())r.cancel();e.anims.clear();try{e.cleanup?.()}catch(t){console.error("[emiljs] a step behavior cleanup threw",t)}this.runtimes.get(e.behavior)?.delete(e.el)}commit(e,t,r){this.committing=!0;try{return this.run(e,t,r)}finally{this.committing=!1}}run(e,t,r){let i=U(e,!0,this.claims);this.prune(e,i),this.live.add(e);let o=this.lastSteps.get(e)??0,p=i.members.map(s=>({el:s.el,start:s.start,width:s.width,target:s.target,payload:yt(s.el)})),m={slide:e,from:o,to:t,direction:r.direction,cause:r.cause,shown:p.filter(s=>s.start<=t&&s.start>o),hidden:p.filter(s=>s.start>t&&s.start<=o)},v=[];for(let s of this.behaviors)for(let l of p){if(!St(l.el,s.match))continue;let{rt:h,fresh:y}=this.runtimeFor(s,l.el,e),E={state:me(l,t),local:he(l,t)},T=y||!h.last||h.last.state!==E.state||h.last.local!==E.local;v.push({behavior:s,member:l,rt:h,view:E,changed:T})}let d=v.filter(s=>s.changed);for(let s of d)s.rt.abort?.abort(),s.rt.abort=new AbortController;for(let s of d)if(!s.rt.cleanup&&s.behavior.prepare&&!s.rt.last){let l=this.guard(s,()=>s.behavior.prepare(s.member,this.contextFor(s,m)));typeof l=="function"&&(s.rt.cleanup=l)}for(let s of d)s.rt.snapshot=s.behavior.before?this.guard(s,()=>s.behavior.before(s.member,m,this.contextFor(s,m))):void 0;fe(e,i,t),this.lastSteps.set(e,t);let a=m.direction==="backward"?[...d].reverse():d;for(let s of a)s.rt.last=s.view,this.guard(s,()=>s.behavior.apply(s.member,s.view.state,this.contextFor(s,m)));let u=new Set;for(let s of d){if(!s.behavior.settle||u.has(s.behavior))continue;u.add(s.behavior);let l=v.filter(h=>h.behavior===s.behavior).map(h=>({...h.member,...h.view}));this.settle(s.behavior,e,m,l)}return m}leave(e){ve(e),this.lastSteps.delete(e),this.live.delete(e);let t=this.bySlide.get(e);if(t){for(let r of t)this.drop(r);t.clear()}}destroy(){this.destroyed=!0;for(let e of[...this.live])this.leave(e);this.opts.root.removeAttribute(ge),this.pending.clear();for(let e of this.waiters)e();this.waiters=[]}prune(e,t){let r=this.bySlide.get(e);if(!r)return;let i=new Set(t.members.map(o=>o.el));for(let o of[...r])i.has(o.el)||o.el===e||(this.drop(o),r.delete(o))}guard(e,t){try{return t()}catch(r){console.error(`[emiljs] the step behavior for "${e.behavior.match}" threw`,r);return}}settle(e,t,r,i){let{rt:o}=this.runtimeFor(e,t,t);o.abort?.abort(),o.abort=new AbortController;let p={behavior:e,member:{el:t,start:0,width:0,target:null,payload:{}},rt:o,view:{state:"current",local:0},changed:!0};try{e.settle(r,i,this.contextFor(p,r,!0))}catch(m){console.error(`[emiljs] the step behavior for "${e.match}" threw`,m)}}contextFor(e,t,r=!1){let{rt:i}=e,o=this.reduced(),p=t.cause!=="step"||o,m=i.abort.signal,v=t.slide,d=v.querySelector(".emiljs-surface"),a=()=>!d||!d.offsetWidth?1:d.getBoundingClientRect().width/d.offsetWidth||1,u=r?t.direction!=="backward":e.view.state!=="before",s=(l,h)=>{if(m.aborted)return;let y=this.track(),E=l(()=>{m.removeEventListener("abort",T),y(),!m.aborted&&!this.destroyed&&h()}),T=()=>{E(),y()};m.addEventListener("abort",T,{once:!0})};return{instant:p,direction:t.direction,cause:t.cause,state:e.view.state,local:r?0:e.view.local,signal:m,snapshot:i.snapshot,reducedMotion:o,slide:v,surface:d,get scale(){return a()},toSlide:l=>{let h=d?.getBoundingClientRect(),y=a();return{x:(l.left-(h?.left??0))/y,y:(l.top-(h?.top??0))/y,width:l.width/y,height:l.height/y}},after:(l,h)=>s(y=>{let E=setTimeout(y,l);return()=>clearTimeout(E)},h),frame:l=>s(h=>{if(typeof requestAnimationFrame!="function"){let E=setTimeout(h,16);return()=>clearTimeout(E)}let y=requestAnimationFrame(h);return()=>cancelAnimationFrame(y)},()=>l(performance.now())),animate:(l,h,y={})=>this.animate(i,l,h,y,u,p)}}animate(e,t,r,i,o,p){if(typeof t.animate!="function")return null;let{key:m="",...v}=i,d=e.anims.get(t);d||e.anims.set(t,d=new Map);let a=d.get(m),u=!1;a||(a=t.animate(r,{fill:"both",easing:"ease",...v,duration:typeof v.duration=="number"?v.duration:200}),a.pause(),a.currentTime=0,d.set(m,a),u=!0);let s=Number(a.effect?.getComputedTiming().endTime??0);if(p||u&&!o)return a.pause(),a.playbackRate=1,a.currentTime=o?s:0,a;if(o?a.playbackRate<0?a.reverse():a.playState!=="running"&&Number(a.currentTime)<s&&a.play():a.playbackRate>0&&a.reverse(),a.playState==="running"){let l=this.track();a.finished.then(l,l)}return a}};var R="emiljs-runtime-style",Et=`\n@layer emiljs.steps {\n  .emiljs [data-emiljs-step-state="before"]:not([data-step-reveal="none"]) { visibility: hidden; }\n}\n`,wt=`${Et}\n@media (prefers-reduced-motion: no-preference) {\n  .emiljs[data-mode="deck"][data-emiljs-transition="fade"] .slide[data-emiljs-current] {\n    animation: emiljs-fade 250ms ease both;\n  }\n  .emiljs[data-mode="deck"][data-emiljs-transition="slide"] .slide[data-emiljs-current] {\n    animation: emiljs-slide 250ms ease both;\n  }\n}\n@keyframes emiljs-fade { from { opacity: 0; } to { opacity: 1; } }\n@keyframes emiljs-slide { from { opacity: 0; transform: translateX(3%); } to { opacity: 1; transform: none; } }\n`;function Ye(n){let e=n.getElementById(R);if(e)return e;let t=n.createElement("style");return t.id=R,t.textContent=wt,n.head.appendChild(t),t}var xt=".panel-tabset",Tt="emiljs-tabpanel",ye="data-emiljs-tabs",Mt=0;function Ze(n){let e=[];for(let t of n.querySelectorAll(xt)){if(t.hasAttribute(ye))continue;let r=At(t);r&&e.push(r)}return()=>{for(let t of e.reverse())t()}}function At(n){let e=n.ownerDocument,t=[...n.children].filter(a=>a.classList.contains(Tt));if(t.length===0)return null;let r=`emiljs-tabset-${++Mt}`,i=e.createElement("div");i.className="emiljs-tablist",i.setAttribute("role","tablist");let o=[],p=(a,u,s)=>{let l=a.getAttribute(u);a.setAttribute(u,s),o.push(()=>{l===null?a.removeAttribute(u):a.setAttribute(u,l)})},m=t.map((a,u)=>{let s=e.createElement("button");return s.type="button",s.id=`${r}-tab-${u+1}`,s.className="emiljs-tab",s.setAttribute("role","tab"),s.textContent=a.firstElementChild?.textContent?.trim()??"",a.id||p(a,"id",`${r}-panel-${u+1}`),s.setAttribute("aria-controls",a.id),p(a,"role","tabpanel"),p(a,"aria-labelledby",s.id),i.appendChild(s),s}),v=(a,u=!1)=>{t.forEach((s,l)=>{s.hidden=l!==a;let h=m[l];h.setAttribute("aria-selected",String(l===a)),h.tabIndex=l===a?0:-1}),u&&m[a].focus()},d=t.map(a=>a.hidden);return n.insertBefore(i,t[0]),n.setAttribute(ye,""),v(0),m.forEach((a,u)=>a.addEventListener("click",()=>v(u))),i.addEventListener("keydown",a=>{if(a.ctrlKey||a.metaKey||a.altKey)return;let u=m.indexOf(e.activeElement);if(u<0)return;let s=e.defaultView?.getComputedStyle(i).direction==="rtl",l;switch(a.key){case"ArrowRight":l=u+(s?-1:1);break;case"ArrowLeft":l=u+(s?1:-1);break;case"Home":l=0;break;case"End":l=m.length-1;break;case" ":case"Enter":a.stopPropagation();return;default:return}a.preventDefault(),a.stopPropagation(),v((l+m.length)%m.length,!0)}),()=>{i.remove(),n.removeAttribute(ye),t.forEach((a,u)=>{a.hidden=d[u]});for(let a of o)a()}}var J=class{constructor(e,t){this.intervalMs=e;this.onTick=t}intervalMs;onTick;id=null;paused=!1;start(){this.paused||(this.clear(),this.id=setInterval(()=>this.onTick(),this.intervalMs))}reset(){this.id!==null&&this.start()}pause(){this.paused=!0,this.clear()}resume(){this.paused=!1,this.start()}get isPaused(){return this.paused}get isRunning(){return this.id!==null}stop(){this.paused=!1,this.clear()}clear(){this.id!==null&&(clearInterval(this.id),this.id=null)}};var Se=class{constructor(e,t={}){this.root=e;this.slides=B(e),this.live=_e(e),this.doc=e.ownerDocument,this.viewDistance=Math.max(1,t.viewDistance??1),this.mediaDistance=Math.max(0,t.mediaDistance??1),this.loop=t.loop??!1,this.syncHash=t.hash??!1,this.presenterEnabled=t.presenter??!0,this.originalMode=e.getAttribute("data-mode"),this.originalLive=this.live?.textContent??"",this.createdStyle=!this.doc.getElementById(R);let r=t.instant??!1;this.controller=new W({root:e,refresh:()=>this.refreshSteps(),reducedMotion:()=>r||$(),behaviors:[Ie]}),this.steps=this.controller.api,Ye(this.doc),Je(e),e.setAttribute("data-mode","deck");let i=r?!1:t.transition??"fade";if(i&&e.setAttribute(oe,i),this.slides[0]?.hasAttribute("data-emiljs-hidden")&&(this.state=V(le,this.navConfig())),this.syncHash){this.originalHash=this.location()?.hash??"";let o=this.targetFromHash();o&&(this.state=de(this.state,this.navConfig(),o.index,o.step)),this.attachHash()}this.undoTabs=Ze(e),this.attachKeyboard(),this.render("ready","restore","none"),typeof t.autoplay=="number"&&t.autoplay>0&&this.setupAutoplay(t.autoplay)}root;slides;live;doc;viewDistance;mediaDistance;loop;syncHash;state=le;handlers=new Map;controller;lastChange=null;steps;originalMode;originalLive;createdStyle;keydownListener=null;timer=null;control=null;hashListener=null;originalHash="";undoTabs=null;presenter=null;presenterEnabled;get index(){return this.state.index}get total(){return this.slides.length}navConfig(){return{total:this.total,loop:this.loop,stepsAt:e=>{let t=this.slides[e];return t?this.controller.count(t):0},skip:e=>this.slides[e]?.hasAttribute("data-emiljs-hidden")??!1}}stepTotal(){return this.navConfig().stepsAt(this.state.index)}go(e){this.commit(q(this.state,this.navConfig(),e),"jump")}next(){this.commit(V(this.state,this.navConfig()),"enter","forward")}prev(){this.commit(ce(this.state,this.navConfig()),"enter","backward")}nextStep(){this.commit(z(this.state,this.navConfig()),"step","forward")}prevStep(){this.commit(Fe(this.state,this.navConfig()),"step","backward")}commit(e,t,r){if(e===this.state)return;let i=this.state,o=e.index!==i.index,p=r??((o?e.index>i.index:e.step>i.step)?"forward":"backward");this.state=e,this.timer?.reset(),o?this.render("slidechange",t==="step"?"enter":t,p):this.reconcile("stepchange",t,p)}jumpTo(e){this.commit(de(this.state,this.navConfig(),e.index,e.step),"jump")}refreshSteps(){let e=this.slides[this.state.index];if(!e)return;let t=this.controller.count(e);this.state.step>t&&(this.state={index:this.state.index,step:t}),this.lastChange=this.controller.commit(e,this.state.step,{cause:"enter",direction:"none"}),this.presenter?.update()}openPresenter(){if(this.presenter?.isOpen){this.presenter.focus();return}this.presenter=Xe({root:this.root,state:()=>this.state,config:()=>this.navConfig(),actions:this},{onClose:()=>this.presenter=null})}closePresenter(){this.presenter?.close()}on(e,t){this.handlers.has(e)||this.handlers.set(e,new Set),this.handlers.get(e).add(t)}off(e,t){this.handlers.get(e)?.delete(t)}destroy(){this.keydownListener&&(this.root.removeEventListener("keydown",this.keydownListener),this.keydownListener=null),this.timer?.stop(),this.closePresenter(),this.control?.remove(),this.control=null,this.detachHash(),this.undoTabs?.(),this.undoTabs=null,this.slides.forEach((e,t)=>{t===0?e.setAttribute(A,""):e.removeAttribute(A),this.controller.leave(e)}),this.controller.destroy(),this.root.removeAttribute(oe),this.originalMode===null?this.root.removeAttribute("data-mode"):this.root.setAttribute("data-mode",this.originalMode),this.live&&(this.live.textContent=this.originalLive),this.createdStyle&&this.doc.getElementById(R)?.remove(),this.emit("destroy"),this.handlers.clear()}render(e,t,r){this.slides.forEach((i,o)=>{o===this.state.index?i.setAttribute(A,""):(i.removeAttribute(A),this.controller.leave(i))}),this.reconcileSlide(t,r),this.loadMedia(),this.announce(),e==="slidechange"&&this.writeHash(),this.emit(e),this.presenter?.update()}location(){return this.doc.defaultView?.location}targetFromHash(){let e=this.location()?.hash.slice(1)??"";try{e=decodeURIComponent(e)}catch{}if(!e)return null;let t=p=>this.slides.findIndex(m=>m.id===p),r=t(e);if(r>=0)return{index:r,step:0};let i=/^(.*)\\/(\\d+)$/.exec(e);if(!i)return null;let o=t(i[1]);return o>=0?{index:o,step:Number(i[2])}:null}writeHash(){let e=this.doc.defaultView,t=this.slides[this.state.index]?.id;if(!this.syncHash||!e||!t)return;let{pathname:r,search:i}=e.location,o=this.state.step>0?`/${this.state.step}`:"";e.history.replaceState(e.history.state,"",`${r}${i}#${t}${o}`)}attachHash(){let e=this.doc.defaultView;e&&(this.hashListener=()=>{let t=this.targetFromHash();t&&this.jumpTo(t)},e.addEventListener("hashchange",this.hashListener))}detachHash(){let e=this.doc.defaultView;if(!this.hashListener||!e)return;e.removeEventListener("hashchange",this.hashListener),this.hashListener=null;let{pathname:t,search:r,hash:i}=e.location;i!==this.originalHash&&e.history.replaceState(e.history.state,"",`${t}${r}${this.originalHash}`)}reconcileSlide(e,t){let r=this.slides[this.state.index];r&&(this.lastChange=this.controller.commit(r,this.state.step,{cause:e,direction:t}))}reconcile(e,t,r){this.reconcileSlide(t,r),this.writeHash(),this.emit(e),this.presenter?.update()}loadMedia(){for(let e of $e(this.state.index,this.total,this.mediaDistance)){let t=this.slides[e];t&&Be(t)}}announce(){this.live&&(this.live.textContent=`Slide ${this.state.index+1} of ${this.total}`)}attachKeyboard(){let e=t=>{let r=K(t,C);if(r)switch(t.preventDefault(),r){case"next":this.next();break;case"prev":this.prev();break;case"nextStep":this.nextStep();break;case"prevStep":this.prevStep();break;case"first":this.go(0);break;case"last":this.go(this.total-1);break;case"presenter":this.presenterEnabled&&this.openPresenter();break}};this.keydownListener=e,this.root.addEventListener("keydown",e)}setupAutoplay(e){this.timer=new J(e,()=>this.nextStep()),this.control=this.doc.createElement("button"),this.control.type="button",this.control.className=je,this.control.textContent="Pause",this.control.setAttribute("aria-label","Pause auto-advance"),this.control.addEventListener("click",()=>this.toggleAutoplay()),this.root.appendChild(this.control),this.timer.start()}toggleAutoplay(){!this.timer||!this.control||(this.timer.isPaused?(this.timer.resume(),this.control.textContent="Pause",this.control.setAttribute("aria-label","Pause auto-advance")):(this.timer.pause(),this.control.textContent="Play",this.control.setAttribute("aria-label","Resume auto-advance")))}emit(e){let t=e==="destroy"?null:this.lastChange,r={index:this.state.index,total:this.total,step:this.state.step,steps:this.stepTotal(),...t&&{from:t.from,direction:t.direction,cause:t.cause,shown:t.shown,hidden:t.hidden}};for(let i of this.handlers.get(e)??[])i(r)}};function et(n,e){let t=n??document.querySelector(".emiljs")??void 0;if(!t)throw new Error("enhance: no .emiljs container found");return new Se(t,e)}function Lt(n){let e=window.__EMILJS_OPTIONS__??{},t=n.querySelector(\':scope > script.emiljs-config[type="application/json"]\');if(!t?.textContent)return{...e};try{return{...e,...JSON.parse(t.textContent)}}catch{return{...e}}}function tt(){let n=document.querySelectorAll(".emiljs");for(let e of n){let t=et(e,{hash:n.length===1,...Lt(e)});(window.__EMILJS_DECKS__??=[]).push(t),e.dispatchEvent(new CustomEvent("emiljs:deck",{detail:t,bubbles:!0}))}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",tt,{once:!0}):tt();})();\n';
+var auto_global_default = '"use strict";(()=>{var A="data-emiljs-current",oe="data-emiljs-transition",je="emiljs-autoplay-toggle";var De=n=>n?.tagName==="VIDEO";function Pe(n){if(n==null||n.trim()==="")return;let e=Number(n);return Number.isFinite(e)&&e>=0?e:void 0}function Oe(n){let e=Pe(n.payload.start)??0,t=Pe(n.payload.end);return{start:e,end:t!=null&&t>e?t:void 0}}function ae(n,e){try{n.currentTime=e}catch{}}var Ie={match:"[data-step-for]",prepare(n){let e=n.target;return()=>{De(e)&&e.pause()}},apply(){},settle(n,e,t){let r=new Set([...n.shown.map(o=>o.el),...n.hidden.map(o=>o.el)]),i=new Map;for(let o of e){if(!De(o.target))continue;let p=i.get(o.target)??[];p.push(o),i.set(o.target,p)}for(let[o,p]of i){let v=p.filter(l=>l.state!=="before").reduce((l,h)=>!l||h.start>=l.start?h:l,void 0);if(!(n.cause!=="step"||p.some(l=>r.has(l.el)))){let l=v?Oe(v):void 0;if(l?.end!=null&&!o.paused){let h=Math.max(0,l.end-o.currentTime);t.after(h*1e3,()=>o.pause())}continue}if(o.pause(),!v){ae(o,0);continue}let{start:a,end:u}=Oe(v);if(v.state==="after"){ae(o,u??o.duration??a);continue}ae(o,a),n.cause==="step"&&n.direction==="forward"&&!t.instant&&n.shown.some(l=>l.el===v.el)&&(o.play()?.catch(()=>{}),u!=null&&t.after((u-a)*1e3,()=>o.pause()))}}};function $(n){return Array.from(n.querySelectorAll(":scope > section.slide"))}function _e(n){return n.querySelector(":scope > .emiljs-live")}function B(){return typeof matchMedia=="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches}var C={ArrowRight:"nextStep",ArrowLeft:"prevStep",ArrowDown:"next",ArrowUp:"prev",PageDown:"next",PageUp:"prev"," ":"nextStep",Spacebar:"nextStep",Home:"first",End:"last",s:"presenter",S:"presenter"};function pt(n){return n instanceof HTMLElement?n.isContentEditable?!0:n.tagName==="INPUT"||n.tagName==="TEXTAREA"||n.tagName==="SELECT":!1}function K(n,e=C){return n.ctrlKey||n.metaKey||n.altKey||pt(n.target)?null:e[n.key]??null}function $e(n){let e=n.querySelectorAll("[data-src], [data-srcset]");for(let t of e){let r=t.getAttribute("data-src"),i=t.getAttribute("data-srcset");r!==null&&(t.setAttribute("src",r),t.removeAttribute("data-src")),i!==null&&(t.setAttribute("srcset",i),t.removeAttribute("data-srcset"))}}function Be(n,e,t){let r=[];for(let i=n-t;i<=n+t;i++)i>=0&&i<e&&r.push(i);return r}function F(n,e,t){return e===0?0:t?(n%e+e)%e:Math.max(0,Math.min(e-1,n))}var le={index:0,step:0};function q(n,e,t){let r=F(t,e.total,e.loop);return r===n.index?n:{index:r,step:0}}function ce(n,e,t,r){let i=F(t,e.total,e.loop),o=Math.max(0,Math.min(r,e.stepsAt(i)));return i===n.index&&o===n.step?n:{index:i,step:o}}function Ke(n,e,t){let r=n.index;for(let i=0;i<e.total;i++){let o=F(r+t,e.total,e.loop);if(o===r||o===n.index)return n.index;if(r=o,!e.skip?.(r))return r}return n.index}function V(n,e){return q(n,e,Ke(n,e,1))}function de(n,e){return q(n,e,Ke(n,e,-1))}function z(n,e){return n.step<e.stepsAt(n.index)?{index:n.index,step:n.step+1}:V(n,e)}function Fe(n,e){if(n.step>0)return{index:n.index,step:n.step-1};let t=de(n,e);return t===n?n:{index:t.index,step:e.stepsAt(t.index)}}var pe="data-emiljs-step-state",k="data-emiljs-step-target-state",ue="data-emiljs-step";function qe(n,e,t){let r=n.getAttribute(e);if(r==null||!/^\\d+$/.test(r))return;let i=Number(r);return i>=t?i:void 0}var Ve=new WeakSet;function ut(n,e,t){let r=e.getAttribute("data-step-for");if(!r)return null;let i=null;try{i=n.querySelector(r)}catch{}return!i&&t&&!Ve.has(e)&&(Ve.add(e),console.warn(`[emiljs] data-step-for="${r}" matches nothing on its slide.`)),i}function U(n,e=!1,t){let r=Array.from(n.querySelectorAll("[data-step]")),i=1,o=r.map((c,a)=>{let u=t?.get(c)??qe(c,"data-step-count",1)??1,s=qe(c,"data-step-at",0)??i;return i=s+u,{el:c,start:s,width:u,doc:a}}),p=new Set;for(let{start:c,width:a}of o)for(let u=0;u<a;u++)p.add(c+u);let m=new Map;return[...p].sort((c,a)=>c-a).forEach((c,a)=>m.set(c,a+1)),{members:o.map(c=>({el:c.el,start:m.get(c.start),width:c.width,doc:c.doc})).sort((c,a)=>c.start-a.start||c.doc-a.doc).map(({el:c,start:a,width:u})=>({el:c,start:a,width:u,target:ut(n,c,e)})),steps:p.size}}function me(n,e){return e<n.start?"before":e<n.start+n.width?"current":"after"}function he(n,e){return Math.max(0,Math.min(e-n.start+1,n.width))}var N=new WeakMap;function ze(n,e){N.has(n)||N.set(n,{original:n.getAttribute("style"),stamped:null});for(let[t,r]of Object.entries(e))n.style.setProperty(t,r);N.get(n).stamped=n.getAttribute("style")}function Ue(n,e){let t=N.get(n);if(N.delete(n),t&&n.getAttribute("style")===t.stamped){t.original===null?n.removeAttribute("style"):n.setAttribute("style",t.original);return}for(let r of e)n.style.removeProperty(r);n.getAttribute("style")===""&&n.removeAttribute("style")}function mt(n,e,t=!1){fe(n,U(n,t),e)}function fe(n,{members:e,steps:t},r){for(let i of n.querySelectorAll(`[${k}]`))i.removeAttribute(k);n.setAttribute(ue,String(r)),ze(n,{"--emiljs-step":String(r),"--emiljs-steps":String(t)});for(let i of e){let o=me(i,r);i.el.setAttribute(pe,o),ze(i.el,{"--emiljs-step-local":String(he(i,r))}),i.target?.setAttribute(k,o)}}function ve(n){n.hasAttribute(ue)&&(n.removeAttribute(ue),Ue(n,["--emiljs-step","--emiljs-steps"]));for(let e of n.querySelectorAll(`[${pe}]`))e.removeAttribute(pe),Ue(e,["--emiljs-step-local"]);for(let e of n.querySelectorAll(`[${k}]`))e.removeAttribute(k)}function We(n,e){let t=n.cloneNode(!0);return ve(t),mt(t,e),t}function Je(n){n.querySelector("[data-fragment]")&&console.warn("[emiljs] data-fragment was renamed to data-step (and data-fragment-index to data-step-at); these elements will not step.")}var ht={title:"Presenter view",current:"Current slide",next:"Next",notes:"Notes",noNotes:"No notes for this slide.",endOfDeck:"End of deck",slideOf:"Slide {n} of {total}",elapsed:"Elapsed time",resetTimer:"Reset timer",previous:"Previous",nextButton:"Next",overview:"Overview",closeOverview:"Back to presenter view"},ft="emiljs-presenter",vt="popup,width=1180,height=760",be=220,bt=`\nhtml, body { margin: 0; height: 100%; }\n.pv { display: grid; grid-template-rows: auto 1fr auto; gap: 0.75rem; box-sizing: border-box; height: 100%; padding: 0.75rem; background: #17181c; color: #ececf0; font: 16px/1.4 system-ui, sans-serif; }\n.pv * { box-sizing: border-box; }\n.pv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }\n.pv-bar > .pv-spacer { flex: 1; }\n.pv-timer { font-variant-numeric: tabular-nums; font-size: 1.5rem; }\n.pv-main { display: grid; grid-template-columns: 3fr 2fr; grid-template-rows: auto 1fr; gap: 0.75rem; min-height: 0; }\n.pv-current { grid-row: 1 / span 2; min-width: 0; }\n.pv-next { min-width: 0; }\n.pv-notes { min-height: 0; overflow: auto; padding: 0.75rem 1rem; border: 1px solid #3a3c46; border-radius: 6px; font-size: 1.25rem; }\n.pv-notes > :first-child { margin-top: 0; }\n.pv-notes > hr { border: 0; border-top: 1px solid #3a3c46; }\n.pv-empty { color: #a4a7b3; font-style: italic; }\n.pv h2 { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #a4a7b3; }\n.pv-frame { position: relative; overflow: hidden; width: 100%; border: 1px solid #3a3c46; background: #000; }\n.pv-frame > .emiljs { display: block; block-size: auto; overflow: hidden; }\n.pv-frame > .emiljs > .slide { margin: 0; }\n.pv-end { display: grid; place-items: center; aspect-ratio: 16 / 9; border: 1px dashed #3a3c46; color: #a4a7b3; }\n.pv button { padding: 0.45rem 0.9rem; border: 1px solid #5a5d6b; border-radius: 6px; background: #262830; color: inherit; font: inherit; cursor: pointer; }\n.pv button:hover { background: #30323c; }\n.pv :focus-visible { outline: 2px solid #8ab4ff; outline-offset: 2px; }\n.pv-actions { display: flex; gap: 0.5rem; }\n.pv-overview { position: fixed; inset: 0; overflow: auto; padding: 1rem; background: #17181c; }\n.pv-overview[hidden] { display: none; }\n.pv-grid { display: grid; grid-template-columns: repeat(auto-fill, ${be}px); gap: 0.75rem; margin-top: 1rem; padding: 0; list-style: none; }\n.pv-thumb { display: block; width: ${be}px; padding: 0 !important; overflow: hidden; text-align: start; }\n.pv-thumb[aria-current=\'true\'] { border-color: #8ab4ff; box-shadow: 0 0 0 2px #8ab4ff; }\n.pv-thumb > span { display: block; padding: 0.2rem 0.4rem; font-size: 0.8rem; }\n@media (max-width: 760px) { .pv-main { grid-template-columns: 1fr; grid-template-rows: none; } .pv-current { grid-row: auto; } }\n`;function Ge(n,e,t){return n.replace("{n}",String(e)).replace("{total}",String(t))}function H(n){return String(n).padStart(2,"0")}function gt(n){let e=Math.max(0,Math.floor(n/1e3)),t=Math.floor(e/3600),r=Math.floor(e%3600/60),i=e%60;return t?`${t}:${H(r)}:${H(i)}`:`${H(r)}:${H(i)}`}function Xe(n,e,t){let i=n.ownerDocument.defaultView?.getComputedStyle(n).getPropertyValue(e)??"",o=Number.parseFloat(i);return Number.isFinite(o)&&o>0?o:t}function Qe(n,e={}){let t=n.root.ownerDocument.defaultView,r=e.open?e.open():t?.open("",ft,e.features??vt)??null;if(!r)return null;let i={...ht,...e.labels},o=r.document,p=n.root,m=Xe(p,"--emiljs-basis",1280),v=Xe(p,"--emiljs-aspect",16/9),c=()=>$(p);o.documentElement.lang=p.getAttribute("lang")??"en",o.documentElement.dir=p.getAttribute("dir")??"ltr",o.title=i.title,o.head.replaceChildren();let a=p.ownerDocument.querySelectorAll(\'style, link[rel~="stylesheet"]\');for(let d of a)o.head.appendChild(o.importNode(d,!0));let u=o.createElement("style");u.textContent=bt,o.head.appendChild(u);let s=(d,b,f)=>{let g=o.createElement(d);return b&&(g.className=b),f!==void 0&&(g.textContent=f),g},l=(d,b)=>{let f=s("button",void 0,d);return f.type="button",f.addEventListener("click",b),f},h=s("span","pv-count");h.setAttribute("aria-live","polite");let y=s("span","pv-timer","00:00");y.setAttribute("role","timer"),y.setAttribute("aria-label",i.elapsed);let x=s("span","pv-clock"),T=Date.now(),rt=l(i.resetTimer,()=>{T=Date.now(),re()}),xe=s("div","pv-bar");xe.append(h,y,rt,s("span","pv-spacer"),x);let G=s("div","pv-frame");G.setAttribute("aria-hidden","true");let it=s("h2",void 0,i.current),X=s("section","pv-current");X.setAttribute("aria-label",i.current),X.append(it,G);let j=s("div"),st=s("h2",void 0,i.next),Q=s("section","pv-next");Q.setAttribute("aria-label",i.next),Q.append(st,j);let w=s("section","pv-notes");w.setAttribute("aria-label",i.notes),w.tabIndex=0;let Y=s("div","pv-main");Y.append(X,Q,w);let Ee=s("div","pv-actions"),we=l(i.overview,()=>O(!0));Ee.append(l(i.previous,()=>n.actions.prevStep()),l(i.nextButton,()=>n.actions.nextStep()),we);let M=s("div","pv-overview");M.hidden=!0,M.setAttribute("role","dialog"),M.setAttribute("aria-label",i.overview);let ot=l(i.closeOverview,()=>O(!1)),D=s("ul","pv-grid");M.append(ot,D);let Te=s("div","pv");Te.append(xe,Y,Ee,M);let Z=o.createElement("body");Z.append(Te),o.documentElement.replaceChild(Z,o.body);let Me=(d,b,f)=>{let g=p.cloneNode(!1);g.removeAttribute("id"),g.removeAttribute("tabindex"),g.setAttribute("data-mode","scroll");let S=We(c()[d],b);S.removeAttribute(A);for(let E of S.querySelectorAll(".emiljs-bg, iframe, video"))E.remove();return S.style.setProperty("--emiljs-scale",String(f)),g.append(S),g},at=d=>{let b=d.clientWidth;return b>0?b/m:.3},Ae=(d,b,f)=>{d.style.aspectRatio=String(v),d.replaceChildren(Me(b,f,at(d))),d.dataset.preview=`${b}:${f}`},lt=d=>{w.replaceChildren();let b=c()[d]?.querySelectorAll(".emiljs-notes")??[];b.forEach((f,g)=>{g>0&&w.append(s("hr"));for(let S of f.childNodes)w.append(o.importNode(S,!0))}),b.length||w.append(s("p","pv-empty",i.noNotes))},ee="",te="",Le=-1,P=()=>{if(I)return;let d=n.state(),b=n.config();h.textContent=Ge(i.slideOf,d.index+1,b.total);let f=`${d.index}:${d.step}`;f!==ee&&(ee=f,Ae(G,d.index,d.step)),d.index!==Le&&(Le=d.index,lt(d.index),w.scrollTop=0);let g=z(d,b),S=g===d?"end":`${g.index}:${g.step}`;if(S!==te)if(te=S,j.replaceChildren(),g===d)j.append(s("div","pv-end",i.endOfDeck));else{let E=s("div","pv-frame");E.setAttribute("aria-hidden","true"),j.append(E),Ae(E,g.index,g.step)}for(let E of D.children){let L=E.firstElementChild;Number(L.dataset.index)===d.index?L.setAttribute("aria-current","true"):L.removeAttribute("aria-current")}},ne=()=>{ee="",te="",P()},He=!1,ct=()=>{He=!0;let d=be/m;c().forEach((b,f)=>{if(b.hasAttribute("data-emiljs-hidden"))return;let g=s("li"),S=s("button","pv-thumb");S.type="button",S.dataset.index=String(f);let E=b.querySelector("h1, h2, h3")?.textContent?.trim(),L=Ge(i.slideOf,f+1,c().length);S.setAttribute("aria-label",E?`${L}: ${E}`:L);let _=s("div","pv-frame");_.style.aspectRatio=String(v),_.setAttribute("aria-hidden","true"),_.append(Me(f,0,d)),S.append(_,s("span",void 0,String(f+1))),S.addEventListener("click",()=>{n.actions.go(f),O(!1)}),g.append(S),D.append(g)})},O=d=>{d&&!He&&ct(),M.hidden=!d,d?(P(),D.querySelector(\'[aria-current="true"]\')?.focus()):we.focus()},dt=d=>{if(d.key==="Escape"&&!M.hidden){d.preventDefault(),O(!1);return}if(d.target?.tagName==="BUTTON"&&(d.key===" "||d.key==="Enter"))return;let f=K(d,C);!f||f==="presenter"||(d.preventDefault(),f==="first"?n.actions.go(0):f==="last"?n.actions.go(n.config().total-1):n.actions[f]())};Z.addEventListener("keydown",dt);let re=()=>{y.textContent=gt(Date.now()-T);let d=new Date;x.textContent=`${H(d.getHours())}:${H(d.getMinutes())}`};re();let Ce=t?.setInterval(re,1e3),ke=r,ie;typeof ke.ResizeObserver=="function"?(ie=new ke.ResizeObserver(ne),ie.observe(Y)):r.addEventListener("resize",ne);let I=!1,se=d=>{I||(I=!0,Ce!==void 0&&t?.clearInterval(Ce),ie?.disconnect(),r.removeEventListener("resize",ne),r.removeEventListener("pagehide",Ne),t?.removeEventListener("pagehide",Re),d&&!r.closed&&r.close(),e.onClose?.())},Ne=()=>se(!1),Re=()=>se(!0);return r.addEventListener("pagehide",Ne),t?.addEventListener("pagehide",Re),P(),r.focus(),{get isOpen(){return!I&&!r.closed},window:r,update:P,focus:()=>r.focus(),close:()=>se(!0)}}var ge="data-emiljs-steps-busy",yt=new Set(["at","count","for","reveal"]);function St(n){let e={};for(let{name:t,value:r}of Array.from(n.attributes)){if(!t.startsWith("data-step-"))continue;let i=t.slice(10);!i||yt.has(i)||(e[i.replace(/-([a-z0-9])/g,(o,p)=>p.toUpperCase())]=r)}return e}function xt(n,e){try{return n.matches(e)}catch{return!1}}var W=class{constructor(e){this.opts=e;this.behaviors.push(...e.behaviors??[]),this.api={define:t=>{this.behaviors.push(t),this.requestRefresh()},rescan:t=>this.requestRefresh(t),claim:(t,r)=>{if(!t.hasAttribute("data-step")){console.warn("[emiljs] steps.claim needs a [data-step] element.");return}if(r==null)this.claims.delete(t);else if(Number.isInteger(r)&&r>=1)this.claims.set(t,r);else{console.warn("[emiljs] steps.claim needs a positive integer count.");return}this.requestRefresh()},idle:()=>this.pending.size===0?Promise.resolve():new Promise(t=>this.waiters.push(t))}}opts;api;behaviors=[];claims=new WeakMap;runtimes=new WeakMap;bySlide=new WeakMap;lastSteps=new WeakMap;live=new Set;pending=new Set;waiters=[];destroyed=!1;committing=!1;refreshQueued=!1;count(e){return U(e,!1,this.claims).steps}reduced(){return(this.opts.reducedMotion??B)()}requestRefresh(e){if(!this.destroyed){if(!this.committing){this.opts.refresh(e);return}this.refreshQueued||(this.refreshQueued=!0,queueMicrotask(()=>{this.refreshQueued=!1,this.destroyed||this.opts.refresh(e)}))}}track(){let e={};return this.pending.size===0&&this.opts.root.setAttribute(ge,""),this.pending.add(e),()=>{if(!this.pending.delete(e)||this.pending.size>0)return;this.opts.root.removeAttribute(ge);let t=this.waiters;this.waiters=[];for(let r of t)r()}}runtimeFor(e,t,r){let i=this.runtimes.get(e);i||this.runtimes.set(e,i=new WeakMap);let o=i.get(t);if(o)return{rt:o,fresh:!1};o={behavior:e,el:t,anims:new Map},i.set(t,o);let p=this.bySlide.get(r);return p||this.bySlide.set(r,p=new Set),p.add(o),{rt:o,fresh:!0}}drop(e){e.abort?.abort();for(let t of e.anims.values())for(let r of t.values())r.cancel();e.anims.clear();try{e.cleanup?.()}catch(t){console.error("[emiljs] a step behavior cleanup threw",t)}this.runtimes.get(e.behavior)?.delete(e.el)}commit(e,t,r){this.committing=!0;try{return this.run(e,t,r)}finally{this.committing=!1}}run(e,t,r){let i=U(e,!0,this.claims);this.prune(e,i),this.live.add(e);let o=this.lastSteps.get(e)??0,p=i.members.map(s=>({el:s.el,start:s.start,width:s.width,target:s.target,payload:St(s.el)})),m={slide:e,from:o,to:t,direction:r.direction,cause:r.cause,shown:p.filter(s=>s.start<=t&&s.start>o),hidden:p.filter(s=>s.start>t&&s.start<=o)},v=[];for(let s of this.behaviors)for(let l of p){if(!xt(l.el,s.match))continue;let{rt:h,fresh:y}=this.runtimeFor(s,l.el,e),x={state:me(l,t),local:he(l,t)},T=y||!h.last||h.last.state!==x.state||h.last.local!==x.local;v.push({behavior:s,member:l,rt:h,view:x,changed:T})}let c=v.filter(s=>s.changed);for(let s of c)s.rt.abort?.abort(),s.rt.abort=new AbortController;for(let s of c)if(!s.rt.cleanup&&s.behavior.prepare&&!s.rt.last){let l=this.guard(s,()=>s.behavior.prepare(s.member,this.contextFor(s,m)));typeof l=="function"&&(s.rt.cleanup=l)}for(let s of c)s.rt.snapshot=s.behavior.before?this.guard(s,()=>s.behavior.before(s.member,m,this.contextFor(s,m))):void 0;fe(e,i,t),this.lastSteps.set(e,t);let a=m.direction==="backward"?[...c].reverse():c;for(let s of a)s.rt.last=s.view,this.guard(s,()=>s.behavior.apply(s.member,s.view.state,this.contextFor(s,m)));let u=new Set;for(let s of c){if(!s.behavior.settle||u.has(s.behavior))continue;u.add(s.behavior);let l=v.filter(h=>h.behavior===s.behavior).map(h=>({...h.member,...h.view}));this.settle(s.behavior,e,m,l)}return m}leave(e){ve(e),this.lastSteps.delete(e),this.live.delete(e);let t=this.bySlide.get(e);if(t){for(let r of t)this.drop(r);t.clear()}}destroy(){this.destroyed=!0;for(let e of[...this.live])this.leave(e);this.opts.root.removeAttribute(ge),this.pending.clear();for(let e of this.waiters)e();this.waiters=[]}prune(e,t){let r=this.bySlide.get(e);if(!r)return;let i=new Set(t.members.map(o=>o.el));for(let o of[...r])i.has(o.el)||o.el===e||(this.drop(o),r.delete(o))}guard(e,t){try{return t()}catch(r){console.error(`[emiljs] the step behavior for "${e.behavior.match}" threw`,r);return}}settle(e,t,r,i){let{rt:o}=this.runtimeFor(e,t,t);o.abort?.abort(),o.abort=new AbortController;let p={behavior:e,member:{el:t,start:0,width:0,target:null,payload:{}},rt:o,view:{state:"current",local:0},changed:!0};try{e.settle(r,i,this.contextFor(p,r,!0))}catch(m){console.error(`[emiljs] the step behavior for "${e.match}" threw`,m)}}contextFor(e,t,r=!1){let{rt:i}=e,o=this.reduced(),p=t.cause!=="step"||o,m=i.abort.signal,v=t.slide,c=v.querySelector(".emiljs-surface"),a=()=>!c||!c.offsetWidth?1:c.getBoundingClientRect().width/c.offsetWidth||1,u=r?t.direction!=="backward":e.view.state!=="before",s=(l,h)=>{if(m.aborted)return;let y=this.track(),x=l(()=>{m.removeEventListener("abort",T),y(),!m.aborted&&!this.destroyed&&h()}),T=()=>{x(),y()};m.addEventListener("abort",T,{once:!0})};return{instant:p,direction:t.direction,cause:t.cause,state:e.view.state,local:r?0:e.view.local,signal:m,snapshot:i.snapshot,reducedMotion:o,slide:v,surface:c,get scale(){return a()},toSlide:l=>{let h=c?.getBoundingClientRect(),y=a();return{x:(l.left-(h?.left??0))/y,y:(l.top-(h?.top??0))/y,width:l.width/y,height:l.height/y}},after:(l,h)=>s(y=>{let x=setTimeout(y,l);return()=>clearTimeout(x)},h),frame:l=>s(h=>{if(typeof requestAnimationFrame!="function"){let x=setTimeout(h,16);return()=>clearTimeout(x)}let y=requestAnimationFrame(h);return()=>cancelAnimationFrame(y)},()=>l(performance.now())),animate:(l,h,y={})=>this.animate(i,l,h,y,u,p)}}animate(e,t,r,i,o,p){if(typeof t.animate!="function")return null;let{key:m="",...v}=i,c=e.anims.get(t);c||e.anims.set(t,c=new Map);let a=c.get(m),u=!1;a||(a=t.animate(r,{fill:"both",easing:"ease",...v,duration:typeof v.duration=="number"?v.duration:200}),a.pause(),a.currentTime=0,c.set(m,a),u=!0);let s=Number(a.effect?.getComputedTiming().endTime??0);if(p||u&&!o)return a.pause(),a.playbackRate=1,a.currentTime=o?s:0,a;if(o?a.playbackRate<0?a.reverse():a.playState!=="running"&&Number(a.currentTime)<s&&a.play():a.playbackRate>0&&a.reverse(),a.playState==="running"){let l=this.track();a.finished.then(l,l)}return a}};function Ye(n,e){for(let t of e??[])try{let r=t.run(n,structuredClone(t.options??{}));typeof r=="function"&&n.on("destroy",()=>{try{r()}catch(i){console.error(`emiljs: extension "${t.name}" cleanup failed`,i)}})}catch(r){console.error(`emiljs: extension "${t.name}" failed`,r)}}var R="emiljs-runtime-style",Et=`\n@layer emiljs.steps {\n  .emiljs [data-emiljs-step-state="before"]:not([data-step-reveal="none"]) { visibility: hidden; }\n}\n`,wt=`${Et}\n@media (prefers-reduced-motion: no-preference) {\n  .emiljs[data-mode="deck"][data-emiljs-transition="fade"] .slide[data-emiljs-current] {\n    animation: emiljs-fade 250ms ease both;\n  }\n  .emiljs[data-mode="deck"][data-emiljs-transition="slide"] .slide[data-emiljs-current] {\n    animation: emiljs-slide 250ms ease both;\n  }\n}\n@keyframes emiljs-fade { from { opacity: 0; } to { opacity: 1; } }\n@keyframes emiljs-slide { from { opacity: 0; transform: translateX(3%); } to { opacity: 1; transform: none; } }\n`;function Ze(n){let e=n.getElementById(R);if(e)return e;let t=n.createElement("style");return t.id=R,t.textContent=wt,n.head.appendChild(t),t}var Tt=".panel-tabset",Mt="emiljs-tabpanel",ye="data-emiljs-tabs",At=0;function et(n){let e=[];for(let t of n.querySelectorAll(Tt)){if(t.hasAttribute(ye))continue;let r=Lt(t);r&&e.push(r)}return()=>{for(let t of e.reverse())t()}}function Lt(n){let e=n.ownerDocument,t=[...n.children].filter(a=>a.classList.contains(Mt));if(t.length===0)return null;let r=`emiljs-tabset-${++At}`,i=e.createElement("div");i.className="emiljs-tablist",i.setAttribute("role","tablist");let o=[],p=(a,u,s)=>{let l=a.getAttribute(u);a.setAttribute(u,s),o.push(()=>{l===null?a.removeAttribute(u):a.setAttribute(u,l)})},m=t.map((a,u)=>{let s=e.createElement("button");return s.type="button",s.id=`${r}-tab-${u+1}`,s.className="emiljs-tab",s.setAttribute("role","tab"),s.textContent=a.firstElementChild?.textContent?.trim()??"",a.id||p(a,"id",`${r}-panel-${u+1}`),s.setAttribute("aria-controls",a.id),p(a,"role","tabpanel"),p(a,"aria-labelledby",s.id),i.appendChild(s),s}),v=(a,u=!1)=>{t.forEach((s,l)=>{s.hidden=l!==a;let h=m[l];h.setAttribute("aria-selected",String(l===a)),h.tabIndex=l===a?0:-1}),u&&m[a].focus()},c=t.map(a=>a.hidden);return n.insertBefore(i,t[0]),n.setAttribute(ye,""),v(0),m.forEach((a,u)=>a.addEventListener("click",()=>v(u))),i.addEventListener("keydown",a=>{if(a.ctrlKey||a.metaKey||a.altKey)return;let u=m.indexOf(e.activeElement);if(u<0)return;let s=e.defaultView?.getComputedStyle(i).direction==="rtl",l;switch(a.key){case"ArrowRight":l=u+(s?-1:1);break;case"ArrowLeft":l=u+(s?1:-1);break;case"Home":l=0;break;case"End":l=m.length-1;break;case" ":case"Enter":a.stopPropagation();return;default:return}a.preventDefault(),a.stopPropagation(),v((l+m.length)%m.length,!0)}),()=>{i.remove(),n.removeAttribute(ye),t.forEach((a,u)=>{a.hidden=c[u]});for(let a of o)a()}}var J=class{constructor(e,t){this.intervalMs=e;this.onTick=t}intervalMs;onTick;id=null;paused=!1;start(){this.paused||(this.clear(),this.id=setInterval(()=>this.onTick(),this.intervalMs))}reset(){this.id!==null&&this.start()}pause(){this.paused=!0,this.clear()}resume(){this.paused=!1,this.start()}get isPaused(){return this.paused}get isRunning(){return this.id!==null}stop(){this.paused=!1,this.clear()}clear(){this.id!==null&&(clearInterval(this.id),this.id=null)}};var Se=class{constructor(e,t={}){this.root=e;this.slides=$(e),this.live=_e(e),this.doc=e.ownerDocument,this.viewDistance=Math.max(1,t.viewDistance??1),this.mediaDistance=Math.max(0,t.mediaDistance??1),this.loop=t.loop??!1,this.syncHash=t.hash??!1,this.presenterEnabled=t.presenter??!0,this.originalMode=e.getAttribute("data-mode"),this.originalLive=this.live?.textContent??"",this.createdStyle=!this.doc.getElementById(R);let r=t.instant??!1;this.controller=new W({root:e,refresh:()=>this.refreshSteps(),reducedMotion:()=>r||B(),behaviors:[Ie]}),this.steps=this.controller.api,Ze(this.doc),Je(e),e.setAttribute("data-mode","deck");let i=r?!1:t.transition??"fade";if(i&&e.setAttribute(oe,i),this.slides[0]?.hasAttribute("data-emiljs-hidden")&&(this.state=V(le,this.navConfig())),this.syncHash){this.originalHash=this.location()?.hash??"";let o=this.targetFromHash();o&&(this.state=ce(this.state,this.navConfig(),o.index,o.step)),this.attachHash()}this.undoTabs=et(e),this.attachKeyboard(),this.render("ready","restore","none"),typeof t.autoplay=="number"&&t.autoplay>0&&this.setupAutoplay(t.autoplay)}root;slides;live;doc;viewDistance;mediaDistance;loop;syncHash;state=le;handlers=new Map;controller;lastChange=null;steps;originalMode;originalLive;createdStyle;keydownListener=null;timer=null;control=null;hashListener=null;originalHash="";undoTabs=null;presenter=null;presenterEnabled;get index(){return this.state.index}get total(){return this.slides.length}navConfig(){return{total:this.total,loop:this.loop,stepsAt:e=>{let t=this.slides[e];return t?this.controller.count(t):0},skip:e=>this.slides[e]?.hasAttribute("data-emiljs-hidden")??!1}}stepTotal(){return this.navConfig().stepsAt(this.state.index)}go(e){this.commit(q(this.state,this.navConfig(),e),"jump")}next(){this.commit(V(this.state,this.navConfig()),"enter","forward")}prev(){this.commit(de(this.state,this.navConfig()),"enter","backward")}nextStep(){this.commit(z(this.state,this.navConfig()),"step","forward")}prevStep(){this.commit(Fe(this.state,this.navConfig()),"step","backward")}commit(e,t,r){if(e===this.state)return;let i=this.state,o=e.index!==i.index,p=r??((o?e.index>i.index:e.step>i.step)?"forward":"backward");this.state=e,this.timer?.reset(),o?this.render("slidechange",t==="step"?"enter":t,p):this.reconcile("stepchange",t,p)}jumpTo(e){this.commit(ce(this.state,this.navConfig(),e.index,e.step),"jump")}refreshSteps(){let e=this.slides[this.state.index];if(!e)return;let t=this.controller.count(e);this.state.step>t&&(this.state={index:this.state.index,step:t}),this.lastChange=this.controller.commit(e,this.state.step,{cause:"enter",direction:"none"}),this.presenter?.update()}openPresenter(){if(this.presenter?.isOpen){this.presenter.focus();return}this.presenter=Qe({root:this.root,state:()=>this.state,config:()=>this.navConfig(),actions:this},{onClose:()=>this.presenter=null})}closePresenter(){this.presenter?.close()}on(e,t){this.handlers.has(e)||this.handlers.set(e,new Set),this.handlers.get(e).add(t)}off(e,t){this.handlers.get(e)?.delete(t)}destroy(){this.keydownListener&&(this.root.removeEventListener("keydown",this.keydownListener),this.keydownListener=null),this.timer?.stop(),this.closePresenter(),this.control?.remove(),this.control=null,this.detachHash(),this.undoTabs?.(),this.undoTabs=null,this.slides.forEach((e,t)=>{t===0?e.setAttribute(A,""):e.removeAttribute(A),this.controller.leave(e)}),this.controller.destroy(),this.root.removeAttribute(oe),this.originalMode===null?this.root.removeAttribute("data-mode"):this.root.setAttribute("data-mode",this.originalMode),this.live&&(this.live.textContent=this.originalLive),this.createdStyle&&this.doc.getElementById(R)?.remove(),this.emit("destroy"),this.handlers.clear()}render(e,t,r){this.slides.forEach((i,o)=>{o===this.state.index?i.setAttribute(A,""):(i.removeAttribute(A),this.controller.leave(i))}),this.reconcileSlide(t,r),this.loadMedia(),this.announce(),e==="slidechange"&&this.writeHash(),this.emit(e),this.presenter?.update()}location(){return this.doc.defaultView?.location}targetFromHash(){let e=this.location()?.hash.slice(1)??"";try{e=decodeURIComponent(e)}catch{}if(!e)return null;let t=p=>this.slides.findIndex(m=>m.id===p),r=t(e);if(r>=0)return{index:r,step:0};let i=/^(.*)\\/(\\d+)$/.exec(e);if(!i)return null;let o=t(i[1]);return o>=0?{index:o,step:Number(i[2])}:null}writeHash(){let e=this.doc.defaultView,t=this.slides[this.state.index]?.id;if(!this.syncHash||!e||!t)return;let{pathname:r,search:i}=e.location,o=this.state.step>0?`/${this.state.step}`:"";e.history.replaceState(e.history.state,"",`${r}${i}#${t}${o}`)}attachHash(){let e=this.doc.defaultView;e&&(this.hashListener=()=>{let t=this.targetFromHash();t&&this.jumpTo(t)},e.addEventListener("hashchange",this.hashListener))}detachHash(){let e=this.doc.defaultView;if(!this.hashListener||!e)return;e.removeEventListener("hashchange",this.hashListener),this.hashListener=null;let{pathname:t,search:r,hash:i}=e.location;i!==this.originalHash&&e.history.replaceState(e.history.state,"",`${t}${r}${this.originalHash}`)}reconcileSlide(e,t){let r=this.slides[this.state.index];r&&(this.lastChange=this.controller.commit(r,this.state.step,{cause:e,direction:t}))}reconcile(e,t,r){this.reconcileSlide(t,r),this.writeHash(),this.emit(e),this.presenter?.update()}loadMedia(){for(let e of Be(this.state.index,this.total,this.mediaDistance)){let t=this.slides[e];t&&$e(t)}}announce(){this.live&&(this.live.textContent=`Slide ${this.state.index+1} of ${this.total}`)}attachKeyboard(){let e=t=>{let r=K(t,C);if(r)switch(t.preventDefault(),r){case"next":this.next();break;case"prev":this.prev();break;case"nextStep":this.nextStep();break;case"prevStep":this.prevStep();break;case"first":this.go(0);break;case"last":this.go(this.total-1);break;case"presenter":this.presenterEnabled&&this.openPresenter();break}};this.keydownListener=e,this.root.addEventListener("keydown",e)}setupAutoplay(e){this.timer=new J(e,()=>this.nextStep()),this.control=this.doc.createElement("button"),this.control.type="button",this.control.className=je,this.control.textContent="Pause",this.control.setAttribute("aria-label","Pause auto-advance"),this.control.addEventListener("click",()=>this.toggleAutoplay()),this.root.appendChild(this.control),this.timer.start()}toggleAutoplay(){!this.timer||!this.control||(this.timer.isPaused?(this.timer.resume(),this.control.textContent="Pause",this.control.setAttribute("aria-label","Pause auto-advance")):(this.timer.pause(),this.control.textContent="Play",this.control.setAttribute("aria-label","Resume auto-advance")))}emit(e){let t=e==="destroy"?null:this.lastChange,r={index:this.state.index,total:this.total,step:this.state.step,steps:this.stepTotal(),...t&&{from:t.from,direction:t.direction,cause:t.cause,shown:t.shown,hidden:t.hidden}};for(let i of this.handlers.get(e)??[])i(r)}};function tt(n,e){let t=n??document.querySelector(".emiljs")??void 0;if(!t)throw new Error("enhance: no .emiljs container found");let r=new Se(t,e);return Ye(r,e?.extensions),r}function Ht(n){let e=window.__EMILJS_OPTIONS__??{},t=n.querySelector(\':scope > script.emiljs-config[type="application/json"]\');if(!t?.textContent)return{...e};try{return{...e,...JSON.parse(t.textContent)}}catch{return{...e}}}function nt(){let n=document.querySelectorAll(".emiljs");for(let e of n)tt(e,{hash:n.length===1,...Ht(e),extensions:window.__EMILJS_EXTENSIONS__??[]})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",nt,{once:!0}):nt();})();\n';
 
 // emiljs-embed:emiljs-text:@emiljs/themes/base/rules.css#text
 var rules_default = "/*\n * Shared theme rules (DESIGN 5.6). Every bundled theme is *tokens + rules*\n * (README \"Tokens vs. rules\"); this file is the shared *rules* half, loaded\n * once by the CLI ahead of whatever `theme:` resolves to (bundled name, local\n * path, or npm package). It only ever *consumes* tokens via `var(--emiljs-*)`,\n * never assigns one, so the values always come from a theme layered under or\n * over it in the cascade (`themes/default.css` supplies every token's initial\n * value; the CLI always loads it first, per `@emiljs/cli`'s `theme.ts`).\n *\n * Every `var()` below reads a *registered* token (`src/tokens.ts`), enforced by\n * the divergence lint's consume-side check (`test/bridge.test.ts`).\n */\n\n/* These are content-container properties (font-size/padding are basis-absolute\n * px, so they must live on the box that's actually `transform: scale`'d, or\n * they'd stop scaling with the viewport, base.css) \u2014 targets `.emiljs-surface`,\n * not `.slide` itself. */\n.emiljs .slide .emiljs-surface {\n  font-family: var(--emiljs-font-family);\n  font-size: var(--emiljs-font-size);\n  line-height: var(--emiljs-line-height);\n  padding: var(--emiljs-padding);\n}\n\n/* Block-to-block rhythm (DESIGN 5.6 `gap` token). The browser's own block\n * margins (`h1` 0.67em, `p` 1em, ...) are zeroed first, so the `gap` token is\n * the only thing spacing blocks; otherwise collapsed margins take the larger of\n * the two and the token often loses. `:where()` keeps the reset at zero extra\n * specificity, and it has to stay ABOVE the gap rules below: both are\n * (0,3,0), so source order is what lets the gap win. */\n.emiljs\n  .slide\n  .emiljs-surface\n  :where(\n    h1,\n    h2,\n    h3,\n    h4,\n    h5,\n    h6,\n    p,\n    ul,\n    ol,\n    dl,\n    blockquote,\n    pre,\n    figure,\n    table,\n    hr\n  ) {\n  margin-block: 0;\n}\n\n.emiljs .slide .emiljs-surface > * + *,\n.emiljs .slide .emiljs-surface :where(blockquote, .column, .row) > * + * {\n  margin-block-start: var(--emiljs-gap);\n}\n\n/* A small heading belongs to what follows it (proximity): half the gap. A\n * slide title (`h1`/`h2`) keeps the full gap from the rule above. */\n.emiljs .slide .emiljs-surface :is(h3, h4, h5, h6) + * {\n  margin-block-start: calc(var(--emiljs-gap) * 0.5);\n}\n\n/* Loose list items hold block children (`li > p + p`); they sit closer than\n * top-level blocks. `.emiljs-surface` is in the selector to outrank the reset. */\n.emiljs .slide .emiljs-surface li > * + * {\n  margin-block-start: 0.3em;\n}\n\n/* Headings: shared family/weight, a modular type scale off `scale-ratio`, and\n * the element-scoped color fall-through (`--emiljs-hN-color -> header-color ->\n * fg`). A theme assigns only the general tokens; the per-element slots stay\n * unset so a `style: { h2-color }` override peels one heading off the group. */\n.emiljs .slide :is(h1, h2, h3, h4, h5, h6) {\n  font-family: var(--emiljs-header-font-family);\n  font-weight: var(--emiljs-header-weight);\n  line-height: 1.15;\n  text-wrap: balance;\n}\n\n/* The largest heading is the most likely to wrap, and wants the tightest set. */\n.emiljs .slide h1 {\n  line-height: 1.1;\n}\n\n.emiljs .slide :is(p, li) {\n  text-wrap: pretty;\n}\n\n/* `em` is relative to the slide's `--emiljs-font-size`; each step multiplies by\n * `scale-ratio`, so the whole scale tracks one token. Hand-written (not\n * generated from a loop) now that theme authoring is plain CSS; six short\n * rules is not worth a build-time templating step. */\n.emiljs .slide h1 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), 3));\n  color: var(--emiljs-h1-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n.emiljs .slide h2 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), 2));\n  color: var(--emiljs-h2-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n.emiljs .slide h3 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), 1));\n  color: var(--emiljs-h3-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n.emiljs .slide h4 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), 0));\n  color: var(--emiljs-h4-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n.emiljs .slide h5 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), -1));\n  color: var(--emiljs-h5-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n.emiljs .slide h6 {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), -2));\n  color: var(--emiljs-h6-color, var(--emiljs-header-color, var(--emiljs-fg)));\n}\n\n/* Content-role vocabulary (Grammar of Slides, phase 1): `data-role` mirrors\n * `data-variant` (author content lands in the role; the theme styles it via\n * this same name, DESIGN 5.6). Every sized role here is a fixed step on the\n * one `scale-ratio` ramp `h1`...`h6` above already use, not an independent\n * font-size token. `title`/`quote` carry no fixed step of their own: outside\n * the hero-text contexts below they render at whatever step their underlying\n * element already sits at (a `title`-role heading is still an `h1`-`h6`; a\n * `quote` is body text at step 0), distinguished by color/font-family alone. */\n.emiljs .slide [data-role='title'] {\n  font-family: var(\n    --emiljs-title-font-family,\n    var(--emiljs-header-font-family)\n  );\n  color: var(\n    --emiljs-title-color,\n    var(--emiljs-header-color, var(--emiljs-fg))\n  );\n}\n\n.emiljs .slide [data-role='subtitle'] {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), -1));\n  color: var(--emiljs-subtitle-color, var(--emiljs-muted));\n  text-wrap: balance;\n}\n\n.emiljs .slide [data-role='quote'] {\n  font-family: var(--emiljs-quote-font-family, var(--emiljs-font-family));\n  color: var(--emiljs-quote-color, var(--emiljs-fg));\n  text-wrap: balance;\n}\n\n.emiljs .slide [data-role='attribution'] {\n  /* Anchored to the body size, not the parent's `em`: on a statement slide the\n   * attribution sits inside the 100px hero quote and would inherit 80px. */\n  font-size: calc(var(--emiljs-font-size) * pow(var(--emiljs-scale-ratio), -1));\n  color: var(--emiljs-attribution-color, var(--emiljs-muted));\n}\n\n/* Footer/date/slide-number chrome (issue #78, SPEC A24): color/size wiring\n * only, mirroring the content-role rules above \u2014 placement is core's\n * (base.css's `.emiljs-footer` structural rule); a bundled theme's own\n * palette values live in its `themes/<name>.css` file, deferred to a\n * follow-up pass.\n *\n * The footer is a child of `.slide` (16px), not of the 41px surface, so a size\n * in `em` would resolve against 16px and land at 12.8px, below the 24px floor.\n * It is sized off the basis instead (24.3px at 1280), which also keeps a\n * `style: { font-size }` override from shrinking chrome. The inline padding\n * lines the text up with the content edge, the bottom padding keeps it inside\n * the surface's bottom band, and the slide number sits at the end. */\n.emiljs-footer {\n  display: flex;\n  gap: 1em;\n  box-sizing: border-box;\n  font-size: calc(var(--emiljs-basis) * 0.019);\n  padding: 0 var(--emiljs-padding) calc(var(--emiljs-basis) * 0.022);\n  color: var(--emiljs-footer-color, var(--emiljs-muted));\n}\n\n.emiljs-footer .emiljs-slide-number {\n  margin-inline-start: auto;\n  font-variant-numeric: tabular-nums;\n}\n\n/* Logo chrome (issue #189, SPEC A30): size wiring only, mirroring the footer\n * rule above \u2014 corner placement is core's (base.css's `.emiljs-logo`\n * structural rule); a bundled theme's own default/placeholder logo asset\n * lives in its `<theme-name>.assets/` directory (SPEC A28), deferred to a\n * follow-up pass. */\n.emiljs-logo {\n  width: var(--emiljs-logo-size, calc(var(--emiljs-basis) * 0.08));\n  height: auto;\n}\n\n/* Hero-text bump: a `title` or `quote` role steps up to +4 on the shared\n * ramp only inside the \"big statement\" slide shapes (`title`/`section`\n * variant for `title`, `statement` variant for either) \u2014 one rule, reused\n * across every hero-text context, rather than a per-variant number. */\n.emiljs .slide[data-variant~='title'] [data-role='title'],\n.emiljs .slide[data-variant~='section'] [data-role='title'],\n.emiljs .slide[data-variant~='statement'] [data-role='title'],\n.emiljs .slide[data-variant~='statement'] [data-role='quote'] {\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), 4));\n}\n\n/* Bundled layout-variant starter set (Grammar of Slides phase 2, resolves\n * issue #28): a variant is just `[data-variant~=\"\u2026\"]` structural CSS reusing\n * the existing token/role vocabulary, no new mechanism. Theme-independent\n * (every theme gets the same shapes; a theme restyles their palette/type\n * through the token cascade only), same split `vocabulary.css`'s bundled\n * `CLASSES` already draws. `content` (today's implicit heading+body shape) is\n * named here but needs no rule of its own. A two-pane split is not a variant:\n * it is the `:::{.columns}` fence (`vocabulary.css`, issue #79). */\n.emiljs .slide[data-variant~='title'] > .emiljs-surface,\n.emiljs .slide[data-variant~='section'] > .emiljs-surface,\n.emiljs .slide[data-variant~='statement'] > .emiljs-surface {\n  display: grid;\n  place-items: center;\n  /* `place-items` only centers within each row; without this the implicit rows\n   * stretch to fill the surface and push the subtitle far from the title. */\n  align-content: center;\n  text-align: center;\n}\n\n/* Cover and section slides are left-aligned (a `statement` stays centered: it\n * is one hero line). Items stretch rather than shrink-wrap (`justify-items`\n * back to its default) and `text-align: start` places the text, so it follows\n * the writing direction and a slide-level `class: center` still centers it. */\n.emiljs .slide[data-variant~='title'] > .emiljs-surface,\n.emiljs .slide[data-variant~='section'] > .emiljs-surface {\n  justify-items: stretch;\n  text-align: start;\n}\n\n/* A short accent bar above the title. It is a zero-height box whose top border\n * is the bar, not a background, so it survives `forced-colors` (which removes\n * backgrounds but keeps borders) and prints with `print-color-adjust`. Pure\n * decoration: generated content, never in the document text. */\n.emiljs\n  .slide:is([data-variant~='title'], [data-variant~='section'])\n  [data-role='title']::before {\n  content: '';\n  display: block;\n  width: 1.2em;\n  margin-block-end: 0.3em;\n  border-block-start: 0.07em solid var(--emiljs-accent);\n}\n\n/* Image/media-forward, minimal chrome: typically pairs with the `full-bleed`\n * *class* (`vocabulary.css`) on the actual media element \u2014 a deliberately\n * different name than this *variant* (a whole slide being media-forward) to\n * avoid the two meaning different things under the same string. */\n.emiljs .slide[data-variant~='media'] > .emiljs-surface {\n  padding: 0;\n}\n\n/* Links keep the browser underline (WCAG 1.4.1, and a projector flattens the\n * color difference); it is only thinned and offset so it clears descenders. */\n.emiljs .slide a {\n  color: var(--emiljs-link, var(--emiljs-fg));\n  text-decoration-thickness: 0.07em;\n  text-underline-offset: 0.2em;\n}\n\n/* Keyboard focus (WCAG 2.4.7, 2.4.13): a 3px accent `outline` (not a\n * `box-shadow`, which forced-colors removes). Scoped to the interactive\n * elements, not `.slide` itself, since the runtime may focus the slide\n * programmatically. The tabs' own, more specific rule in `vocabulary.css`\n * still wins for `[role='tab']`. */\n.emiljs .slide :is(a, summary, button, [role='tab']):focus-visible {\n  outline: 3px solid var(--emiljs-accent);\n  outline-offset: 2px;\n}\n\n.emiljs .slide :is(code, pre, kbd, samp) {\n  font-family: var(--emiljs-mono-font-family);\n}\n\n.emiljs .slide :is(code, pre) {\n  background: var(--emiljs-code-bg);\n  border-radius: var(--emiljs-radius);\n}\n\n/* Inline code and `kbd` sit a step below the text around them. */\n.emiljs .slide :is(code, kbd, samp) {\n  font-size: 0.85em;\n}\n\n.emiljs .slide :not(pre) > code {\n  padding: 0.08em 0.3em;\n}\n\n/* A code block (a `pre`) is a box, not inline text: inset the code from the\n * box edge, and scroll rather than overflow a long line (issue #401). Set at\n * 0.7em (about 68 columns across the content width) so a screenful of code\n * fits, instead of at the 41px body size. */\n.emiljs .slide pre {\n  padding: 0.7em 1em;\n  font-size: 0.7em;\n  line-height: 1.35;\n  overflow: auto;\n}\n\n/* The block already is the box: the `code` inside it takes the block's size and\n * adds no second background or padding of its own. */\n.emiljs .slide pre code {\n  font-size: inherit;\n  padding: 0;\n  background: none;\n}\n\n.emiljs .slide kbd {\n  padding: 0.1em 0.4em;\n  background: var(--emiljs-code-bg);\n  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);\n  border-bottom-width: 2px;\n  border-radius: var(--emiljs-radius);\n}\n\n/* A fixed dark-on-yellow pair, not `fg`, so it reads on every bundled theme\n * (a light `fg` on this yellow would fail on dark). */\n.emiljs .slide mark {\n  color: #111111;\n  background: #fff1a8;\n}\n\n/* Lists: accent markers, a hanging indent (room for two-digit numbers on an\n * ordered list), and a small item gap. Nested lists step down 0.9em a level;\n * `.emiljs-surface` in that selector outranks the margin reset above. */\n.emiljs .slide ul {\n  padding-inline-start: 1.1em;\n}\n\n.emiljs .slide ol {\n  padding-inline-start: 1.5em;\n}\n\n.emiljs .slide li + li {\n  margin-block-start: 0.25em;\n}\n\n.emiljs .slide .emiljs-surface li > :is(ul, ol) {\n  margin-block-start: 0.3em;\n  font-size: 0.9em;\n}\n\n.emiljs .slide li::marker {\n  color: var(--emiljs-accent);\n}\n\n.emiljs .slide ol > li::marker {\n  font-weight: 600;\n  font-variant-numeric: tabular-nums;\n}\n\n/* Blockquote: an accent rule on the inline-start edge. A `statement` slide is\n * already a hero quote, so it gets no rule. */\n.emiljs .slide blockquote {\n  margin-inline: 0;\n  padding-inline-start: 0.7em;\n  border-inline-start: 0.12em solid var(--emiljs-accent);\n}\n\n.emiljs .slide[data-variant~='statement'] blockquote {\n  padding-inline-start: 0;\n  border-inline-start: 0;\n}\n\n/* Tables: booktabs, no fills and no vertical rules (print-safe: a light fill\n * disappears in economy print mode). A heavy rule under the header, hairlines\n * between rows derived from the text color so every theme adapts. Still sized\n * to content; a column's Markdown alignment is an inline style and wins over\n * the `start` default. */\n.emiljs .slide table {\n  border-collapse: collapse;\n  font-variant-numeric: tabular-nums;\n}\n\n.emiljs .slide :is(th, td) {\n  padding: 0.35em 0.75em;\n  text-align: start;\n  border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);\n}\n\n.emiljs .slide :is(th, td):first-child {\n  padding-inline-start: 0;\n}\n\n.emiljs .slide :is(th, td):last-child {\n  padding-inline-end: 0;\n}\n\n.emiljs .slide th {\n  font-weight: 600;\n  border-bottom: 2px solid currentColor;\n}\n\n/* Image captions (SPEC A29, issue #85): a caption is secondary to the image\n * it describes, so it gets the muted-text/smaller-step treatment already\n * established for `subtitle`/`attribution` above, not a token of its own. */\n.emiljs .slide figcaption {\n  margin-block-start: calc(var(--emiljs-gap) / 2);\n  font-size: calc(1em * pow(var(--emiljs-scale-ratio), -1));\n  color: var(--emiljs-caption-color, var(--emiljs-muted));\n  text-align: center;\n}\n\n/* Task lists (SPEC A17, issue #262): the checkbox replaces the bullet instead\n * of sitting beside the UA's default disc. Nested task lists keep one level of\n * indent so the hierarchy stays readable. The checkbox is sized in `em`, so it\n * tracks the slide's font-size. */\n.emiljs .slide ul.contains-task-list {\n  list-style: none;\n  padding-inline-start: 0;\n}\n\n.emiljs .slide .contains-task-list .contains-task-list {\n  padding-inline-start: 1.5em;\n}\n\n.emiljs .slide li.task-list-item {\n  list-style: none;\n}\n\n.emiljs .slide .task-list-item-checkbox {\n  width: 1em;\n  height: 1em;\n  margin: 0 0.5em 0 0;\n  vertical-align: middle;\n  accent-color: var(--emiljs-accent);\n}\n\n/* Theme-contributed helper classes (enumerated per theme; not the bundled\n * theme-independent vocabulary). Kept minimal in v0. */\n.emiljs .slide .muted {\n  color: var(--emiljs-muted);\n}\n\n.emiljs .slide .accent {\n  color: var(--emiljs-accent);\n}\n";
@@ -20546,37 +20546,29 @@ var document_schema_default = {
         { type: "string", pattern: "^(auto|slide-?\\d+|\\d+)$" }
       ]
     },
-    shiki: {
-      type: "boolean",
-      description: "Syntax-highlight fenced code blocks with Shiki at build time (issue #23). `false` or absent leaves code blocks plain. A build-tool option: core itself bundles no highlighter (SPEC A20)."
-    },
-    "shiki-style": {
-      type: "string",
-      description: "The Shiki color theme: a theme name such as `github-dark` (default `github-light`), or a path (a value with a path separator or a `.json` suffix) to a VS Code theme JSON file, relative to the deck. Ignored without `shiki: true`."
-    },
-    "shiki-langs": {
+    extensions: {
       type: "array",
-      description: "Extra Shiki languages for fenced code, as TextMate grammar JSON files (the shape VS Code extensions and the `tm-grammars` package ship), by path relative to the deck. A string is the path; an object adds the language `name` and `aliases` the fences use when the grammar's own are not wanted. Ignored without `shiki: true`.",
+      description: "Extensions this deck turns on, in resolution order (later wins a conflict). An entry is a bare name (a built-in or an `emiljs-extensions/` folder), a `./` or `/` path relative to the deck, or an object with `name` or `src` plus `options` (validated against the extension's own schema). An entry named for a built-in configures it in place: `shiki` takes `options` `style`, `langs` and `aliases`, `enabled: false` turns it off and `enabled: true` loads it even with no language fence. An entry that cannot be resolved fails the build.",
       items: {
         anyOf: [
-          { type: "string" },
+          { type: "string", minLength: 1 },
           {
             type: "object",
-            required: ["path"],
             additionalProperties: false,
+            minProperties: 1,
             properties: {
-              path: { type: "string" },
-              name: { type: "string" },
-              aliases: { type: "array", items: { type: "string" } }
-            }
+              name: { type: "string", minLength: 1 },
+              src: { type: "string", minLength: 1 },
+              options: { type: "object", additionalProperties: true },
+              enabled: { type: "boolean" }
+            },
+            oneOf: [
+              { required: ["name"], not: { required: ["src"] } },
+              { required: ["src"], not: { required: ["name"] } }
+            ]
           }
         ]
       }
-    },
-    "shiki-aliases": {
-      type: "object",
-      description: "Fence names that highlight as another language, for example `rmd: markdown`. The target must be a bundled or `shiki-langs` language. Ignored without `shiki: true`.",
-      additionalProperties: { type: "string" }
     },
     "callout-appearance": {
       enum: ["default", "simple", "minimal"],
@@ -26950,84 +26942,99 @@ ${numberHtml}</div>
 }
 
 // ../core/src/render.ts
-var md = new lib_default("commonmark", { html: true, typographer: true });
-md.enable(["table", "strikethrough", "replacements", "smartquotes"]);
-md.use(import_markdown_it_task_lists.default);
-md.use(deflist_plugin);
-md.use(sup_plugin);
-md.use(sub_plugin);
-md.use(markdownItMath);
-md.use(markdownItBracketedSpan);
-md.use(import_markdown_it_attrs.default, {});
-var renderContainerDiv = (tokens, idx, options, _env, slf) => slf.renderToken(tokens, idx, options);
-md.use(container_plugin, "div", {
-  validate: () => true,
-  render: renderContainerDiv
-});
-md.core.ruler.before("curly_attributes", "container_bare_class", (state) => {
-  for (const token2 of state.tokens) {
-    if (token2.type !== "container_div_open") continue;
-    const info = token2.info.trim();
-    if (/^[^\s{}]+$/.test(info)) token2.attrJoin("class", info);
-  }
-});
-md.core.ruler.after("block", "emiljs_raw_html_fence", (state) => {
-  for (const token2 of state.tokens) {
-    if (token2.type === "fence" && token2.info.trim() === "{=html}") {
-      token2.type = "html_block";
-      token2.tag = "";
-      token2.info = "";
-      token2.markup = "";
-      token2.meta = { rawFence: true };
+function createMarkdownIt() {
+  const md2 = new lib_default("commonmark", { html: true, typographer: true });
+  md2.enable(["table", "strikethrough", "replacements", "smartquotes"]);
+  md2.use(import_markdown_it_task_lists.default);
+  md2.use(deflist_plugin);
+  md2.use(sup_plugin);
+  md2.use(sub_plugin);
+  md2.use(markdownItMath);
+  md2.use(markdownItBracketedSpan);
+  md2.use(import_markdown_it_attrs.default, {});
+  const renderContainerDiv = (tokens, idx, options, _env, slf) => slf.renderToken(tokens, idx, options);
+  md2.use(container_plugin, "div", {
+    validate: () => true,
+    render: renderContainerDiv
+  });
+  md2.core.ruler.before("curly_attributes", "container_bare_class", (state) => {
+    for (const token2 of state.tokens) {
+      if (token2.type !== "container_div_open") continue;
+      const info = token2.info.trim();
+      if (/^[^\s{}]+$/.test(info)) token2.attrJoin("class", info);
     }
-  }
-});
-var defaultHtmlBlock = md.renderer.rules.html_block;
-md.renderer.rules.html_block = (tokens, idx, options, env, slf) => {
-  const token2 = tokens[idx];
-  const html5 = defaultHtmlBlock(tokens, idx, options, env, slf);
-  if (!token2.meta?.rawFence || !token2.attrs?.length) return html5;
-  return `<div${slf.renderAttrs(token2)}>
+  });
+  md2.core.ruler.after("block", "emiljs_raw_html_fence", (state) => {
+    for (const token2 of state.tokens) {
+      if (token2.type === "fence" && token2.info.trim() === "{=html}") {
+        token2.type = "html_block";
+        token2.tag = "";
+        token2.info = "";
+        token2.markup = "";
+        token2.meta = { rawFence: true };
+      }
+    }
+  });
+  const defaultHtmlBlock = md2.renderer.rules.html_block;
+  md2.renderer.rules.html_block = (tokens, idx, options, env, slf) => {
+    const token2 = tokens[idx];
+    const html5 = defaultHtmlBlock(tokens, idx, options, env, slf);
+    if (!token2.meta?.rawFence || !token2.attrs?.length) return html5;
+    return `<div${slf.renderAttrs(token2)}>
 ${html5}</div>
 `;
-};
-md.renderer.renderInlineAsText = function(tokens, options, env) {
-  let result = "";
-  for (const token2 of tokens) {
-    if (token2.type === "code_inline" || token2.type === "math_inline") {
-      result += token2.content;
-    } else if (token2.children) {
-      result += this.renderInlineAsText(token2.children, options, env);
-    } else if (token2.type === "text" || token2.type === "html_inline" || token2.type === "html_block") {
-      result += token2.content;
-    } else if (token2.type === "softbreak" || token2.type === "hardbreak") {
-      result += "\n";
+  };
+  md2.renderer.renderInlineAsText = function(tokens, options, env) {
+    let result = "";
+    for (const token2 of tokens) {
+      if (token2.type === "code_inline" || token2.type === "math_inline") {
+        result += token2.content;
+      } else if (token2.children) {
+        result += this.renderInlineAsText(token2.children, options, env);
+      } else if (token2.type === "text" || token2.type === "html_inline" || token2.type === "html_block") {
+        result += token2.content;
+      } else if (token2.type === "softbreak" || token2.type === "hardbreak") {
+        result += "\n";
+      }
     }
-  }
-  return result;
-};
-var defaultFence = md.renderer.rules.fence;
-md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
-  const html5 = defaultFence(tokens, idx, options, env, slf);
-  const token2 = tokens[idx];
-  if (!token2.attrs?.length || !html5.startsWith("<pre") || html5.startsWith("<pre><code")) {
-    return html5;
-  }
-  const authored = token2.attrGet("class");
-  const open2 = /^<pre\b[^>]*>/.exec(html5)?.[0] ?? "";
-  const existing = /\sclass="([^"]*)"/.exec(open2);
-  if (authored && existing) {
-    const rest = {
-      attrs: token2.attrs.filter(([name]) => name !== "class")
-    };
-    const merged = open2.replace(
-      existing[0],
-      ` class="${existing[1]} ${md.utils.escapeHtml(authored)}"`
+    return result;
+  };
+  const defaultFence = md2.renderer.rules.fence;
+  md2.renderer.rules.fence = (tokens, idx, options, env, slf) => {
+    const token2 = tokens[idx];
+    const handler = env?.fences?.get(
+      (token2.info.trim().split(/[\s{]/)[0] ?? "").toLowerCase()
     );
-    return `<pre${slf.renderAttrs(rest)}${merged.slice("<pre".length)}${html5.slice(open2.length)}`;
-  }
-  return `<pre${slf.renderAttrs(token2)}${html5.slice("<pre".length)}`;
-};
+    const custom = handler?.(token2.content);
+    if (custom) {
+      return token2.attrs?.length ? `<div${slf.renderAttrs(token2)}>
+${custom}
+</div>
+` : `${custom}
+`;
+    }
+    const html5 = defaultFence(tokens, idx, options, env, slf);
+    if (!token2.attrs?.length || !html5.startsWith("<pre") || html5.startsWith("<pre><code")) {
+      return html5;
+    }
+    const authored = token2.attrGet("class");
+    const open2 = /^<pre\b[^>]*>/.exec(html5)?.[0] ?? "";
+    const existing = /\sclass="([^"]*)"/.exec(open2);
+    if (authored && existing) {
+      const rest = {
+        attrs: token2.attrs.filter(([name]) => name !== "class")
+      };
+      const merged = open2.replace(
+        existing[0],
+        ` class="${existing[1]} ${md2.utils.escapeHtml(authored)}"`
+      );
+      return `<pre${slf.renderAttrs(rest)}${merged.slice("<pre".length)}${html5.slice(open2.length)}`;
+    }
+    return `<pre${slf.renderAttrs(token2)}${html5.slice("<pre".length)}`;
+  };
+  return md2;
+}
+var md = createMarkdownIt();
 var defaultRenderMath;
 function toHighlight(hooks) {
   return hooks.highlightCode ? (code2, lang16) => hooks.highlightCode(code2, lang16) ?? "" : null;
@@ -27049,6 +27056,64 @@ var SPAN_STYLE_STASH_RESTORE = new RegExp(
   `<span\\b([^>]*?) ${SPAN_STYLE_STASH}="`,
   "g"
 );
+var SVG_TAGS = [
+  "svg",
+  "g",
+  "title",
+  "desc",
+  "polygon",
+  "polyline",
+  "path",
+  "ellipse",
+  "circle",
+  "rect",
+  "line",
+  "text",
+  "tspan"
+];
+var SVG_ATTRIBUTES = [
+  "width",
+  "height",
+  "viewbox",
+  "xmlns",
+  "transform",
+  "points",
+  "d",
+  "cx",
+  "cy",
+  "r",
+  "rx",
+  "ry",
+  "x",
+  "y",
+  "x1",
+  "y1",
+  "x2",
+  "y2",
+  "fill",
+  "stroke",
+  "stroke-width",
+  "stroke-dasharray",
+  "text-anchor",
+  "font-family",
+  "font-size",
+  "font-weight",
+  "font-style",
+  "xml:space",
+  "role",
+  "aria-label",
+  "aria-labelledby",
+  "aria-hidden",
+  "focusable"
+];
+var dropFetchingSvgValues = (tagName, attribs) => ({
+  tagName,
+  attribs: Object.fromEntries(
+    Object.entries(attribs).filter(
+      ([, value]) => !/url\s*\(|javascript:|data:/i.test(value)
+    )
+  )
+});
 var TEXT_BLOCK_STYLES = {
   "text-align": [/^(left|right|center)$/],
   "font-size": [/^\d(\.\d+)?em$/]
@@ -27182,7 +27247,8 @@ var SANITIZE_OPTIONS = {
     "details",
     "summary",
     // Speaker notes (SPEC A42): `::: notes` renders as a hidden `aside`.
-    "aside"
+    "aside",
+    ...SVG_TAGS
   ],
   allowedAttributes: {
     "*": [
@@ -27192,6 +27258,9 @@ var SANITIZE_OPTIONS = {
       // `at`, `count`, `for` and `reveal` become known `data-step-*` names;
       // anything else under the prefix is the author's own per-step payload.
       "data-step-*",
+      // An extension's own attributes, `data-ext-<name>` (SPEC A46). Only the
+      // namespace is allowed: the tags and values around them still have to pass.
+      "data-ext-*",
       "data-emiljs-anchor",
       "data-emiljs-positioned",
       "data-emiljs-hidden",
@@ -27204,6 +27273,9 @@ var SANITIZE_OPTIONS = {
     ],
     details: ["open"],
     aside: ["hidden"],
+    // An extension's diagram wrapper: `<figure role="img" aria-label="...">`.
+    figure: ["role", "aria-label"],
+    ...Object.fromEntries(SVG_TAGS.map((tag) => [tag, SVG_ATTRIBUTES])),
     a: ["href", "title"],
     img: ["src", "alt", "title"],
     // markdown-it-task-lists always renders `type="checkbox" disabled`
@@ -27231,6 +27303,9 @@ var SANITIZE_OPTIONS = {
   // from an embedded origin) and get no equivalent scheme restriction.
   allowedSchemesByTag: { iframe: ["https"] },
   transformTags: {
+    ...Object.fromEntries(
+      SVG_TAGS.map((tag) => [tag, dropFetchingSvgValues])
+    ),
     span: (tagName, attribs) => {
       const { style, ...rest } = attribs;
       return {
@@ -27854,8 +27929,14 @@ function isAnchoredBlock(token2) {
   }
   return token2.level === 0 && token2.nesting !== -1 && !!token2.map;
 }
-function renderMarkdown(source, doSanitize, variant = null, hooks, callouts = {}) {
-  const tokens = md.parse(source, {});
+function renderMarkdown(source, doSanitize, variant = null, hooks, callouts = {}, extensions) {
+  const parser = extensions ? markdownFor(extensions) : md;
+  const effective = extensions ? {
+    ...extensions.hooks,
+    ...hooks?.highlightCode && { highlightCode: hooks.highlightCode },
+    ...hooks?.renderMath && { renderMath: hooks.renderMath }
+  } : hooks;
+  const tokens = parser.parse(source, {});
   wrapImageCaptions(tokens);
   transformCallouts(tokens, callouts);
   transformTabsets(tokens);
@@ -27864,13 +27945,31 @@ function renderMarkdown(source, doSanitize, variant = null, hooks, callouts = {}
   retagStrikethrough(tokens);
   attachBlockAnchors(tokens);
   attachContentRoles(tokens, variant);
-  const options = hooks?.highlightCode ? { ...md.options, highlight: toHighlight(hooks) } : md.options;
-  const env = { renderMath: hooks?.renderMath ?? defaultRenderMath };
-  const html5 = md.renderer.render(tokens, options, env);
+  const options = {
+    ...parser.options,
+    highlight: effective?.highlightCode ? toHighlight(effective) : md.options.highlight
+  };
+  const env = {
+    renderMath: effective?.renderMath ?? defaultRenderMath
+  };
+  if (extensions?.fences.size) env.fences = extensions.fences;
+  let html5 = parser.renderer.render(tokens, options, env);
+  for (const transform2 of extensions?.transforms ?? []) html5 = transform2(html5);
   return doSanitize ? sanitize(html5) : html5;
 }
-function blockAnchors(source) {
-  const tokens = md.parse(source, {});
+var privateParsers = /* @__PURE__ */ new WeakMap();
+function markdownFor(extensions) {
+  if (!extensions.markdownIt.length) return md;
+  let parser = privateParsers.get(extensions);
+  if (!parser) {
+    parser = createMarkdownIt();
+    for (const install of extensions.markdownIt) install(parser);
+    privateParsers.set(extensions, parser);
+  }
+  return parser;
+}
+function blockAnchors(source, extensions) {
+  const tokens = (extensions ? markdownFor(extensions) : md).parse(source, {});
   wrapImageCaptions(tokens);
   processAttributeTokens(tokens);
   return attachBlockAnchors(tokens);
@@ -28000,6 +28099,12 @@ function nearestKey(key2, known) {
   }
   return best;
 }
+var MOVED_KEYS = {
+  shiki: "highlighting is the `shiki` extension: use `extensions: [{ name: shiki, enabled: false }]` to turn it off, or `enabled: true` to load it even without a language fence",
+  "shiki-style": "use `extensions: [{ name: shiki, options: { style: ... } }]`",
+  "shiki-langs": "use `extensions: [{ name: shiki, options: { langs: [...] } }]`",
+  "shiki-aliases": "use `extensions: [{ name: shiki, options: { aliases: { ... } } }]`"
+};
 function format2(errors2) {
   return (errors2 ?? []).map((e) => {
     const where = e.instancePath || "/";
@@ -28007,6 +28112,9 @@ function format2(errors2) {
     const key2 = String(
       e.params.additionalProperty
     );
+    if (Object.hasOwn(MOVED_KEYS, key2)) {
+      return `${where} has unknown key "${key2}" (it moved: ${MOVED_KEYS[key2]})`;
+    }
     const props = e.parentSchema?.properties;
     const suggestion = nearestKey(key2, Object.keys(props ?? {}));
     return `${where} has unknown key "${key2}"${suggestion ? ` (did you mean "${suggestion}"?)` : ""}`;
@@ -28104,7 +28212,7 @@ function resolveConfig(slide, defaults) {
     hidden: s2.hidden
   };
 }
-function parse(src) {
+function parse(src, extensions) {
   const pre = preparse(src);
   const document2 = pre.document ?? {};
   assertValidDocument(document2);
@@ -28120,7 +28228,7 @@ function parse(src) {
       source: raw2.body,
       line: raw2.line,
       frontmatter: raw2.frontmatter,
-      blocks: blockAnchors(raw2.body)
+      blocks: blockAnchors(raw2.body, extensions)
     };
   });
   return { frontmatter: document2, slides };
@@ -28175,7 +28283,7 @@ function backgroundMarkup(media) {
 ${inner2}
 </div>`;
 }
-function emitSlide(slide, index, total, sanitize2, deckLang, hooks, callouts) {
+function emitSlide(slide, index, total, sanitize2, deckLang, hooks, callouts, extensions) {
   const classes = slideClasses(slide).join(" ");
   const attrs = [`class="${classes}"`, `id="${slide.id}"`];
   if (isDefaultCurrentSlide(index)) attrs.push("data-emiljs-current");
@@ -28199,7 +28307,8 @@ function emitSlide(slide, index, total, sanitize2, deckLang, hooks, callouts) {
     sanitize2,
     variant,
     hooks,
-    callouts
+    callouts,
+    extensions
   );
   const footer = footerMarkup(
     footerContent(slide, index, total, slide.config.lang ?? deckLang)
@@ -28219,7 +28328,16 @@ function emit(deck, options = {}) {
   const callouts = renderDefaults(deck.frontmatter);
   const total = deck.slides.length;
   const slides = deck.slides.map(
-    (slide, i2) => emitSlide(slide, i2, total, sanitize2, lang16, options.hooks, callouts)
+    (slide, i2) => emitSlide(
+      slide,
+      i2,
+      total,
+      sanitize2,
+      lang16,
+      options.hooks,
+      callouts,
+      options.extensions
+    )
   ).join("\n");
   const containerStyle = styleAttr(containerStyleEntries(deck));
   const html5 = `<div class="emiljs" data-mode="${mode}" lang="${escapeAttr(lang16)}" dir="${dir}" tabindex="0"${containerStyle}>
@@ -28230,55 +28348,374 @@ ${slides}
   return { html: html5 };
 }
 
-// src/commands/build.ts
-import {
-  cpSync,
-  copyFileSync as copyFileSync2,
-  existsSync as existsSync6,
-  mkdirSync as mkdirSync4,
-  readFileSync as readFileSync6,
-  writeFileSync as writeFileSync3
-} from "node:fs";
-import { dirname as dirname4, join as join5, resolve as resolve4 } from "node:path";
+// ../core/src/extensions.ts
+var import__2 = __toESM(require__(), 1);
+var Ajv20202 = import__2.default;
+var SUPPORTED_EXTENSION_API_VERSION = 1;
+var NAME = /^[a-z][a-z0-9-]*$/;
+function isInput(x3) {
+  return typeof x3.extension === "object" && x3.extension !== null;
+}
+function checkExtension(ext) {
+  const label = typeof ext?.name === "string" ? `"${ext.name}"` : "(unnamed)";
+  if (typeof ext?.name !== "string" || !NAME.test(ext.name)) {
+    throw new Error(
+      `Extension ${label}: \`name\` is required and must be lower case letters, digits and hyphens, starting with a letter (it appears in \`data-ext-<name>\` attributes).`
+    );
+  }
+  if (ext.apiVersion === void 0) {
+    throw new Error(
+      `Extension ${label}: \`apiVersion\` is required (this emil.js supports ${SUPPORTED_EXTENSION_API_VERSION}).`
+    );
+  }
+  if (ext.apiVersion !== SUPPORTED_EXTENSION_API_VERSION) {
+    throw new Error(
+      `Extension ${label}: unsupported apiVersion ${String(ext.apiVersion)} (this emil.js supports ${SUPPORTED_EXTENSION_API_VERSION}).`
+    );
+  }
+}
+function createExtensionRegistry(extensions, options = {}) {
+  const mode = options.mode ?? "trusted";
+  const frontmatter = Object.freeze({ ...options.frontmatter ?? {} });
+  const warnings = [];
+  const warnOnce = (message) => {
+    if (!warnings.includes(message)) warnings.push(message);
+  };
+  let ajv2;
+  const listedNames = new Set(
+    extensions.map((x3) => (isInput(x3) ? x3.extension : x3)?.name)
+  );
+  const entries = [
+    ...(options.defaults ?? []).filter((x3) => !listedNames.has((isInput(x3) ? x3.extension : x3)?.name)).map((x3) => ({ x: x3, isDefault: true })),
+    ...extensions.map((x3) => ({ x: x3, isDefault: false }))
+  ];
+  const fences = /* @__PURE__ */ new Map();
+  const markdownIt = [];
+  const transforms = [];
+  const css = [];
+  const templates = [];
+  const runtimes = [];
+  const optionsSchemas = [];
+  const report = [];
+  const vocabulary = {
+    classes: [],
+    variants: [],
+    layouts: []
+  };
+  const hooks = {};
+  const owners = /* @__PURE__ */ new Map();
+  const seenNames = /* @__PURE__ */ new Set();
+  const layoutOwners = /* @__PURE__ */ new Map();
+  const claim = (key2, what, name, isDefault) => {
+    const prior = owners.get(key2);
+    if (prior && !prior.isDefault && !isDefault) {
+      warnings.push(
+        `extension "${name}" overrides "${prior.name}" for ${what} (last in the list wins)`
+      );
+    }
+    owners.set(key2, { name, isDefault });
+  };
+  const claimNames = (kind, names, into, name, isDefault) => {
+    const added = [];
+    for (const n of names ?? []) {
+      const key2 = `${kind}:${n}`;
+      const prior = owners.get(key2);
+      if (prior && !prior.isDefault && !isDefault) {
+        warnings.push(
+          `extension "${name}" declares ${kind} "${n}", which "${prior.name}" already declares`
+        );
+      }
+      owners.set(key2, { name, isDefault });
+      if (!into.includes(n)) into.push(n);
+      added.push(n);
+    }
+    return added;
+  };
+  for (const { x: x3, isDefault } of entries) {
+    const ext = isInput(x3) ? x3.extension : x3;
+    const extOptions = Object.freeze({
+      ...(isInput(x3) ? x3.options : void 0) ?? {}
+    });
+    const source = (isInput(x3) ? x3.source : void 0) ?? "unknown";
+    checkExtension(ext);
+    const { name } = ext;
+    if (seenNames.has(name)) {
+      throw new Error(
+        `Extension "${name}" is listed twice. List each extension once; an entry for a built-in default configures it in place.`
+      );
+    }
+    seenNames.add(name);
+    if (ext.optionsSchema) {
+      optionsSchemas.push({ name, schema: ext.optionsSchema });
+      try {
+        ajv2 ??= new Ajv20202({ allErrors: true, strict: false });
+        const validate = ajv2.compile(ext.optionsSchema);
+        if (!validate(extOptions)) {
+          for (const e of validate.errors ?? []) {
+            warnings.push(
+              `extension "${name}": options${e.instancePath} ${e.message ?? "is invalid"}`
+            );
+          }
+        }
+      } catch (e) {
+        warnings.push(
+          `extension "${name}": its optionsSchema could not be compiled (${e.message})`
+        );
+      }
+    }
+    const ctx = {
+      options: extOptions,
+      mode,
+      frontmatter,
+      warn: (message) => {
+        warnOnce(`extension "${name}": ${message}`);
+      }
+    };
+    const failed = (what, e) => {
+      ctx.warn(`${what} threw (${e instanceof Error ? e.message : String(e)})`);
+    };
+    const entry = {
+      name,
+      apiVersion: ext.apiVersion,
+      source,
+      isDefault,
+      fences: [],
+      hooks: [],
+      classes: [],
+      variants: [],
+      layouts: [],
+      cssBytes: 0,
+      hasTemplates: false,
+      templateLayouts: [],
+      hasRuntime: false,
+      enhancement: ext.runtime?.enhancement === true,
+      hasOptionsSchema: ext.optionsSchema !== void 0
+    };
+    if (ext.version !== void 0) entry.version = ext.version;
+    const build2 = ext.build;
+    if (build2?.fences) {
+      for (const [lang16, handler] of Object.entries(build2.fences)) {
+        const key2 = lang16.toLowerCase();
+        claim(`fence:${key2}`, `the "${key2}" fence`, name, isDefault);
+        fences.set(key2, (code2) => {
+          try {
+            return handler(code2, ctx);
+          } catch (e) {
+            failed(`the "${key2}" fence handler`, e);
+            return void 0;
+          }
+        });
+        entry.fences.push(key2);
+      }
+    }
+    if (build2?.markdownIt) {
+      const install = build2.markdownIt;
+      markdownIt.push((md2) => {
+        install(md2, ctx);
+      });
+      entry.hooks.push("markdownIt");
+    }
+    if (build2?.highlightCode) {
+      claim("hook:highlightCode", "`highlightCode`", name, isDefault);
+      const highlight = build2.highlightCode;
+      hooks.highlightCode = (code2, lang16) => {
+        try {
+          return highlight(code2, lang16, ctx);
+        } catch (e) {
+          failed("`highlightCode`", e);
+          return void 0;
+        }
+      };
+      entry.hooks.push("highlightCode");
+    }
+    if (build2?.renderMath) {
+      claim("hook:renderMath", "`renderMath`", name, isDefault);
+      const math2 = build2.renderMath;
+      hooks.renderMath = (tex, displayMode) => {
+        try {
+          return math2(tex, displayMode, ctx);
+        } catch (e) {
+          failed("`renderMath`", e);
+          return void 0;
+        }
+      };
+      entry.hooks.push("renderMath");
+    }
+    if (build2?.transformHtml) {
+      const transform2 = build2.transformHtml;
+      transforms.push((html5) => {
+        try {
+          return transform2(html5, ctx);
+        } catch (e) {
+          failed("`transformHtml`", e);
+          return html5;
+        }
+      });
+      entry.hooks.push("transformHtml");
+    }
+    if (ext.css) {
+      css.push({ name, css: ext.css, ...isDefault ? { builtin: true } : {} });
+      entry.cssBytes = new TextEncoder().encode(ext.css).length;
+    }
+    if (ext.templates) {
+      let named;
+      try {
+        named = layoutNames(parse(ext.templates));
+      } catch (e) {
+        warnings.push(
+          `extension "${name}": its templates could not be read (${e instanceof Error ? e.message : String(e)})`
+        );
+      }
+      if (named) {
+        templates.push({ name, text: ext.templates });
+        entry.hasTemplates = true;
+      }
+      entry.templateLayouts = named ?? [];
+      const listed = new Set(ext.vocabulary?.layouts ?? []);
+      for (const layout of named ?? []) {
+        const prior = layoutOwners.get(layout);
+        if (prior !== void 0 && !isDefault) {
+          warnings.push(
+            `extension "${name}" defines the layout "${layout}", which "${prior}" already defines (last in the list wins)`
+          );
+        }
+        layoutOwners.set(layout, name);
+        if (!listed.has(layout) && !isDefault) {
+          warnings.push(
+            `extension "${name}": the template layout "${layout}" is not listed in its vocabulary.layouts`
+          );
+        }
+      }
+    }
+    if (ext.runtime?.code) {
+      runtimes.push({
+        name,
+        code: ext.runtime.code,
+        options: extOptions,
+        enhancement: ext.runtime.enhancement === true
+      });
+      entry.hasRuntime = true;
+    }
+    const v2 = ext.vocabulary;
+    entry.classes = claimNames(
+      "class",
+      v2?.classes,
+      vocabulary.classes,
+      name,
+      isDefault
+    );
+    entry.variants = claimNames(
+      "variant",
+      v2?.variants,
+      vocabulary.variants,
+      name,
+      isDefault
+    );
+    entry.layouts = claimNames(
+      "layout",
+      v2?.layouts,
+      vocabulary.layouts,
+      name,
+      isDefault
+    );
+    report.push(entry);
+  }
+  return {
+    hooks,
+    fences,
+    markdownIt,
+    transforms,
+    css,
+    vocabulary,
+    templates,
+    runtimes,
+    optionsSchemas,
+    warnings,
+    report
+  };
+}
+function layoutNames(deck) {
+  return deck.slides.flatMap((slide) => {
+    const name = slide.frontmatter?.["layout-name"];
+    return typeof name === "string" ? [name] : [];
+  });
+}
+function extensionCss(css) {
+  const used = /* @__PURE__ */ new Set();
+  const layered = [];
+  const plain = [];
+  for (const c of css) {
+    if (c.builtin) {
+      plain.push(c.css);
+      continue;
+    }
+    const base2 = `emiljs-ext.${c.name.replace(/[^A-Za-z0-9_-]/g, "-")}`;
+    let layer = base2;
+    for (let n = 2; used.has(layer); n++) layer = `${base2}-${n}`;
+    used.add(layer);
+    layered.push({ layer, css: c.css });
+  }
+  if (layered.length === 0 && plain.length === 0) return "";
+  return [
+    ...layered.length > 0 ? [`@layer ${layered.map((l3) => l3.layer).join(", ")};`] : [],
+    ...plain,
+    ...layered.map((l3) => `@layer ${l3.layer} {
+${l3.css}
+}`)
+  ].join("\n");
+}
 
-// src/document.ts
-function renderCss(source) {
-  return "href" in source ? `<link rel="stylesheet" href="${source.href}">` : `<style>
-${source.inline}
-</style>`;
+// ../extension/src/folder.ts
+var ExtensionFolderError = class extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ExtensionFolderError";
+  }
+};
+var join2 = (dir, file) => `${dir.replace(/[\\/]+$/, "")}/${file}`;
+async function loadExtensionFolder(dir, reader) {
+  const label = dir;
+  const indexPath = join2(dir, "index.js");
+  if (await reader.readText(indexPath) === void 0) {
+    throw new ExtensionFolderError(
+      `${label}: an extension folder needs an index.js (not found at ${indexPath})`
+    );
+  }
+  const mod = await reader.importModule(indexPath);
+  const exported = mod && typeof mod === "object" && "default" in mod ? mod.default : mod;
+  if (!exported || typeof exported !== "object" || Array.isArray(exported) || typeof exported.name !== "string") {
+    throw new ExtensionFolderError(
+      `${label}: index.js must default-export an extension object (defineExtension({ name, apiVersion, ... }))`
+    );
+  }
+  const extension = { ...exported };
+  const css = await reader.readText(join2(dir, "style.css"));
+  const runtime = await reader.readText(join2(dir, "runtime.js"));
+  const templates = await reader.readText(join2(dir, "template.md"));
+  const both = (file, field) => {
+    throw new ExtensionFolderError(
+      `${label}: extension "${extension.name}" sets \`${field}\` in index.js and also has ${file}; use one`
+    );
+  };
+  if (css !== void 0) {
+    if (extension.css !== void 0) both("style.css", "css");
+    extension.css = css;
+  }
+  if (runtime !== void 0) {
+    if (extension.runtime?.code !== void 0)
+      both("runtime.js", "runtime.code");
+    extension.runtime = { ...extension.runtime, code: runtime };
+  }
+  if (templates !== void 0) {
+    if (extension.templates !== void 0) both("template.md", "templates");
+    extension.templates = templates;
+  }
+  return extension;
 }
-function renderDocument(opts) {
-  const sources = Array.isArray(opts.css) ? opts.css : [opts.css];
-  const style = sources.map(renderCss).join("\n");
-  const hasRuntime = Boolean(opts.runtimeSrc || opts.runtimeInline);
-  const optionsScript = hasRuntime && opts.runtimeOptions ? `<script>window.__EMILJS_OPTIONS__ = ${JSON.stringify(
-    opts.runtimeOptions
-  ).replace(/</g, "\\u003c")}</script>` : "";
-  const runtime = opts.runtimeInline ? (
-    // Guard against a `</script>` in the bundle terminating the tag early.
-    `${optionsScript}<script>${opts.runtimeInline.replace(
-      /<\/(script)/gi,
-      "<\\/$1"
-    )}</script>`
-  ) : opts.runtimeSrc ? `${optionsScript}<script src="${opts.runtimeSrc}"></script>` : "";
-  return `<!doctype html>
-<html lang="${opts.lang}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml2(opts.title)}</title>
-<style>html, body { margin: 0; }</style>
-${style}
-${opts.headExtra ?? ""}
-</head>
-<body>
-${opts.fragment}${runtime}
-</body>
-</html>
-`;
-}
-function escapeHtml2(s2) {
-  return s2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// ../extension/src/index.ts
+function defineExtension(extension) {
+  return extension;
 }
 
 // ../../node_modules/.pnpm/katex@0.16.47/node_modules/katex/dist/katex.mjs
@@ -42779,7 +43216,26 @@ var katex = {
   __domTree
 };
 
-// ../math-katex/src/index.ts
+// ../ext-katex/src/index.ts
+function katexExtension(options = {}) {
+  let render3;
+  let warn;
+  return defineExtension({
+    name: "katex",
+    apiVersion: 1,
+    build: {
+      renderMath: (tex, displayMode, ctx) => {
+        warn = ctx.warn;
+        render3 ??= createMathRenderer({
+          onError: options.onError ?? ((message, source) => warn?.(
+            `could not render \`${source.trim().slice(0, 60)}\` (${message}); it is left as text`
+          ))
+        });
+        return render3(tex, displayMode);
+      }
+    }
+  });
+}
 function createMathRenderer(options = {}) {
   const macros2 = { ...options.macros };
   return (tex, displayMode) => {
@@ -42801,13 +43257,182 @@ function createMathRenderer(options = {}) {
 }
 
 // src/math.ts
-function mathHook(warn) {
-  return createMathRenderer({
-    onError: (message, tex) => warn?.({
-      code: "MATH_INVALID",
-      message: `math: could not render \`${tex.trim().slice(0, 60)}\` (${message}); it is left as text`
-    })
+function mathOnError(warn) {
+  return (message, tex) => warn?.({
+    code: "MATH_INVALID",
+    message: `math: could not render \`${tex.trim().slice(0, 60)}\` (${message}); it is left as text`
   });
+}
+
+// src/builtins.ts
+function builtinDefaults(options) {
+  const defaults = [
+    {
+      extension: katexExtension({ onError: mathOnError(options.warn) }),
+      source: "built-in"
+    }
+  ];
+  if (options.highlighter) {
+    defaults.push({
+      extension: options.highlighter.extension,
+      source: "built-in"
+    });
+  }
+  return defaults;
+}
+
+// src/commands/build.ts
+import {
+  cpSync,
+  copyFileSync as copyFileSync2,
+  existsSync as existsSync6,
+  mkdirSync as mkdirSync4,
+  readdirSync,
+  readFileSync as readFileSync6,
+  rmSync as rmSync2,
+  writeFileSync as writeFileSync3
+} from "node:fs";
+import { basename, dirname as dirname4, join as join6, resolve as resolve4 } from "node:path";
+
+// src/errors.ts
+var EmiljsError = class extends Error {
+  code;
+  input;
+  location;
+  constructor(code2, message, options = {}) {
+    super(
+      message,
+      options.cause != null ? { cause: options.cause } : void 0
+    );
+    this.name = "EmiljsError";
+    this.code = code2;
+    this.input = options.input;
+    this.location = options.location;
+  }
+};
+var ThemeNotFoundError = class extends EmiljsError {
+  constructor(message, options = {}) {
+    super("THEME_NOT_FOUND", message, options);
+    this.name = "ThemeNotFoundError";
+  }
+};
+var ExtensionLoadError = class extends EmiljsError {
+  constructor(message, options = {}) {
+    super("EXTENSION_LOAD_FAILED", message, options);
+    this.name = "ExtensionLoadError";
+  }
+};
+function codeFor(err) {
+  if (err instanceof EmiljsError) return err.code;
+  if (err instanceof Error) {
+    if (err instanceof FrontmatterYamlError) return "FRONTMATTER_YAML_INVALID";
+    if (err.message.startsWith("Invalid document frontmatter")) {
+      return "DOCUMENT_FRONTMATTER_INVALID";
+    }
+    if (err.message.startsWith("Invalid frontmatter on slide")) {
+      return "SLIDE_FRONTMATTER_INVALID";
+    }
+  }
+  return "INTERNAL_ERROR";
+}
+function toErrorPayload(command, err) {
+  const message = err instanceof Error ? err.message : String(err);
+  const error2 = { code: codeFor(err), message };
+  if (err instanceof EmiljsError) {
+    if (err.input != null) error2.input = err.input;
+    if (err.location != null) error2.location = err.location;
+  } else if (err instanceof FrontmatterYamlError) {
+    error2.location = { line: err.line, column: err.column };
+  }
+  return { ok: false, command, error: error2 };
+}
+
+// src/extension-runtime.ts
+var IMPORT_OR_EXPORT = /^[ \t]*(import|export)\b([ \t]+default\b)?/gm;
+var EXPORT_DEFAULT = /^([ \t]*)export[ \t]+default\b/m;
+function extensionScript(entry) {
+  const fail2 = (why) => {
+    throw new ExtensionLoadError(
+      `extension "${entry.name}": runtime.code ${why}`
+    );
+  };
+  const statements = [...entry.code.matchAll(IMPORT_OR_EXPORT)];
+  const defaults = statements.filter((m3) => m3[1] === "export" && m3[2]);
+  if (defaults.length !== 1) {
+    fail2("must have exactly one `export default (deck, options) => ...`");
+  }
+  if (statements.length !== defaults.length) {
+    fail2(
+      "must be self-contained: no `import`, and no export other than the default"
+    );
+  }
+  const body3 = entry.code.replace(EXPORT_DEFAULT, "$1__emiljsDefault =");
+  const options = JSON.stringify(entry.options ?? {}).replace(/</g, "\\u003c");
+  const text4 = `(window.__EMILJS_EXTENSIONS__ ||= []).push({ name: ${JSON.stringify(entry.name)}, options: ${options}, run: (function () {
+'use strict';
+var __emiljsDefault;
+${body3}
+;return __emiljsDefault;
+})() });
+`;
+  return { name: entry.name, text: text4, file: `extensions/${entry.name}.js` };
+}
+function extensionScripts(registry) {
+  return (registry?.runtimes ?? []).map(extensionScript);
+}
+function inlineScriptTag(text4) {
+  return `<script>${text4.replace(/<\/(script)/gi, "<\\/$1")}</script>`;
+}
+
+// src/document.ts
+function renderCss(source) {
+  return "href" in source ? `<link rel="stylesheet" href="${source.href}">` : `<style>
+${source.inline}
+</style>`;
+}
+function renderDocument(opts) {
+  const sources = Array.isArray(opts.css) ? opts.css : [opts.css];
+  const style = sources.map(renderCss).join("\n");
+  const hasRuntime = Boolean(opts.runtimeSrc || opts.runtimeInline);
+  const optionsScript = hasRuntime && opts.runtimeOptions ? `<script>window.__EMILJS_OPTIONS__ = ${JSON.stringify(
+    opts.runtimeOptions
+  ).replace(/</g, "\\u003c")}</script>` : "";
+  const extensionScripts2 = hasRuntime ? [
+    ...(opts.extensionSrcs ?? []).map(
+      (src) => `<script src="${src}"></script>`
+    ),
+    ...(opts.extensionInline ?? []).map(inlineScriptTag)
+  ].join("") : "";
+  const runtime = opts.runtimeInline ? (
+    // Guard against a `</script>` in the bundle terminating the tag early.
+    `${optionsScript}${extensionScripts2}${inlineScriptTag(opts.runtimeInline)}`
+  ) : opts.runtimeSrc ? `${optionsScript}${extensionScripts2}<script src="${opts.runtimeSrc}"></script>` : "";
+  return `<!doctype html>
+<html lang="${opts.lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${escapeHtml2(opts.title)}</title>
+<style>html, body { margin: 0; }</style>
+${style}
+${opts.headExtra ?? ""}
+</head>
+<body>
+${opts.fragment}${runtime}
+</body>
+</html>
+`;
+}
+function escapeHtml2(s2) {
+  return s2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// src/extension-warnings.ts
+function forwardExtensionWarnings(registry, from, warn) {
+  if (!registry) return;
+  for (const message of registry.warnings.slice(from)) {
+    warn({ code: "EXTENSION_WARNING", message });
+  }
 }
 
 // src/export/inline.ts
@@ -42904,10 +43529,10 @@ function inlineAssets(html5, opts) {
 
 // src/export/fontFetch.ts
 import { existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync3, writeFileSync as writeFileSync2 } from "node:fs";
-import { dirname as dirname2, join as join2 } from "node:path";
+import { dirname as dirname2, join as join3 } from "node:path";
 function writeFetchedFonts(fonts, outDir) {
   for (const [rel2, bytes] of fonts.files) {
-    const dest = join2(outDir, rel2);
+    const dest = join3(outDir, rel2);
     mkdirSync2(dirname2(dest), { recursive: true });
     writeFileSync2(dest, bytes);
   }
@@ -42918,7 +43543,7 @@ function inlineFetchedFonts(css, fonts, limit, outDir) {
   for (const [rel2, bytes] of fonts.files) {
     if (!out.includes(rel2)) continue;
     if (limit != null && bytes.byteLength > limit) {
-      const dest = join2(outDir, rel2);
+      const dest = join3(outDir, rel2);
       mkdirSync2(dirname2(dest), { recursive: true });
       writeFileSync2(dest, bytes);
       external.push({ ref: rel2, path: dest, size: bytes.byteLength });
@@ -42932,7 +43557,7 @@ function inlineFetchedFonts(css, fonts, limit, outDir) {
 
 // src/export/fonts.ts
 import { copyFileSync, existsSync as existsSync3, mkdirSync as mkdirSync3, statSync as statSync2 } from "node:fs";
-import { dirname as dirname3, isAbsolute, join as join3, relative, resolve as resolve2 } from "node:path";
+import { dirname as dirname3, isAbsolute, join as join4, relative, resolve as resolve2 } from "node:path";
 
 // src/warnings.ts
 var consoleSink = (warning) => {
@@ -42976,7 +43601,7 @@ function copyFontFiles(deck, deckDir, outDir, only) {
       continue;
     }
     if (only && !only.has(abs)) continue;
-    const dest = join3(outDir, rel2);
+    const dest = join4(outDir, rel2);
     if (dest === abs) continue;
     mkdirSync3(dirname3(dest), { recursive: true });
     copyFileSync(abs, dest);
@@ -43020,7 +43645,7 @@ function ogMetaTags(file) {
 
 // src/export/themeAssets.ts
 import { existsSync as existsSync4, readFileSync as readFileSync4, statSync as statSync3 } from "node:fs";
-import { extname as extname2, join as join4 } from "node:path";
+import { extname as extname2, join as join5 } from "node:path";
 var ATTR_RE = /\b(src|href|poster)\s*=\s*(['"])theme:([^'"]*)\2/gi;
 var CSS_URL_RE = /url\(\s*(['"]?)theme:([^'")]+)\1\s*\)/gi;
 var SRCSET_RE = /\bsrcset\s*=\s*(['"])([^'"]*)\1/gi;
@@ -43072,7 +43697,7 @@ function copyThemeRefs(html5, resolveRef, copyInto) {
   return { html: rewriteThemeRefs(html5, replace2), missing };
 }
 function themeAssetOutPath(outDir, ref) {
-  return join4(outDir, "theme-assets", ref);
+  return join5(outDir, "theme-assets", ref);
 }
 
 // src/theme.ts
@@ -43195,53 +43820,6 @@ var TOKEN_DEFS = [
 ];
 var TOKENS = TOKEN_DEFS.map((t) => t.name);
 var BUNDLED_THEMES = ["default", "dark", "editorial"];
-
-// src/errors.ts
-var EmiljsError = class extends Error {
-  code;
-  input;
-  location;
-  constructor(code2, message, options = {}) {
-    super(
-      message,
-      options.cause != null ? { cause: options.cause } : void 0
-    );
-    this.name = "EmiljsError";
-    this.code = code2;
-    this.input = options.input;
-    this.location = options.location;
-  }
-};
-var ThemeNotFoundError = class extends EmiljsError {
-  constructor(message, options = {}) {
-    super("THEME_NOT_FOUND", message, options);
-    this.name = "ThemeNotFoundError";
-  }
-};
-function codeFor(err) {
-  if (err instanceof EmiljsError) return err.code;
-  if (err instanceof Error) {
-    if (err instanceof FrontmatterYamlError) return "FRONTMATTER_YAML_INVALID";
-    if (err.message.startsWith("Invalid document frontmatter")) {
-      return "DOCUMENT_FRONTMATTER_INVALID";
-    }
-    if (err.message.startsWith("Invalid frontmatter on slide")) {
-      return "SLIDE_FRONTMATTER_INVALID";
-    }
-  }
-  return "INTERNAL_ERROR";
-}
-function toErrorPayload(command, err) {
-  const message = err instanceof Error ? err.message : String(err);
-  const error2 = { code: codeFor(err), message };
-  if (err instanceof EmiljsError) {
-    if (err.input != null) error2.input = err.input;
-    if (err.location != null) error2.location = err.location;
-  } else if (err instanceof FrontmatterYamlError) {
-    error2.location = { line: err.line, column: err.column };
-  }
-  return { ok: false, command, error: error2 };
-}
 
 // src/theme.ts
 var BUNDLED = new Set(BUNDLED_THEMES);
@@ -43405,7 +43983,7 @@ function build(input, options = {}) {
   const mode = options.mode ?? "deck";
   const inputPath = resolve4(input);
   const deckDir = dirname4(inputPath);
-  const outFile = options.outFile ? resolve4(options.outFile) : join5(resolve4(options.out ?? "dist"), "index.html");
+  const outFile = options.outFile ? resolve4(options.outFile) : join6(resolve4(options.out ?? "dist"), "index.html");
   const outDir = dirname4(outFile);
   const warn = options.onWarning ?? consoleSink;
   const deck = parse(readFileSync6(inputPath, "utf8"));
@@ -43430,14 +44008,18 @@ function build(input, options = {}) {
   const includeRuntime = mode === "deck";
   for (const w3 of options.highlighter?.warnings ?? []) warn(w3);
   warnUnavailableLanguages(options.highlighter?.unavailable ?? [], warn);
+  const registry = options.extensions ?? createExtensionRegistry([], {
+    mode: options.sanitize ? "untrusted" : "trusted",
+    frontmatter: deck.frontmatter,
+    defaults: builtinDefaults({ highlighter: options.highlighter, warn })
+  });
+  const warningsSeen = registry.warnings.length;
   const { html: fragment } = emit(deck, {
     mode: emittedMode,
     sanitize: options.sanitize ?? false,
-    hooks: {
-      highlightCode: options.highlighter?.highlightCode,
-      renderMath: mathHook(warn)
-    }
+    extensions: registry
   });
+  forwardExtensionWarnings(registry, warningsSeen, warn);
   warnPlaceholders(findPlaceholders(fragment), warn);
   const themeCss = resolveThemeCss(
     options.theme ?? deck.frontmatter.theme,
@@ -43449,17 +44031,21 @@ function build(input, options = {}) {
     themeCss,
     fontFaceCss(deck.frontmatter.fonts),
     fetched?.css,
-    options.highlighter?.css,
+    // Extension stylesheets, each in its own cascade layer (below the unlayered
+    // theme and deck CSS, in list order among themselves).
+    extensionCss(registry.css),
     aspectCss
   ].filter(Boolean).join("\n");
   const theme = normalizeTheme(options.theme ?? deck.frontmatter.theme);
   mkdirSync4(outDir, { recursive: true });
+  const extScripts = includeRuntime ? extensionScripts(registry) : [];
   const doc = selfContained ? renderSelfContained({
     deck,
     fragment,
     baseCssText: getAssets().baseCss(),
     themeCssText,
     includeRuntime,
+    extScripts,
     deckDir,
     theme,
     outDir,
@@ -43475,6 +44061,7 @@ function build(input, options = {}) {
     fragment,
     themeCssText,
     includeRuntime,
+    extScripts,
     outDir,
     deckDir,
     theme,
@@ -43488,16 +44075,29 @@ function build(input, options = {}) {
 }
 function copyDeckAssets(deckDir, outDir) {
   if (resolve4(deckDir) === resolve4(outDir)) return;
-  const assetsDir = join5(deckDir, "assets");
+  const assetsDir = join6(deckDir, "assets");
   if (existsSync6(assetsDir)) {
-    cpSync(assetsDir, join5(outDir, "assets"), { recursive: true });
+    cpSync(assetsDir, join6(outDir, "assets"), { recursive: true });
   }
 }
 function renderLinked(ctx) {
   const assets = getAssets();
-  writeFileSync3(join5(ctx.outDir, "emiljs.css"), assets.baseCss());
+  writeFileSync3(join6(ctx.outDir, "emiljs.css"), assets.baseCss());
   if (ctx.includeRuntime) {
-    writeFileSync3(join5(ctx.outDir, "emiljs-runtime.js"), assets.runtimeJs());
+    writeFileSync3(join6(ctx.outDir, "emiljs-runtime.js"), assets.runtimeJs());
+    const extDir = join6(ctx.outDir, "extensions");
+    if (existsSync6(extDir)) {
+      const current2 = new Set(ctx.extScripts.map((s2) => basename(s2.file)));
+      for (const f2 of readdirSync(extDir)) {
+        if (f2.endsWith(".js") && !current2.has(f2)) rmSync2(join6(extDir, f2));
+      }
+    }
+    if (ctx.extScripts.length > 0) {
+      mkdirSync4(extDir, { recursive: true });
+      for (const script2 of ctx.extScripts) {
+        writeFileSync3(join6(ctx.outDir, script2.file), script2.text);
+      }
+    }
   }
   copyDeckAssets(ctx.deckDir, ctx.outDir);
   const resolveRef = (ref) => resolveThemeAssetPath(ctx.theme, ctx.deckDir, ref);
@@ -43514,7 +44114,7 @@ function renderLinked(ctx) {
   );
   const themeCss = copyThemeRefs(ctx.themeCssText, resolveRef, copyInto);
   warnMissingThemeAssets([...missing, ...themeCss.missing], ctx.warn);
-  writeFileSync3(join5(ctx.outDir, "theme.css"), themeCss.html);
+  writeFileSync3(join6(ctx.outDir, "theme.css"), themeCss.html);
   warnFonts(
     ctx.deck,
     copyFontFiles(ctx.deck, ctx.deckDir, ctx.outDir),
@@ -43528,6 +44128,7 @@ function renderLinked(ctx) {
     title: ctx.deck.frontmatter.title ?? "emil.js",
     css,
     runtimeSrc: ctx.includeRuntime ? "emiljs-runtime.js" : void 0,
+    extensionSrcs: ctx.extScripts.map((s2) => s2.file),
     runtimeOptions: ctx.includeRuntime ? runtimeOptions(ctx.deck) : void 0,
     headExtra: ctx.headExtra
   });
@@ -43568,6 +44169,7 @@ function renderSelfContained(ctx) {
     title: ctx.deck.frontmatter.title ?? "emil.js",
     css,
     runtimeInline: ctx.includeRuntime ? getAssets().runtimeJs() : void 0,
+    extensionInline: ctx.extScripts.map((s2) => s2.text),
     runtimeOptions: ctx.includeRuntime ? runtimeOptions(ctx.deck) : void 0,
     headExtra: ctx.headExtra
   });
@@ -43608,6 +44210,11 @@ function buildDeck(options, loadHighlighter) {
         dirname5(resolve5(options.input))
       );
     }
+    const onWarning = options.onWarning;
+    const extensions = createExtensionRegistry(options.extensions ?? [], {
+      defaults: builtinDefaults({ highlighter, warn: onWarning }),
+      frontmatter: parse(readFileSync7(options.input, "utf8")).frontmatter
+    });
     const outFile = build(options.input, {
       outFile: options.outFile,
       selfContained: true,
@@ -43616,7 +44223,8 @@ function buildDeck(options, loadHighlighter) {
       theme: options.theme,
       onWarning: options.onWarning,
       ogImage: false,
-      highlighter
+      highlighter,
+      extensions
     });
     return { outFile };
   } finally {
@@ -43670,12 +44278,12 @@ function mergeObjects(target, ...sources) {
   });
   return target;
 }
-function basename(path2) {
+function basename2(path2) {
   const idx = ~path2.lastIndexOf("/") || ~path2.lastIndexOf("\\");
   if (idx === 0) {
     return path2;
   } else if (~idx === path2.length - 1) {
-    return basename(path2.substring(0, path2.length - 1));
+    return basename2(path2.substring(0, path2.length - 1));
   } else {
     return path2.substr(~idx + 1);
   }
@@ -44624,7 +45232,7 @@ var Rule = class {
     this._contentNameIsCapturing = RegexSource.hasCaptures(this._contentName);
   }
   get debugName() {
-    const location = this.$location ? `${basename(this.$location.filename)}:${this.$location.line}` : "unknown";
+    const location = this.$location ? `${basename2(this.$location.filename)}:${this.$location.line}` : "unknown";
     return `${this.constructor.name}#${this.id} @ ${location}`;
   }
   getName(lineText, captureIndices) {
@@ -54321,7 +54929,7 @@ var github_dark_default = Object.freeze(JSON.parse('{"colors":{"activityBar.acti
 // ../../node_modules/.pnpm/@shikijs+themes@3.23.0/node_modules/@shikijs/themes/dist/github-light.mjs
 var github_light_default = Object.freeze(JSON.parse('{"colors":{"activityBar.activeBorder":"#f9826c","activityBar.background":"#fff","activityBar.border":"#e1e4e8","activityBar.foreground":"#2f363d","activityBar.inactiveForeground":"#959da5","activityBarBadge.background":"#2188ff","activityBarBadge.foreground":"#fff","badge.background":"#dbedff","badge.foreground":"#005cc5","breadcrumb.activeSelectionForeground":"#586069","breadcrumb.focusForeground":"#2f363d","breadcrumb.foreground":"#6a737d","breadcrumbPicker.background":"#fafbfc","button.background":"#159739","button.foreground":"#fff","button.hoverBackground":"#138934","button.secondaryBackground":"#e1e4e8","button.secondaryForeground":"#1b1f23","button.secondaryHoverBackground":"#d1d5da","checkbox.background":"#fafbfc","checkbox.border":"#d1d5da","debugToolBar.background":"#fff","descriptionForeground":"#6a737d","diffEditor.insertedTextBackground":"#34d05822","diffEditor.removedTextBackground":"#d73a4922","dropdown.background":"#fafbfc","dropdown.border":"#e1e4e8","dropdown.foreground":"#2f363d","dropdown.listBackground":"#fff","editor.background":"#fff","editor.findMatchBackground":"#ffdf5d","editor.findMatchHighlightBackground":"#ffdf5d66","editor.focusedStackFrameHighlightBackground":"#28a74525","editor.foldBackground":"#d1d5da11","editor.foreground":"#24292e","editor.inactiveSelectionBackground":"#0366d611","editor.lineHighlightBackground":"#f6f8fa","editor.linkedEditingBackground":"#0366d611","editor.selectionBackground":"#0366d625","editor.selectionHighlightBackground":"#34d05840","editor.selectionHighlightBorder":"#34d05800","editor.stackFrameHighlightBackground":"#ffd33d33","editor.wordHighlightBackground":"#34d05800","editor.wordHighlightBorder":"#24943e99","editor.wordHighlightStrongBackground":"#34d05800","editor.wordHighlightStrongBorder":"#24943e50","editorBracketHighlight.foreground1":"#005cc5","editorBracketHighlight.foreground2":"#e36209","editorBracketHighlight.foreground3":"#5a32a3","editorBracketHighlight.foreground4":"#005cc5","editorBracketHighlight.foreground5":"#e36209","editorBracketHighlight.foreground6":"#5a32a3","editorBracketMatch.background":"#34d05840","editorBracketMatch.border":"#34d05800","editorCursor.foreground":"#044289","editorError.foreground":"#cb2431","editorGroup.border":"#e1e4e8","editorGroupHeader.tabsBackground":"#f6f8fa","editorGroupHeader.tabsBorder":"#e1e4e8","editorGutter.addedBackground":"#28a745","editorGutter.deletedBackground":"#d73a49","editorGutter.modifiedBackground":"#2188ff","editorIndentGuide.activeBackground":"#d7dbe0","editorIndentGuide.background":"#eff2f6","editorLineNumber.activeForeground":"#24292e","editorLineNumber.foreground":"#1b1f234d","editorOverviewRuler.border":"#fff","editorWarning.foreground":"#f9c513","editorWhitespace.foreground":"#d1d5da","editorWidget.background":"#f6f8fa","errorForeground":"#cb2431","focusBorder":"#2188ff","foreground":"#444d56","gitDecoration.addedResourceForeground":"#28a745","gitDecoration.conflictingResourceForeground":"#e36209","gitDecoration.deletedResourceForeground":"#d73a49","gitDecoration.ignoredResourceForeground":"#959da5","gitDecoration.modifiedResourceForeground":"#005cc5","gitDecoration.submoduleResourceForeground":"#959da5","gitDecoration.untrackedResourceForeground":"#28a745","input.background":"#fafbfc","input.border":"#e1e4e8","input.foreground":"#2f363d","input.placeholderForeground":"#959da5","list.activeSelectionBackground":"#e2e5e9","list.activeSelectionForeground":"#2f363d","list.focusBackground":"#cce5ff","list.hoverBackground":"#ebf0f4","list.hoverForeground":"#2f363d","list.inactiveFocusBackground":"#dbedff","list.inactiveSelectionBackground":"#e8eaed","list.inactiveSelectionForeground":"#2f363d","notificationCenterHeader.background":"#e1e4e8","notificationCenterHeader.foreground":"#6a737d","notifications.background":"#fafbfc","notifications.border":"#e1e4e8","notifications.foreground":"#2f363d","notificationsErrorIcon.foreground":"#d73a49","notificationsInfoIcon.foreground":"#005cc5","notificationsWarningIcon.foreground":"#e36209","panel.background":"#f6f8fa","panel.border":"#e1e4e8","panelInput.border":"#e1e4e8","panelTitle.activeBorder":"#f9826c","panelTitle.activeForeground":"#2f363d","panelTitle.inactiveForeground":"#6a737d","pickerGroup.border":"#e1e4e8","pickerGroup.foreground":"#2f363d","progressBar.background":"#2188ff","quickInput.background":"#fafbfc","quickInput.foreground":"#2f363d","scrollbar.shadow":"#6a737d33","scrollbarSlider.activeBackground":"#959da588","scrollbarSlider.background":"#959da533","scrollbarSlider.hoverBackground":"#959da544","settings.headerForeground":"#2f363d","settings.modifiedItemIndicator":"#2188ff","sideBar.background":"#f6f8fa","sideBar.border":"#e1e4e8","sideBar.foreground":"#586069","sideBarSectionHeader.background":"#f6f8fa","sideBarSectionHeader.border":"#e1e4e8","sideBarSectionHeader.foreground":"#2f363d","sideBarTitle.foreground":"#2f363d","statusBar.background":"#fff","statusBar.border":"#e1e4e8","statusBar.debuggingBackground":"#f9826c","statusBar.debuggingForeground":"#fff","statusBar.foreground":"#586069","statusBar.noFolderBackground":"#fff","statusBarItem.prominentBackground":"#e8eaed","statusBarItem.remoteBackground":"#fff","statusBarItem.remoteForeground":"#586069","tab.activeBackground":"#fff","tab.activeBorder":"#fff","tab.activeBorderTop":"#f9826c","tab.activeForeground":"#2f363d","tab.border":"#e1e4e8","tab.hoverBackground":"#fff","tab.inactiveBackground":"#f6f8fa","tab.inactiveForeground":"#6a737d","tab.unfocusedActiveBorder":"#fff","tab.unfocusedActiveBorderTop":"#e1e4e8","tab.unfocusedHoverBackground":"#fff","terminal.ansiBlack":"#24292e","terminal.ansiBlue":"#0366d6","terminal.ansiBrightBlack":"#959da5","terminal.ansiBrightBlue":"#005cc5","terminal.ansiBrightCyan":"#3192aa","terminal.ansiBrightGreen":"#22863a","terminal.ansiBrightMagenta":"#5a32a3","terminal.ansiBrightRed":"#cb2431","terminal.ansiBrightWhite":"#d1d5da","terminal.ansiBrightYellow":"#b08800","terminal.ansiCyan":"#1b7c83","terminal.ansiGreen":"#28a745","terminal.ansiMagenta":"#5a32a3","terminal.ansiRed":"#d73a49","terminal.ansiWhite":"#6a737d","terminal.ansiYellow":"#dbab09","terminal.foreground":"#586069","terminal.tab.activeBorder":"#f9826c","terminalCursor.background":"#d1d5da","terminalCursor.foreground":"#005cc5","textBlockQuote.background":"#fafbfc","textBlockQuote.border":"#e1e4e8","textCodeBlock.background":"#f6f8fa","textLink.activeForeground":"#005cc5","textLink.foreground":"#0366d6","textPreformat.foreground":"#586069","textSeparator.foreground":"#d1d5da","titleBar.activeBackground":"#fff","titleBar.activeForeground":"#2f363d","titleBar.border":"#e1e4e8","titleBar.inactiveBackground":"#f6f8fa","titleBar.inactiveForeground":"#6a737d","tree.indentGuidesStroke":"#e1e4e8","welcomePage.buttonBackground":"#f6f8fa","welcomePage.buttonHoverBackground":"#e1e4e8"},"displayName":"GitHub Light","name":"github-light","semanticHighlighting":true,"tokenColors":[{"scope":["comment","punctuation.definition.comment","string.comment"],"settings":{"foreground":"#6a737d"}},{"scope":["constant","entity.name.constant","variable.other.constant","variable.other.enummember","variable.language"],"settings":{"foreground":"#005cc5"}},{"scope":["entity","entity.name"],"settings":{"foreground":"#6f42c1"}},{"scope":"variable.parameter.function","settings":{"foreground":"#24292e"}},{"scope":"entity.name.tag","settings":{"foreground":"#22863a"}},{"scope":"keyword","settings":{"foreground":"#d73a49"}},{"scope":["storage","storage.type"],"settings":{"foreground":"#d73a49"}},{"scope":["storage.modifier.package","storage.modifier.import","storage.type.java"],"settings":{"foreground":"#24292e"}},{"scope":["string","punctuation.definition.string","string punctuation.section.embedded source"],"settings":{"foreground":"#032f62"}},{"scope":"support","settings":{"foreground":"#005cc5"}},{"scope":"meta.property-name","settings":{"foreground":"#005cc5"}},{"scope":"variable","settings":{"foreground":"#e36209"}},{"scope":"variable.other","settings":{"foreground":"#24292e"}},{"scope":"invalid.broken","settings":{"fontStyle":"italic","foreground":"#b31d28"}},{"scope":"invalid.deprecated","settings":{"fontStyle":"italic","foreground":"#b31d28"}},{"scope":"invalid.illegal","settings":{"fontStyle":"italic","foreground":"#b31d28"}},{"scope":"invalid.unimplemented","settings":{"fontStyle":"italic","foreground":"#b31d28"}},{"scope":"carriage-return","settings":{"background":"#d73a49","content":"^M","fontStyle":"italic underline","foreground":"#fafbfc"}},{"scope":"message.error","settings":{"foreground":"#b31d28"}},{"scope":"string variable","settings":{"foreground":"#005cc5"}},{"scope":["source.regexp","string.regexp"],"settings":{"foreground":"#032f62"}},{"scope":["string.regexp.character-class","string.regexp constant.character.escape","string.regexp source.ruby.embedded","string.regexp string.regexp.arbitrary-repitition"],"settings":{"foreground":"#032f62"}},{"scope":"string.regexp constant.character.escape","settings":{"fontStyle":"bold","foreground":"#22863a"}},{"scope":"support.constant","settings":{"foreground":"#005cc5"}},{"scope":"support.variable","settings":{"foreground":"#005cc5"}},{"scope":"meta.module-reference","settings":{"foreground":"#005cc5"}},{"scope":"punctuation.definition.list.begin.markdown","settings":{"foreground":"#e36209"}},{"scope":["markup.heading","markup.heading entity.name"],"settings":{"fontStyle":"bold","foreground":"#005cc5"}},{"scope":"markup.quote","settings":{"foreground":"#22863a"}},{"scope":"markup.italic","settings":{"fontStyle":"italic","foreground":"#24292e"}},{"scope":"markup.bold","settings":{"fontStyle":"bold","foreground":"#24292e"}},{"scope":["markup.underline"],"settings":{"fontStyle":"underline"}},{"scope":["markup.strikethrough"],"settings":{"fontStyle":"strikethrough"}},{"scope":"markup.inline.raw","settings":{"foreground":"#005cc5"}},{"scope":["markup.deleted","meta.diff.header.from-file","punctuation.definition.deleted"],"settings":{"background":"#ffeef0","foreground":"#b31d28"}},{"scope":["markup.inserted","meta.diff.header.to-file","punctuation.definition.inserted"],"settings":{"background":"#f0fff4","foreground":"#22863a"}},{"scope":["markup.changed","punctuation.definition.changed"],"settings":{"background":"#ffebda","foreground":"#e36209"}},{"scope":["markup.ignored","markup.untracked"],"settings":{"background":"#005cc5","foreground":"#f6f8fa"}},{"scope":"meta.diff.range","settings":{"fontStyle":"bold","foreground":"#6f42c1"}},{"scope":"meta.diff.header","settings":{"foreground":"#005cc5"}},{"scope":"meta.separator","settings":{"fontStyle":"bold","foreground":"#005cc5"}},{"scope":"meta.output","settings":{"foreground":"#005cc5"}},{"scope":["brackethighlighter.tag","brackethighlighter.curly","brackethighlighter.round","brackethighlighter.square","brackethighlighter.angle","brackethighlighter.quote"],"settings":{"foreground":"#586069"}},{"scope":"brackethighlighter.unmatched","settings":{"foreground":"#b31d28"}},{"scope":["constant.other.reference.link","string.other.link"],"settings":{"fontStyle":"underline","foreground":"#032f62"}}],"type":"light"}'));
 
-// ../highlight-shiki/src/shared.ts
+// ../ext-shiki/src/shared.ts
 var DEFAULT_THEME = "github-light";
 var SHIKI_CSS = `.emiljs .slide pre.shiki {
   border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
@@ -54330,6 +54938,51 @@ var SHIKI_CSS = `.emiljs .slide pre.shiki {
   background: none;
 }
 `;
+var SHIKI_OPTIONS_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    style: {
+      type: "string",
+      description: "The Shiki color theme: a theme name such as `github-dark` (default `github-light`), or a path (a value with a path separator or a `.json` suffix) to a VS Code theme JSON file, relative to the deck."
+    },
+    langs: {
+      type: "array",
+      description: "Extra languages for fenced code, as TextMate grammar JSON files by path relative to the deck. A string is the path; an object adds the language `name` and `aliases` the fences use when the grammar's own are not wanted.",
+      items: {
+        anyOf: [
+          { type: "string" },
+          {
+            type: "object",
+            required: ["path"],
+            additionalProperties: false,
+            properties: {
+              path: { type: "string" },
+              name: { type: "string" },
+              aliases: { type: "array", items: { type: "string" } }
+            }
+          }
+        ]
+      }
+    },
+    aliases: {
+      type: "object",
+      description: "Fence names that highlight as another language, for example `rmd: markdown`. The target must be a bundled or `langs` language.",
+      additionalProperties: { type: "string" }
+    }
+  }
+};
+function shikiExtension(highlighter) {
+  return defineExtension({
+    name: "shiki",
+    apiVersion: 1,
+    optionsSchema: SHIKI_OPTIONS_SCHEMA,
+    css: highlighter.css,
+    build: {
+      highlightCode: (code2, lang16) => highlighter.highlightCode(code2, lang16)
+    }
+  });
+}
 function fenceLanguages(markdown) {
   const found = /* @__PURE__ */ new Set();
   const re3 = /^[ \t]*(?:`{3,}|~{3,})[ \t]*\{?\.?([\w#+.-]+)/gm;
@@ -54365,7 +55018,7 @@ function makeHighlighter(highlighter, theme, deckLangs, aliases = {}) {
   };
 }
 
-// ../highlight-shiki/src/embedded.ts
+// ../ext-shiki/src/embedded.ts
 var THEMES = { "github-light": github_light_default, "github-dark": github_dark_default };
 var EMBEDDED_THEMES = Object.keys(THEMES);
 function createEmbeddedHighlighter(options = {}) {
@@ -54373,7 +55026,7 @@ function createEmbeddedHighlighter(options = {}) {
   const theme = custom?.name ?? options.theme ?? DEFAULT_THEME;
   if (!custom && !(theme in THEMES)) {
     throw new Error(
-      `shiki-style: "${theme}" is not available in the embedded build (available: ${EMBEDDED_THEMES.join(", ")}; or a path to a theme .json file)`
+      `shiki option \`style\`: "${theme}" is not available in the embedded build (available: ${EMBEDDED_THEMES.join(", ")}; or a path to a theme .json file)`
     );
   }
   const highlighter = createHighlighterCoreSync({
@@ -54409,18 +55062,36 @@ function createEmbeddedHighlighter(options = {}) {
 
 // src/highlight-setup.ts
 import { readFileSync as readFileSync8 } from "node:fs";
-import { basename as basename2, resolve as resolve6 } from "node:path";
+import { basename as basename3, resolve as resolve6 } from "node:path";
+
+// ../ext-shiki/src/setting.ts
+function shikiSetting(entries) {
+  let setting = { options: {} };
+  for (const entry of entries ?? []) {
+    if (entry === "shiki") setting = { options: {} };
+    else if (typeof entry === "object" && entry?.name === "shiki") {
+      setting = {
+        enabled: entry.enabled,
+        options: entry.options ?? {}
+      };
+    }
+  }
+  return setting;
+}
+
+// src/highlight-setup.ts
 var DARK_THEMES = /* @__PURE__ */ new Set(["dark"]);
 function highlightMode(frontmatter, source) {
-  if (frontmatter.shiki === true) return "explicit";
-  if (frontmatter.shiki === false) return "off";
+  const { enabled } = shikiSetting(frontmatter.extensions);
+  if (enabled === true) return "explicit";
+  if (enabled === false) return "off";
   return /^[ \t]*(?:`{3,}|~{3,})[ \t]*\{?\.?[\w#+.-]+/m.test(source) ? "implicit" : "off";
 }
 function isThemePath(style) {
   return /[\\/]/.test(style) || style.toLowerCase().endsWith(".json");
 }
 function shikiStyleFor(frontmatter) {
-  const style = frontmatter["shiki-style"];
+  const style = shikiSetting(frontmatter.extensions).options.style;
   if (style && !isThemePath(style)) return style;
   const theme = [frontmatter.theme ?? []].flat().at(-1);
   return theme && DARK_THEMES.has(theme) ? "github-dark" : void 0;
@@ -54428,7 +55099,7 @@ function shikiStyleFor(frontmatter) {
 function themeWarning(path2, reason) {
   return {
     code: "HIGHLIGHT_THEME_INVALID",
-    message: `shiki-style: could not load "${path2}" (${reason}); using the default theme`
+    message: `shiki option \`style\`: could not load "${path2}" (${reason}); using the default theme`
   };
 }
 function readTheme(path2, deckDir) {
@@ -54451,26 +55122,27 @@ function readTheme(path2, deckDir) {
       )
     };
   }
-  const name = typeof raw2.name === "string" && raw2.name ? raw2.name : basename2(path2).replace(/\.json$/i, "");
+  const name = typeof raw2.name === "string" && raw2.name ? raw2.name : basename3(path2).replace(/\.json$/i, "");
   return { theme: { ...raw2, name } };
 }
 function grammarWarning(path2, reason) {
   return {
     code: "HIGHLIGHT_GRAMMAR_INVALID",
-    message: `shiki-langs: could not load "${path2}" (${reason}); its fences render as plain blocks`
+    message: `shiki option \`langs\`: could not load "${path2}" (${reason}); its fences render as plain blocks`
   };
 }
 function readHighlightSetup(frontmatter, deckDir) {
+  const options = shikiSetting(frontmatter.extensions).options;
   const grammars = [];
   const warnings = [];
   let theme;
-  const style = frontmatter["shiki-style"];
+  const style = options.style;
   if (style && isThemePath(style)) {
     const read = readTheme(style, deckDir);
     if ("theme" in read) theme = read.theme;
     else warnings.push(read.warning);
   }
-  for (const entry of frontmatter["shiki-langs"] ?? []) {
+  for (const entry of options.langs ?? []) {
     const spec = typeof entry === "string" ? { path: entry } : entry;
     let json;
     try {
@@ -54502,21 +55174,20 @@ function readHighlightSetup(frontmatter, deckDir) {
   return {
     theme,
     grammars,
-    aliases: frontmatter["shiki-aliases"] ?? {},
+    aliases: options.aliases ?? {},
     warnings
   };
 }
-function toHighlighter(shiki, setup, mode = "explicit") {
+function toHighlighter(shiki, extension, setup, mode = "explicit") {
   const warnings = [...setup.warnings];
   if (mode === "explicit" && shiki.brokenAliases.length > 0) {
     warnings.push({
       code: "HIGHLIGHT_ALIAS_UNAVAILABLE",
-      message: `shiki-aliases: target language not available, alias ignored: ` + shiki.brokenAliases.join(", ")
+      message: `shiki option \`aliases\`: target language not available, alias ignored: ` + shiki.brokenAliases.join(", ")
     });
   }
   return {
-    highlightCode: shiki.highlightCode,
-    css: shiki.css,
+    extension,
     // A deck that never asked for highlighting is not warned about its languages.
     unavailable: mode === "explicit" ? shiki.unavailable : [],
     warnings
@@ -54535,7 +55206,48 @@ function loadEmbeddedHighlighter(frontmatter, source, deckDir) {
     grammars: setup.grammars,
     aliases: setup.aliases
   });
-  return toHighlighter(shiki, setup, mode);
+  return toHighlighter(shiki, shikiExtension(shiki), setup, mode);
+}
+
+// src/extension-entries.ts
+function fail(message, cause) {
+  throw new ExtensionLoadError(message, cause ? { cause } : {});
+}
+var NAME2 = /^[a-z][a-z0-9-]*$/;
+var PATHLIKE = /^(\.{1,2}[\\/]|[\\/])/;
+function normalizeEntries(entries) {
+  return (entries ?? []).map((entry, i2) => {
+    const where = `extensions[${i2}]`;
+    if (typeof entry === "string") {
+      if (PATHLIKE.test(entry)) {
+        return { kind: "path", ref: entry, options: {}, enabled: true };
+      }
+      if (!NAME2.test(entry)) {
+        fail(
+          `${where}: "${entry}" is neither a bare extension name (lower case letters, digits, hyphens) nor a path (paths start with ./ or /)`
+        );
+      }
+      return { kind: "name", ref: entry, options: {}, enabled: true };
+    }
+    if (!entry || typeof entry !== "object") {
+      fail(`${where}: expected a name, a path or an object with name or src`);
+    }
+    const { name, src, options, enabled } = entry;
+    if (name === void 0 === (src === void 0)) {
+      fail(`${where}: give exactly one of \`name\` or \`src\``);
+    }
+    if (name !== void 0 && !NAME2.test(name)) {
+      fail(
+        `${where}: "${name}" is not a valid extension name (lower case letters, digits, hyphens); use \`src\` for a path`
+      );
+    }
+    return {
+      kind: name !== void 0 ? "name" : "path",
+      ref: name ?? src,
+      options: options ?? {},
+      enabled: enabled !== false
+    };
+  });
 }
 
 // src/embedded/entry.ts
@@ -54545,8 +55257,11 @@ function buildDeck2(options) {
 var VERSION = "0.1.0";
 export {
   EmiljsError,
+  ExtensionLoadError,
   ThemeNotFoundError,
   VERSION,
   buildDeck2 as buildDeck,
+  loadExtensionFolder,
+  normalizeEntries,
   toErrorPayload
 };
